@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.XUserCardMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.XUserCard">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="card_type_id" property="cardTypeId" jdbcType="BIGINT"/>
+        <result column="card_no" property="cardNo" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="effect_time" property="effectTime" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="integral_value" property="integralValue" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, card_type_id, card_no, password, effect_time, gmt_create, gmt_modify, 
+    status,integral_value
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_xuser_card
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="selectByCardno" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_xuser_card
+        where card_no = #{cardNo,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_xuser_card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.XUserCard">
+        <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_xuser_card (id, user_id, card_type_id,
+        card_no, password, effect_time,
+        gmt_create, gmt_modify, status,integral_value
+        )
+        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{cardTypeId,jdbcType=BIGINT},
+        #{cardNo,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{effectTime,jdbcType=VARCHAR},
+        #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=BIGINT}
+        , #{integralValue,jdbcType=BIGINT}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.XUserCard">
+        insert into t_xuser_card
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="cardTypeId != null">
+                card_type_id,
+            </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="effectTime != null">
+                effect_time,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="integralValue != null">
+                integral_value,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="cardTypeId != null">
+                #{cardTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="effectTime != null">
+                #{effectTime,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="integralValue != null">
+                #{integralValue,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.XUserCard">
+        update t_xuser_card
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="cardTypeId != null">
+                card_type_id = #{cardTypeId,jdbcType=BIGINT},
+            </if>
+            <if test="cardNo != null">
+                card_no = #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="effectTime != null">
+                effect_time = #{effectTime,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="integralValue != null">
+                integral_value = #{integralValue,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.XUserCard">
+    update t_xuser_card
+    set user_id = #{userId,jdbcType=BIGINT},
+      card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      effect_time = #{effectTime,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      integral_value = #{integralValue,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

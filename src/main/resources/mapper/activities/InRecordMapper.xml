@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.activities.dao.InRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.activities.domain.InRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="activities_id" property="activitiesId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="winning" property="winning" jdbcType="BIT" />
+    <result column="activities_item_id" property="activitiesItemId" jdbcType="BIGINT" />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="award" property="award" jdbcType="BIT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, activities_id, user_id, open_id, source, winning, activities_item_id, item_name, 
+    market_price, sub_title, num, award, name, phone, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_in_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_in_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.activities.domain.InRecord" >
+    insert into t_in_record (id, activities_id, user_id, 
+      open_id, source, winning, 
+      activities_item_id, item_name, market_price, 
+      sub_title, num, award, name, 
+      phone, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{activitiesId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{openId,jdbcType=VARCHAR}, #{source,jdbcType=INTEGER}, #{winning,jdbcType=BIT}, 
+      #{activitiesItemId,jdbcType=BIGINT}, #{itemName,jdbcType=VARCHAR}, #{marketPrice,jdbcType=BIGINT}, 
+      #{subTitle,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER}, #{award,jdbcType=BIT}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.activities.domain.InRecord" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER">  
+        SELECT LAST_INSERT_ID();  
+    </selectKey> 
+    insert into t_in_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="activitiesId != null" >
+        activities_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="winning != null" >
+        winning,
+      </if>
+      <if test="activitiesItemId != null" >
+        activities_item_id,
+      </if>
+      <if test="itemName != null" >
+        item_name,
+      </if>
+      <if test="marketPrice != null" >
+        market_price,
+      </if>
+      <if test="subTitle != null" >
+        sub_title,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="award != null" >
+        award,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="activitiesId != null" >
+        #{activitiesId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="winning != null" >
+        #{winning,jdbcType=BIT},
+      </if>
+      <if test="activitiesItemId != null" >
+        #{activitiesItemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="award != null" >
+        #{award,jdbcType=BIT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.activities.domain.InRecord" >
+    update t_in_record
+    <set >
+      <if test="activitiesId != null" >
+        activities_id = #{activitiesId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="winning != null" >
+        winning = #{winning,jdbcType=BIT},
+      </if>
+      <if test="activitiesItemId != null" >
+        activities_item_id = #{activitiesItemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemName != null" >
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="marketPrice != null" >
+        market_price = #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="subTitle != null" >
+        sub_title = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="award != null" >
+        award = #{award,jdbcType=BIT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.activities.domain.InRecord" >
+    update t_in_record
+    set activities_id = #{activitiesId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      open_id = #{openId,jdbcType=VARCHAR},
+      source = #{source,jdbcType=INTEGER},
+      winning = #{winning,jdbcType=BIT},
+      activities_item_id = #{activitiesItemId,jdbcType=BIGINT},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      market_price = #{marketPrice,jdbcType=BIGINT},
+      sub_title = #{subTitle,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      award = #{award,jdbcType=BIT},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getCountUserInRecord" resultType="java.lang.Integer"  parameterType="java.util.Map">
+  	select count(1) from t_in_record 
+	where  user_id = #{userId,jdbcType=BIGINT}
+	and activities_id=#{activitiesId, jdbcType=BIGINT}
+	  <if test="startTime != null" >
+            <![CDATA[ and create_time >= #{startTime} ]]>
+      </if>
+      <if test="endTime != null" >
+            <![CDATA[ and create_time <= #{endTime}]]>
+      </if>
+  </select>
+</mapper>

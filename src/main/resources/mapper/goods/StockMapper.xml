@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.goods.dao.StockMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.goods.domain.Stock" >
+    <id column="STOCK_ID" property="stockId" jdbcType="BIGINT" />
+    <result column="ITEM_ID" property="itemId" jdbcType="BIGINT" />
+    <result column="SKU_ID" property="skuId" jdbcType="BIGINT" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="EFFECTIVE_TIME" property="effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="SALE_TIME" property="saleTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    STOCK_ID, ITEM_ID, SKU_ID, CODE, PASSWORD, STATUS, VERSION, EFFECTIVE_TIME, 
+     SALE_TIME, CREATE_TIME
+  </sql>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_stock
+    where STOCK_ID = #{stockId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_stock
+    where STOCK_ID = #{stockId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.goods.domain.Stock" >
+    insert into t_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockId != null" >
+        STOCK_ID,
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID,
+      </if>
+      <if test="skuId != null" >
+        SKU_ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="effectiveTime != null" >
+        EFFECTIVE_TIME,
+      </if>
+      <if test="saleTime != null" >
+        SALE_TIME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockId != null" >
+        #{stockId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTime != null" >
+        #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.service.goods.domain.Stock" >
+    update t_stock
+    <set >
+      <if test="itemId != null" >
+        ITEM_ID = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        SKU_ID = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        EFFECTIVE_TIME = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTime != null" >
+        SALE_TIME = #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where STOCK_ID = #{stockId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.goods.domain.Stock" >
+    update t_stock
+    set ITEM_ID = #{itemId,jdbcType=BIGINT},
+      SKU_ID = #{skuId,jdbcType=BIGINT},
+      CODE = #{code,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=INTEGER},
+      VERSION = #{version,jdbcType=VARCHAR},
+      EFFECTIVE_TIME = #{effectiveTime,jdbcType=TIMESTAMP},
+      SALE_TIME = #{saleTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where STOCK_ID = #{stockId,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+   <select id="selectCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select 
+   		count(1)
+   	from 
+   		t_stock
+   	where 
+   		item_id = #{itemId,jdbcType=BIGINT} and sku_id = #{skuId,jdbcType=BIGINT}
+  </select>
+
+  <select id="countInventory" resultType="java.lang.Integer" parameterType="java.util.Map">
+ 	select 
+   		count(1)
+   	from 
+   		t_stock
+   	where 
+   		item_id = #{itemId,jdbcType=BIGINT} and sku_id = #{skuId,jdbcType=BIGINT}
+   		and status = 1
+  </select>
+  
+ <select id="findUnloadInventory" resultMap="BaseResultMap" parameterType="java.util.Map">
+ 	select 
+   		stock_id
+   	from 
+   		t_stock
+   	where 
+   		item_id = #{itemId,jdbcType=BIGINT} and sku_id = #{skuId,jdbcType=BIGINT}
+   		and status = 0
+  </select>
+  
+  
+  <select id="findInventoryBypageNum"  resultMap="BaseResultMap" parameterType="java.util.Map">
+   	select 
+   		 <include refid="Base_Column_List" />
+   	from 
+   		t_stock
+   	where 
+   		item_id = #{itemId,jdbcType=BIGINT} and sku_id = #{skuId,jdbcType=BIGINT}
+   		and status = 1
+   	order by stock_id 
+   	limit 0,${pageNum}
+  </select>
+
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.goods.domain.Stock" >
+    update t_stock
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="effectiveTime != null" >
+        effective_time = #{effectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTime != null" >
+        sale_time = #{saleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where stock_id = #{stockId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caitu99.service.transaction.dao.FreeTradeOrderMapper">
+  <resultMap id="BaseResultMap" type="com.caitu99.service.transaction.domain.FreeTradeOrder">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="money_order_no" jdbcType="VARCHAR" property="moneyOrderNo" />
+    <result column="good_order_no" jdbcType="VARCHAR" property="goodOrderNo" />
+    <result column="out_no" jdbcType="VARCHAR" property="outNo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, money_order_no, good_order_no, out_no, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_free_trade_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_free_trade_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.transaction.domain.FreeTradeOrder">
+    insert into t_free_trade_order (id, money_order_no, good_order_no, 
+      out_no, create_time)
+    values (#{id,jdbcType=BIGINT}, #{moneyOrderNo,jdbcType=VARCHAR}, #{goodOrderNo,jdbcType=VARCHAR}, 
+      #{outNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.transaction.domain.FreeTradeOrder">
+    insert into t_free_trade_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="moneyOrderNo != null">
+        money_order_no,
+      </if>
+      <if test="goodOrderNo != null">
+        good_order_no,
+      </if>
+      <if test="outNo != null">
+        out_no,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="moneyOrderNo != null">
+        #{moneyOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodOrderNo != null">
+        #{goodOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outNo != null">
+        #{outNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.transaction.domain.FreeTradeOrder">
+    update t_free_trade_order
+    <set>
+      <if test="moneyOrderNo != null">
+        money_order_no = #{moneyOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="goodOrderNo != null">
+        good_order_no = #{goodOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outNo != null">
+        out_no = #{outNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.transaction.domain.FreeTradeOrder">
+    update t_free_trade_order
+    set money_order_no = #{moneyOrderNo,jdbcType=VARCHAR},
+      good_order_no = #{goodOrderNo,jdbcType=VARCHAR},
+      out_no = #{outNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+ 
+</mapper>

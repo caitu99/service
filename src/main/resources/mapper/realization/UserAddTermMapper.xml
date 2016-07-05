@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.UserAddTermMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.UserAddTerm" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="card_type_id" property="cardTypeId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="login_account" property="loginAccount" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, card_type_id, user_name, card_no, login_account, status, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_add_term
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_add_term
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.UserAddTerm" >
+   <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_user_add_term
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cardTypeId != null" >
+        card_type_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="loginAccount != null" >
+        login_account,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null" >
+        #{cardTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginAccount != null" >
+        #{loginAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.service.realization.domain.UserAddTerm" >
+    update t_user_add_term
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null" >
+        card_type_id = #{cardTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="loginAccount != null" >
+        login_account = #{loginAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.UserAddTerm" >
+    update t_user_add_term
+    set user_id = #{userId,jdbcType=BIGINT},
+      card_type_id = #{cardTypeId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      login_account = #{loginAccount,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   	<select id="selectListByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_user_add_term
+    	where 
+    		user_id = #{userId,jdbcType=BIGINT}
+    	and 
+    		status = 1
+  	</select>
+  	
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="userAddTerm.userId != null" >
+	        	and user_id = #{userAddTerm.userId,jdbcType=BIGINT}
+	      	</if>
+			<if test="userAddTerm.cardTypeId != null" >
+	        	and card_type_id = #{userAddTerm.cardTypeId,jdbcType=BIGINT}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userAddTerm.userName)">
+				and user_name LIKE CONCAT('%',#{userAddTerm.userName, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userAddTerm.cardNo)">
+				and card_no =  #{userAddTerm.cardNo,jdbcType=VARCHAR}
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userAddTerm.loginAccount)">
+				and login_account =  #{userAddTerm.loginAccount,jdbcType=VARCHAR}
+			</if>
+			<if test="userAddTerm.status != null" >
+	        	and status = #{userAddTerm.status,jdbcType=INTEGER}
+	      	</if>
+		</where>
+  	</sql>
+  	
+  	<select id="selectUserAddTerm" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_user_add_term
+    	<include refid="queryObjWhereClause"/>
+  	</select>
+</mapper>

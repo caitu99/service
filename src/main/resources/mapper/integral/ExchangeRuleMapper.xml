@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.ExchangeRuleMapper">
+	<resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.ExchangeRule">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="card_type_id" property="cardTypeId" jdbcType="BIGINT" />
+		<result column="way" property="way" jdbcType="INTEGER" />
+		<result column="scale" property="scale" jdbcType="REAL" />
+		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+		<result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="scaleStr" property="scaleStr" jdbcType="VARCHAR" />
+		<result column="exchange_rate_id" property="exchangeRateId"
+			jdbcType="BIGINT" />
+		<result column="name" property="cardTypeName" jdbcType="VARCHAR" />
+		<result column="pic_url" property="cardTypePic" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, card_type_id, way, scale, gmt_create, gmt_modify, status,scaleStr,
+		exchange_rate_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_exchange_rule
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_exchange_rule
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.caitu99.service.integral.domain.ExchangeRule">
+		<selectKey keyProperty="id" resultType="long" order="AFTER"
+			keyColumn="ID">
+			SELECT LAST_INSERT_ID() ID
+		</selectKey>
+		insert into t_exchange_rule (id, card_type_id, way,
+		scale, gmt_create, gmt_modify,
+		status,scaleStr),exchangeRateId
+		values (#{id,jdbcType=BIGINT}, #{cardTypeId,jdbcType=BIGINT},
+		#{way,jdbcType=INTEGER},
+		#{scale,jdbcType=REAL}, NOW(), NOW(),
+		#{status,jdbcType=INTEGER},#{scaleStr,jdbcType=VARCHAR}
+		#{exchangeRateId,jdbcType=BIGINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.caitu99.service.integral.domain.ExchangeRule">
+		insert into t_exchange_rule
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="cardTypeId != null">
+				card_type_id,
+			</if>
+			<if test="way != null">
+				way,
+			</if>
+			<if test="scale != null">
+				scale,
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create,
+			</if>
+			<if test="gmtModify != null">
+				gmt_modify,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="exchangeRateId != null">
+				exchangeRateId,
+			</if>
+			<if test="scaleStr != null">
+				scaleStr,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="cardTypeId != null">
+				#{cardTypeId,jdbcType=BIGINT},
+			</if>
+			<if test="way != null">
+				#{way,jdbcType=INTEGER},
+			</if>
+			<if test="scale != null">
+				#{scale,jdbcType=REAL},
+			</if>
+			<if test="gmtCreate != null">
+				#{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModify != null">
+				#{gmtModify,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="exchangeRateId!=null">
+				#{exchangeRateId,jdbcType=BIGINT}
+			</if>
+			<if test="scaleStr!=null">
+				#{scaleStr,jdbcType=BIGINT}
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.integral.domain.ExchangeRule">
+		update t_exchange_rule
+		<set>
+			<if test="cardTypeId != null">
+				card_type_id = #{cardTypeId,jdbcType=BIGINT},
+			</if>
+			<if test="way != null">
+				way = #{way,jdbcType=INTEGER},
+			</if>
+			<if test="scale != null">
+				scale = #{scale,jdbcType=REAL},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gmtModify != null">
+				gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="scaleStr != null">
+				scaleStr = #{scaleStr,jdbcType=VARCHAR}),
+			</if>
+			<if test="exchangeRateId!=null">
+				exchange_rate_id=#{exchangeRateId,jdbcType=BIGINT}
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.caitu99.service.integral.domain.ExchangeRule">
+		update t_exchange_rule
+		set card_type_id = #{cardTypeId,jdbcType=BIGINT},
+		way = #{way,jdbcType=INTEGER},
+		scale = #{scale,jdbcType=REAL},
+		gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		scaleStr=#{scaleStr,jdbcType=VARCHAR},
+		exchangeRateId=#{exchangeRateId,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="findByCardTypeAndWay" resultMap="BaseResultMap"
+		parameterType="com.caitu99.service.integral.domain.ExchangeRule">
+		select
+		<include refid="Base_Column_List" />
+		from t_exchange_rule
+		where card_type_id = #{cardTypeId,jdbcType=BIGINT}
+		and way = #{way,jdbcType=INTEGER}
+		and status = 1
+	</select>
+
+	<select id="list" resultMap="BaseResultMap">
+	SELECT 
+		tb_a.*,tb_b.`name`,tb_b.`type_id`,tb_b.`pic_url`
+	FROM 
+		t_exchange_rule tb_a 
+	INNER JOIN 
+		(
+	SELECT 
+		tct.* ,tb.pic_url
+	FROM
+		t_card_type tct,t_bank tb
+	WHERE
+		tct.belong_to = tb.`name`
+		)as tb_b 
+	ON
+		tb_a.`card_type_id` = tb_b.`id`
+	WHERE 
+		tb_a.`status` = 1 
+	and 
+		tb_a.scale !=-1 
+		<!-- 
+		and 
+			tb_b.type_id=1
+		 -->
+	</select>
+	
+	<select id="findByCardTypeId" resultMap="BaseResultMap" parameterType="com.caitu99.service.integral.domain.ExchangeRule">
+		select
+			<include refid="Base_Column_List" />
+		from 
+			t_exchange_rule
+		where 
+			card_type_id = #{cardTypeId,jdbcType=BIGINT}
+		and 
+			status = 1
+	</select>
+	
+	
+	<select id="findByCardTypeName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+			<include refid="Base_Column_List" />
+		from 
+			t_exchange_rule
+		where 
+			card_type_id = (
+				select min(id) from t_card_type 
+				where name = #{cardTypeName,jdbcType=VARCHAR}
+			)
+		and 
+			status = 1
+	</select>
+</mapper>

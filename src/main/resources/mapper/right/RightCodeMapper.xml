@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.right.dao.RightCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.right.domain.RightCode" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="right_id" property="rightId" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="coupon" property="coupon" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, right_id, code, coupon, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_right_code
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_right_code
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.right.domain.RightCode" >
+    insert into t_right_code (id, right_id, code, 
+      coupon, status)
+    values (#{id,jdbcType=BIGINT}, #{rightId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, 
+      #{coupon,jdbcType=VARCHAR}, #{status,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.right.domain.RightCode" >
+    insert into t_right_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rightId != null" >
+        right_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="coupon != null" >
+        coupon,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="rightId != null" >
+        #{rightId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="coupon != null" >
+        #{coupon,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.right.domain.RightCode" >
+    update t_right_code
+    <set >
+      <if test="rightId != null" >
+        right_id = #{rightId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="coupon != null" >
+        coupon = #{coupon,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.right.domain.RightCode" >
+    update t_right_code
+    set right_id = #{rightId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      coupon = #{coupon,jdbcType=VARCHAR},
+      status = #{status,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getNoUsedCode" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_right_code
+    where id = (
+    	select min(id) 
+    	from t_right_code 
+    	where right_id = #{rightId,jdbcType=BIGINT}
+    	  and status = 1
+    )
+  </select>
+  
+</mapper>

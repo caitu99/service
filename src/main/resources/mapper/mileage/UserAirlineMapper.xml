@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.mileage.dao.UserAirlineMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.mileage.domain.UserAirline" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="airline_card" property="airlineCard" jdbcType="VARCHAR" />
+    <result column="airline_company_id" property="airlineCompanyId" jdbcType="BIGINT" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, airline_card, airline_company_id, first_name, last_name, status, create_time, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_airline
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_airline
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.mileage.domain.UserAirline" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER">
+		SELECT LAST_INSERT_ID();
+   	</selectKey>
+    insert into t_user_airline (id, user_id, airline_card, 
+      airline_company_id, first_name, last_name, 
+      status, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{airlineCard,jdbcType=VARCHAR}, 
+      #{airlineCompanyId,jdbcType=BIGINT}, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.mileage.domain.UserAirline" >
+    insert into t_user_airline
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="airlineCard != null" >
+        airline_card,
+      </if>
+      <if test="airlineCompanyId != null" >
+        airline_company_id,
+      </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="airlineCard != null" >
+        #{airlineCard,jdbcType=VARCHAR},
+      </if>
+      <if test="airlineCompanyId != null" >
+        #{airlineCompanyId,jdbcType=BIGINT},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.mileage.domain.UserAirline" >
+    update t_user_airline
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="airlineCard != null" >
+        airline_card = #{airlineCard,jdbcType=VARCHAR},
+      </if>
+      <if test="airlineCompanyId != null" >
+        airline_company_id = #{airlineCompanyId,jdbcType=BIGINT},
+      </if>
+      <if test="firstName != null" >
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.mileage.domain.UserAirline" >
+    update t_user_airline
+    set user_id = #{userId,jdbcType=BIGINT},
+      airline_card = #{airlineCard,jdbcType=VARCHAR},
+      airline_company_id = #{airlineCompanyId,jdbcType=BIGINT},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="selectByUser" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_airline
+    where user_id = #{userid,jdbcType=BIGINT}
+      and airline_company_id = #{airlineCompanyId,jdbcType=BIGINT}
+      and status = 1
+  </select>
+  
+  <update id="deleteByUser" parameterType="java.util.Map" >
+    update t_user_airline
+    set status = -1
+    where user_id = #{userid,jdbcType=BIGINT}
+      and airline_company_id = #{airlineCompanyId,jdbcType=BIGINT}
+  </update>
+  
+  
+</mapper>

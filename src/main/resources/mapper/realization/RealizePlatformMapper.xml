@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.RealizePlatformMapper" >
+  	<resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.RealizePlatform" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="INTEGER" />
+	    <result column="icon" property="icon" jdbcType="VARCHAR" />
+	    <result column="sort" property="sort" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+	    <result column="version" property="version" jdbcType="VARCHAR" />
+	    <result column="phone_support" property="phoneSupport" jdbcType="VARCHAR" />
+  	</resultMap>
+  	
+  	<sql id="Base_Column_List" >
+    	id, name, type, icon, sort, status, gmt_create, gmt_modify, version, phone_support
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_platform
+    	where 
+    		id = #{id,jdbcType=BIGINT}
+    	and
+    		status = 1
+  	</select>
+  	
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    	delete from t_realize_platform where id = #{id,jdbcType=BIGINT}
+  	</delete>
+  	
+  	<select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_platform 
+    	where 
+    		status = 1
+    	and
+    		version &lt;= #{version,jdbcType=VARCHAR}
+  	</select>
+  	
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.RealizePlatform" >
+    insert into t_realize_platform (id, name, type, 
+      icon, sort, status, 
+      gmt_create, gmt_modify, version
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{icon,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{version,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.realization.domain.RealizePlatform" >
+    insert into t_realize_platform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.realization.domain.RealizePlatform" >
+    update t_realize_platform
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.RealizePlatform" >
+    update t_realize_platform
+    set name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      icon = #{icon,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      version = #{version,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="selectBySupport" resultMap="BaseResultMap" parameterType="java.util.Map">
+   	select 
+   		<include refid="Base_Column_List" />
+   	from 
+   		t_realize_platform 
+   	where 
+   		status = 1
+   	and
+   		version &lt;= #{version,jdbcType=VARCHAR}
+   	and 
+   		phone_support like CONCAT('%',#{support,jdbcType=VARCHAR},'%')
+ </select>
+</mapper>

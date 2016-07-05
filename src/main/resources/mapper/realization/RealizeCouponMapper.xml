@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.RealizeCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.RealizeCoupon" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="realize_record_id" property="realizeRecordId" jdbcType="BIGINT" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="expiry_date" property="expiryDate" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, realize_record_id, platform_id, code, pwd, expiry_date, status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_realize_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByRealizeRecordId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_realize_coupon
+    where realize_record_id = #{realizeRecordId,jdbcType=BIGINT}
+  </select>
+  <select id="checkExists" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select count(1) from t_realize_coupon
+  	where
+  		platform_id = #{platformId,jdbcType=BIGINT}
+  	and
+  		code = #{code,jdbcType=VARCHAR}
+  	and create_time > date_sub(now(), interval 6 month)
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_realize_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.RealizeCoupon" >
+    insert into t_realize_coupon (id, realize_record_id, platform_id, 
+      code, pwd, expiry_date, 
+      status, create_time)
+    values (#{id,jdbcType=BIGINT}, #{realizeRecordId,jdbcType=BIGINT}, #{platformId,jdbcType=BIGINT}, 
+      #{code,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{expiryDate,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.realization.domain.RealizeCoupon" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_realize_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="realizeRecordId != null" >
+        realize_record_id,
+      </if>
+      <if test="platformId != null" >
+        platform_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="pwd != null" >
+        pwd,
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="realizeRecordId != null" >
+        #{realizeRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.realization.domain.RealizeCoupon" >
+    update t_realize_coupon
+    <set >
+      <if test="realizeRecordId != null" >
+        realize_record_id = #{realizeRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        platform_id = #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date = #{expiryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.RealizeCoupon" >
+    update t_realize_coupon
+    set realize_record_id = #{realizeRecordId,jdbcType=BIGINT},
+      platform_id = #{platformId,jdbcType=BIGINT},
+      code = #{code,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      expiry_date = #{expiryDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

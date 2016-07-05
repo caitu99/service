@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.ishop.dao.UserChinaConstructionBankCardMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.ishop.domain.UserChinaConstructionBankCard" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="reserved_phone" property="reservedPhone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, card_no, reserved_phone, status, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_china_construction_bank_card
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_china_construction_bank_card
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.ishop.domain.UserChinaConstructionBankCard" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+		SELECT LAST_INSERT_ID() ID
+	</selectKey>
+    insert into t_user_china_construction_bank_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="reservedPhone != null" >
+        reserved_phone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhone != null" >
+        #{reservedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.service.ishop.domain.UserChinaConstructionBankCard" >
+    update t_user_china_construction_bank_card
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="reservedPhone != null" >
+        reserved_phone = #{reservedPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  	<select id="selectPageListByUserId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		select 
+			<include refid="Base_Column_List" />
+		from 
+			t_user_china_construction_bank_card
+		where 
+			user_id = #{userId,jdbcType=BIGINT}
+    	order by gmt_create desc
+		limit ${start},${pageSize}
+  	</select>
+  	
+	<select id="selectWhether" resultMap="BaseResultMap" parameterType="com.caitu99.service.ishop.domain.UserChinaConstructionBankCard" >
+		select 
+			<include refid="Base_Column_List" />
+		from 
+			t_user_china_construction_bank_card
+		where 
+			user_id = #{userId,jdbcType=BIGINT}
+		and
+		 	card_no = #{cardNo,jdbcType=VARCHAR}
+  	</select>
+</mapper>

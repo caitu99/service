@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.transaction.dao.MobileRechargeRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.caitu99.service.life.domain.PhoneRechargeRecord">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="phoneno" property="phoneno" jdbcType="VARCHAR" />
+		<result column="cardno" property="cardno" jdbcType="INTEGER" />
+		<result column="flag" property="flag" jdbcType="INTEGER" />
+		<result column="recharge_date" property="rechargeDate"
+			jdbcType="TIMESTAMP" />
+		<result column="orderid" property="orderid" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs"
+		type="com.caitu99.service.life.domain.PhoneRechargeRecord" extends="BaseResultMap">
+		<result column="result" property="result" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, user_id, phoneno, cardno, flag, recharge_date, orderid
+	</sql>
+	<sql id="Blob_Column_List">
+		result
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from t_phone_recharge_record
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+			t_phone_recharge_record
+		WHERE
+			id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.caitu99.service.life.domain.PhoneRechargeRecord">
+		<selectKey keyProperty="id" resultType="long" order="AFTER"
+			keyColumn="ID">
+			SELECT LAST_INSERT_ID() ID
+		</selectKey>
+		insert into t_phone_recharge_record (id, user_id, phoneno,
+		cardno, flag, recharge_date,
+		orderid, result)
+		values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+		#{phoneno,jdbcType=VARCHAR},
+		#{cardno,jdbcType=INTEGER}, #{flag,jdbcType=INTEGER}, #{rechargeDate,jdbcType=TIMESTAMP},
+		#{orderid,jdbcType=VARCHAR}, #{result,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.caitu99.service.life.domain.PhoneRechargeRecord">
+		insert into t_phone_recharge_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="phoneno != null">
+				phoneno,
+			</if>
+			<if test="cardno != null">
+				cardno,
+			</if>
+			<if test="flag != null">
+				flag,
+			</if>
+			<if test="rechargeDate != null">
+				recharge_date,
+			</if>
+			<if test="orderid != null">
+				orderid,
+			</if>
+			<if test="result != null">
+				result,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=BIGINT},
+			</if>
+			<if test="phoneno != null">
+				#{phoneno,jdbcType=VARCHAR},
+			</if>
+			<if test="cardno != null">
+				#{cardno,jdbcType=INTEGER},
+			</if>
+			<if test="flag != null">
+				#{flag,jdbcType=INTEGER},
+			</if>
+			<if test="rechargeDate != null">
+				#{rechargeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderid != null">
+				#{orderid,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				#{result,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.life.domain.PhoneRechargeRecord">
+		update t_phone_recharge_record
+		<set>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=BIGINT},
+			</if>
+			<if test="phoneno != null">
+				phoneno = #{phoneno,jdbcType=VARCHAR},
+			</if>
+			<if test="cardno != null">
+				cardno = #{cardno,jdbcType=INTEGER},
+			</if>
+			<if test="flag != null">
+				flag = #{flag,jdbcType=INTEGER},
+			</if>
+			<if test="rechargeDate != null">
+				recharge_date = #{rechargeDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderid != null">
+				orderid = #{orderid,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				result = #{result,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.caitu99.service.life.domain.PhoneRechargeRecord">
+		update t_phone_recharge_record
+		set user_id = #{userId,jdbcType=BIGINT},
+		phoneno = #{phoneno,jdbcType=VARCHAR},
+		cardno = #{cardno,jdbcType=INTEGER},
+		flag = #{flag,jdbcType=INTEGER},
+		recharge_date = #{rechargeDate,jdbcType=TIMESTAMP},
+		orderid = #{orderid,jdbcType=VARCHAR},
+		result = #{result,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.caitu99.service.life.domain.PhoneRechargeRecord">
+		update t_phone_recharge_record
+		set user_id = #{userId,jdbcType=BIGINT},
+		phoneno = #{phoneno,jdbcType=VARCHAR},
+		cardno = #{cardno,jdbcType=INTEGER},
+		flag = #{flag,jdbcType=INTEGER},
+		recharge_date = #{rechargeDate,jdbcType=TIMESTAMP},
+		orderid = #{orderid,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+
+	<select id="listAll" resultMap="BaseResultMap" parameterType="com.caitu99.service.base.Page">
+		SELECT 
+			<include refid="Base_Column_List" />
+		FROM 
+			t_phone_recharge_record 
+		ORDER BY 
+			recharge_date desc
+		LIMIT 
+			#{startPos,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+	</select>
+
+	<select id="countNum" resultType="java.lang.Integer">
+		select count(1) from t_phone_recharge_record
+	</select>
+	
+	<select id="sameDayPhoneRechargeAmount" resultType="java.lang.Long" parameterType="java.lang.Long">
+   	SELECT
+    	SUM(cardno)
+    FROM
+    	t_phone_recharge_record
+    WHERE
+    	USER_ID=#{userId,jdbcType=BIGINT}
+    	AND flag = 1
+    	AND DATE_FORMAT(recharge_date,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+  </select>
+	
+	
+
+</mapper>

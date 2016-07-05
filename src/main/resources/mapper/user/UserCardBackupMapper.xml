@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserCardBackupMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.UserCardBackup">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="card_id" property="cardId" jdbcType="BIGINT"/>
+        <result column="integral" property="integral" jdbcType="INTEGER"/>
+        <result column="bill_day" property="billDay" jdbcType="INTEGER"/>
+        <result column="bill_month" property="billMonth" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, card_id, integral, bill_day, bill_month
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_card_backup
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_user_card_backup
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.UserCardBackup">
+    insert into t_user_card_backup (id, card_id, integral, 
+      bill_day, bill_month)
+    values (#{id,jdbcType=BIGINT}, #{cardId,jdbcType=BIGINT}, #{integral,jdbcType=INTEGER}, 
+      #{billDay,jdbcType=INTEGER}, #{billMonth,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.UserCardBackup">
+        insert into t_user_card_backup
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cardId != null">
+                card_id,
+            </if>
+            <if test="integral != null">
+                integral,
+            </if>
+            <if test="billDay != null">
+                bill_day,
+            </if>
+            <if test="billMonth != null">
+                bill_month,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="cardId != null">
+                #{cardId,jdbcType=BIGINT},
+            </if>
+            <if test="integral != null">
+                #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="billDay != null">
+                #{billDay,jdbcType=INTEGER},
+            </if>
+            <if test="billMonth != null">
+                #{billMonth,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.UserCardBackup">
+        update t_user_card_backup
+        <set>
+            <if test="userId != null">
+                card_id = #{cardId,jdbcType=BIGINT},
+            </if>
+            <if test="integral != null">
+                integral = #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="billDay != null">
+                bill_day = #{billDay,jdbcType=INTEGER},
+            </if>
+            <if test="billMonth != null">
+                bill_month = #{billMonth,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.UserCardBackup">
+    update t_user_card_backup
+    set card_id = #{cardId,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=INTEGER},
+      bill_day = #{billDay,jdbcType=INTEGER},
+      bill_month = #{billMonth,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

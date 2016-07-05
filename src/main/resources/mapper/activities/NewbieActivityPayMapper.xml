@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.activities.dao.NewbieActivityPayMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.activities.domain.NewbieActivityPay" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="union_pay_no" property="unionPayNo" jdbcType="VARCHAR" />
+    <result column="caibi" property="caibi" jdbcType="BIGINT" />
+    <result column="tubi" property="tubi" jdbcType="BIGINT" />
+    <result column="rmb" property="rmb" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+    <result column="right_id" property="rightId" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, union_pay_no, caibi, tubi, rmb,status, gmt_create, gmt_modify,right_id,order_no
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_newbie_activity_pay
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_newbie_activity_pay
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.activities.domain.NewbieActivityPay" >
+    insert into t_newbie_activity_pay (id, user_id, union_pay_no, 
+      caibi, tubi, rmb, status, 
+      gmt_create, gmt_modify)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{unionPayNo,jdbcType=VARCHAR}, 
+      #{caibi,jdbcType=BIGINT}, #{tubi,jdbcType=BIGINT}, #{rmb,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.activities.domain.NewbieActivityPay" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_newbie_activity_pay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="unionPayNo != null" >
+        union_pay_no,
+      </if>
+      <if test="caibi != null" >
+        caibi,
+      </if>
+      <if test="tubi != null" >
+        tubi,
+      </if>
+      <if test="rmb != null" >
+        rmb,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+      <if test="rightId != null" >
+        right_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="unionPayNo != null" >
+        #{unionPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caibi != null" >
+        #{caibi,jdbcType=BIGINT},
+      </if>
+      <if test="tubi != null" >
+        #{tubi,jdbcType=BIGINT},
+      </if>
+      <if test="rmb != null" >
+        #{rmb,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rightId != null" >
+        #{rightId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.activities.domain.NewbieActivityPay" >
+    update t_newbie_activity_pay
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="unionPayNo != null" >
+        union_pay_no = #{unionPayNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caibi != null" >
+        caibi = #{caibi,jdbcType=BIGINT},
+      </if>
+      <if test="tubi != null" >
+        tubi = #{tubi,jdbcType=BIGINT},
+      </if>
+      <if test="rmb != null" >
+        rmb = #{rmb,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rightId != null" >
+        right_id = #{rightId,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.activities.domain.NewbieActivityPay" >
+    update t_newbie_activity_pay
+    set user_id = #{userId,jdbcType=BIGINT},
+      union_pay_no = #{unionPayNo,jdbcType=VARCHAR},
+      caibi = #{caibi,jdbcType=BIGINT},
+      tubi = #{tubi,jdbcType=BIGINT},
+      rmb = #{rmb,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      order_no = #{orderNo,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<select id="findPayStatus" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_newbie_activity_pay
+    	where 
+    		user_id = #{userid,jdbcType=BIGINT}
+    	and 
+    		status = #{status,jdbcType=INTEGER}
+  	</select>
+  	
+  	<select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_newbie_activity_pay
+    	where
+    		user_id = #{userid,jdbcType=BIGINT}
+  	</select>
+  	
+  	<select id="selectByUnionPayNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_newbie_activity_pay
+    	where
+    		union_pay_no = #{unionPayNo,jdbcType=VARCHAR}
+  	</select>
+</mapper>

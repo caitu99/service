@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserAuthMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.UserAuth">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="card_no" property="cardNo" jdbcType="VARCHAR"/>
+        <result column="acc_name" property="accName" jdbcType="VARCHAR"/>
+        <result column="bankname" property="bankname" jdbcType="VARCHAR"/>
+        <result column="acc_id" property="accId" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="bind_id" property="bindId" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP"/>
+        <result column="pic_url" property="cardTypePic" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+	    id, user_id, card_no, acc_name, acc_id, mobile, order_no, gmt_create, gmt_modify, 
+	    bankname, bind_id
+	</sql>
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select 
+		tua.* ,tb.pic_url
+	from 
+		t_user_auth tua,t_bank tb
+	where 
+		user_id = #{userId,jdbcType=BIGINT} and tua.bankname = tb.`name`
+  </select>
+  
+  	<select id="selectByUserIdForCardPay" resultMap="BaseResultMap" parameterType="java.lang.Long">
+	    select 
+			<include refid="Base_Column_List"/>
+		from 
+			t_user_auth
+		where 
+			user_id = #{userId,jdbcType=BIGINT}
+  	</select>
+
+    <select id="selectByAccId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from t_user_auth
+    where acc_id = #{accId,jdbcType=VARCHAR}
+  </select>
+
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.UserAuth">
+        <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_user_auth (id, user_id, card_no, acc_name, bankname,
+        acc_id, mobile, order_no, bind_id,
+        gmt_create, gmt_modify)
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{cardNo,jdbcType=VARCHAR},
+        #{accName,jdbcType=VARCHAR},#{bankname,jdbcType=VARCHAR},
+        #{accId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{bindId,jdbcType=VARCHAR},
+        now(), now())
+    </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.UserAuth">
+        insert into t_user_auth
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="cardNo != null">
+                card_no,
+            </if>
+            <if test="accName != null">
+                acc_name,
+            </if>
+            <if test="bankname != null">
+                bankname,
+            </if>
+            <if test="accId != null">
+                acc_id,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="bindId != null">
+                order_id,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="cardNo != null">
+                #{cardNo,jdbcType=VARCHAR},
+            </if>
+            <if test="accName != null">
+                #{accName,jdbcType=VARCHAR},
+            </if>
+            <if test="accId != null">
+                #{accId,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <select id="findByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    SELECT * from t_user_auth a,t_user b WHERE a.user_id=b.id and b.isauth=1 AND a.user_id = #{userId,jdbcType=BIGINT}
+  </select>
+</mapper>

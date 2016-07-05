@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.life.dao.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.life.domain.Product">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="product" property="product" jdbcType="VARCHAR"/>
+        <result column="summary" property="summary" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="days" property="days" jdbcType="INTEGER"/>
+        <result column="number" property="number" jdbcType="INTEGER"/>
+        <result column="imageurl" property="imageurl" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, product, summary, price, status, description, url, days, number,imageurl
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_product
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.service.life.domain.Product">
+		insert into t_product (id, product, summary,
+		price, status, description,
+		url, days, number,
+		imageurl)
+		values (#{id,jdbcType=BIGINT}, #{product,jdbcType=VARCHAR},
+		#{summary,jdbcType=VARCHAR},
+		#{price,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR}, #{days,jdbcType=INTEGER},
+		#{number,jdbcType=INTEGER},
+		#{imageurl,jdbcType=VARCHAR})
+	</insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.life.domain.Product">
+        insert into t_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="product != null">
+                product,
+            </if>
+            <if test="summary != null">
+                summary,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="days != null">
+                days,
+            </if>
+            <if test="number != null">
+                number,
+            </if>
+            <if test="imageurl != null">
+                imageurl,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="product != null">
+                #{product,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null">
+                #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="days != null">
+                #{days,jdbcType=INTEGER},
+            </if>
+            <if test="number != null">
+                #{number,jdbcType=INTEGER},
+            </if>
+            <if test="imageurl != null">
+                #{imageurl,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.life.domain.Product">
+        update t_product
+        <set>
+            <if test="product != null">
+                product = #{product,jdbcType=VARCHAR},
+            </if>
+            <if test="summary != null">
+                summary = #{summary,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="days != null">
+                days = #{days,jdbcType=INTEGER},
+            </if>
+            <if test="number != null">
+                number = #{number,jdbcType=INTEGER},
+            </if>
+            <if test="imageurl != null">
+                imageurl = #{imageurl,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.life.domain.Product">
+		update t_product
+		set product = #{product,jdbcType=VARCHAR},
+		summary = #{summary,jdbcType=VARCHAR},
+		price = #{price,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		description = #{description,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		days = #{days,jdbcType=INTEGER},
+		number = #{number,jdbcType=INTEGER},
+		imageurl = #{imageurl,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_product
+    </select>
+</mapper>
+

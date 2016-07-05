@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.sys.dao.NoticeMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.sys.domain.Notice">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="userid" property="userid" jdbcType="BIGINT"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, userid, start_time, end_time,
+		content,version,type,status
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_notice
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_notice
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.service.sys.domain.Notice">
+		insert into t_notice (id,
+		userid, start_time,
+		end_time, content,version,type,status)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{userid,jdbcType=BIGINT},
+		#{startTime,jdbcType=TIMESTAMP},
+		#{endTime,jdbcType=TIMESTAMP},
+		#{content,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR},
+		#{type,jdbcType=BIGINT}, #{status,jdbcType=INTEGER})
+	</insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.sys.domain.Notice">
+        insert into t_notice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userid != null">
+                userid,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{type,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.sys.domain.Notice">
+        update t_notice
+        <set>
+            <if test="userid != null">
+                userid = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{type,jdbcType=BIGINT},
+            </if>
+            <if test="content != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.sys.domain.Notice">
+		update t_notice
+		set userid = #{userid,jdbcType=BIGINT},
+		start_time =
+		#{startTime,jdbcType=TIMESTAMP},
+		end_time =
+		#{endTime,jdbcType=TIMESTAMP},
+		content =
+		#{content,jdbcType=VARCHAR},version=#{version,jdbcType=VARCHAR},
+		type=#{type,jdbcType=BIGINT}, status=#{status,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=BIGINT}
+	</update>
+
+
+    <select id="listAll" resultMap="BaseResultMap" parameterType="com.caitu99.service.base.Page">
+		select
+		*
+		from t_notice where status is
+		null or status!=0 order by
+		id desc limit
+		#{startPos,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+	</select>
+    <select id="countNum" resultType="java.lang.Integer">
+		select count(1) from t_notice
+		where status is null or status!=0
+	</select>
+
+    <update id="fDelete" parameterType="java.lang.Long">
+		update t_notice
+		set
+		status = 0
+		where id = #{id,jdbcType=BIGINT}
+
+	</update>
+
+    <select id="select" resultMap="BaseResultMap" parameterType="com.caitu99.service.sys.domain.Notice">
+        SELECT 
+        	<include refid="Base_Column_List"/>
+        FROM 
+        	t_notice 
+        WHERE 
+        	<![CDATA[ end_time>=(select current_timestamp()) 
+        AND 
+        	start_time < end_time]]>
+        AND
+        	( userid = #{userid,jdbcType=BIGINT} or userid is null )
+        ORDER BY 
+        	start_time DESC
+    </select>
+</mapper>

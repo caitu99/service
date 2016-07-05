@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.transaction.dao.OrderItemMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.transaction.domain.OrderItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="sku_id" property="skuId" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="BIGINT" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="dis_price" property="disPrice" jdbcType="BIGINT" />
+    <result column="rmb_price" property="rmbPrice" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <resultMap type="com.caitu99.service.transaction.dto.OrderItemDto" id="DtoResultMap" extends="BaseResultMap">
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, order_no, item_id, sku_id, price, quantity, name, create_time, update_time, dis_price, 
+    rmb_price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_order_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.transaction.domain.OrderItem" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER">  
+       SELECT LAST_INSERT_ID();  
+    </selectKey>
+    insert into t_order_item (id, order_no, item_id, 
+      sku_id, price, quantity, 
+      name, create_time, update_time, 
+      dis_price, rmb_price)
+    values (#{id,jdbcType=BIGINT}, #{orderNo,jdbcType=VARCHAR}, #{itemId,jdbcType=BIGINT}, 
+      #{skuId,jdbcType=BIGINT}, #{price,jdbcType=BIGINT}, #{quantity,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{disPrice,jdbcType=BIGINT}, #{rmbPrice,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.transaction.domain.OrderItem" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER">  
+       SELECT LAST_INSERT_ID();  
+    </selectKey> 
+    insert into t_order_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="disPrice != null" >
+        dis_price,
+      </if>
+      <if test="rmbPrice != null" >
+        rmb_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disPrice != null" >
+        #{disPrice,jdbcType=BIGINT},
+      </if>
+      <if test="rmbPrice != null" >
+        #{rmbPrice,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.transaction.domain.OrderItem" >
+    update t_order_item
+    <set >
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disPrice != null" >
+        dis_price = #{disPrice,jdbcType=BIGINT},
+      </if>
+      <if test="rmbPrice != null" >
+        rmb_price = #{rmbPrice,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.transaction.domain.OrderItem" >
+    update t_order_item
+    set order_no = #{orderNo,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=BIGINT},
+      sku_id = #{skuId,jdbcType=BIGINT},
+      price = #{price,jdbcType=BIGINT},
+      quantity = #{quantity,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      dis_price = #{disPrice,jdbcType=BIGINT},
+      rmb_price = #{rmbPrice,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+    <select id="findAllItemByOrderNo" resultMap="DtoResultMap" parameterType="java.lang.String">
+	  select 
+	  	oi.id as order_item_id,oi.price as price,oi.quantity as quantity,ts.img_url as img_url
+	  from t_order_item oi
+	  left join t_trading_snapshot ts
+	  on oi.id = ts.order_item_id
+	  where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from t_order_item
+	  where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  
+  
+</mapper>
+
+

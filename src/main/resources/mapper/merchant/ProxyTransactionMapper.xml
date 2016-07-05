@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.merchant.dao.ProxyTransactionMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.merchant.domain.ProxyTransaction" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="transaction_number" property="transactionNumber" jdbcType="VARCHAR" />
+    <result column="proxy_relation_id" property="proxyRelationId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="emp_user_id" property="empUserId" jdbcType="BIGINT" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="rate" property="rate" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="week" property="week" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="propose_time" property="proposeTime" jdbcType="TIMESTAMP" />
+    <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, transaction_number, proxy_relation_id, user_id, emp_user_id, integral, rate, 
+    start_time, end_time, year, week, status, create_time, propose_time, confirm_time, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_transaction
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_proxy_transaction
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.merchant.domain.ProxyTransaction" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER"
+               keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_proxy_transaction (id, transaction_number, proxy_relation_id, 
+      user_id, emp_user_id, integral, 
+      rate, start_time, end_time, 
+      year, week, status, create_time, 
+      propose_time, confirm_time, type)
+    values (#{id,jdbcType=BIGINT}, #{transactionNumber,jdbcType=VARCHAR}, #{proxyRelationId,jdbcType=BIGINT}, 
+      #{userId,jdbcType=BIGINT}, #{empUserId,jdbcType=BIGINT}, #{integral,jdbcType=BIGINT}, 
+      #{rate,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{year,jdbcType=INTEGER},#{week,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{proposeTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.merchant.domain.ProxyTransaction" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER"
+               keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_proxy_transaction
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="transactionNumber != null" >
+        transaction_number,
+      </if>
+      <if test="proxyRelationId != null" >
+        proxy_relation_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="empUserId != null" >
+        emp_user_id,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="week != null" >
+        week,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="proposeTime != null" >
+        propose_time,
+      </if>
+      <if test="confirmTime != null" >
+        confirm_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="transactionNumber != null" >
+        #{transactionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyRelationId != null" >
+        #{proxyRelationId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="empUserId != null" >
+        #{empUserId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="week != null" >
+        #{week,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposeTime != null" >
+        #{proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null" >
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.merchant.domain.ProxyTransaction" >
+    update t_proxy_transaction
+    <set >
+      <if test="transactionNumber != null" >
+        transaction_number = #{transactionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyRelationId != null" >
+        proxy_relation_id = #{proxyRelationId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="empUserId != null" >
+        emp_user_id = #{empUserId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="week != null" >
+        week = #{week,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposeTime != null" >
+        propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null" >
+        confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.merchant.domain.ProxyTransaction" >
+    update t_proxy_transaction
+    set transaction_number = #{transactionNumber,jdbcType=VARCHAR},
+      proxy_relation_id = #{proxyRelationId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      emp_user_id = #{empUserId,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=BIGINT},
+      rate = #{rate,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      year = #{year,jdbcType=INTEGER},
+      week = #{week,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      propose_time = #{proposeTime,jdbcType=TIMESTAMP},
+      confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getSettleData" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_transaction
+    where emp_user_id = #{empUserId,jdbcType=BIGINT}
+    	and year = #{year,jdbcType=INTEGER}
+      	and week = #{week,jdbcType=INTEGER}
+      	and type = #{type,jdbcType=INTEGER}
+  </select>
+  
+  <select id="collectAll" resultType="java.lang.Long" parameterType="java.util.Map" >
+    select 
+    	sum(integral) as integral
+    from t_proxy_transaction
+    where emp_user_id = #{userId,jdbcType=BIGINT}
+      	and type = #{type,jdbcType=INTEGER}
+      	and status = 3
+  </select>
+  
+  
+</mapper>

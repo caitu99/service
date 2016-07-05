@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.goods.dao.ClassificationGoodMapper" >
+    <resultMap id="BaseResultMap" type="com.caitu99.service.goods.domain.Item" >
+        <id column="item_id" property="itemId" jdbcType="BIGINT" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+        <result column="item_no" property="itemNo" jdbcType="VARCHAR" />
+        <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+        <result column="sale_price" property="salePrice" jdbcType="BIGINT" />
+        <result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+        <result column="sale_volume" property="saleVolume" jdbcType="BIGINT" />
+        <result column="version" property="version" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+        <result column="list_time" property="listTime" jdbcType="TIMESTAMP" />
+        <result column="delist_time" property="delistTime" jdbcType="TIMESTAMP" />
+        <result column="wap_url" property="wapUrl" jdbcType="VARCHAR" />
+        <result column="sort" property="sort" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="content" property="content" jdbcType="LONGVARCHAR" />
+        <result column="source" property="source" jdbcType="INTEGER" />
+        <result column="sales_type" property="salesType" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        item_id, title, sub_title, item_no, brand_id, sale_price, market_price, sale_volume,
+        version, status, pic_url, list_time, delist_time, wap_url, sort, create_time, update_time,content,
+        source,sales_type
+    </sql>
+
+
+
+    <!-- 分页查询属性列表 -->
+    <select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+          *
+        from
+          (
+            select
+              ttir.item_id
+            from
+              t_type_item_relation ttir ,t_type tt
+            where
+              tt.id = ${typeId} and tt.id = ttir.type_id and tt.`status` = 1
+          ) t1, t_item ti
+          where ti.item_id = t1.item_id and ti.status = 1
+          <if test="typeId2 != null">
+              and t1.item_id in (SELECT item_id from t_type_item_relation
+              where type_id in <foreach collection="typeId2" item="typeId2"
+                                        open="(" separator="," close=")">#{typeId2}</foreach>)
+          </if>
+          <if test="source != null">
+              and ti.source in <foreach collection="source" item="source"
+                                         open="(" separator="," close=")">#{source}</foreach>
+          </if>
+          and ti.source != 1
+        order by
+          sort
+        limit ${start},${pageSize}
+    </select>
+
+    <!-- 查询总数 -->
+    <select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+          count(1)
+        from
+          (
+            select
+              ttir.item_id
+            from
+              t_type_item_relation ttir ,t_type tt
+            where
+              tt.id = ${typeId} and tt.id = ttir.type_id and tt.`status` = 1
+          ) t1, t_item ti
+        where ti.item_id = t1.item_id and ti.status = 1
+        <if test="typeId2 != null">
+            and t1.item_id in (SELECT item_id from t_type_item_relation  where
+            type_id in <foreach collection="typeId2" item="typeId2"
+                                open="(" separator="," close=")">#{typeId2}</foreach>)
+        </if>
+        <if test="source != null">
+            and ti.source in <foreach collection="source" item="source"
+                                      open="(" separator="," close=")">#{source}</foreach>
+        </if>
+        and ti.source != 1
+    </select>
+
+</mapper>

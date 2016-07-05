@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.transaction.dao.TradingSnapshotMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.transaction.domain.TradingSnapshot" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="ORDER_ITEM_ID" property="orderItemId" jdbcType="BIGINT" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="SUB_TITLE" property="subTitle" jdbcType="VARCHAR" />
+    <result column="SALE_PRICE" property="salePrice" jdbcType="BIGINT" />
+    <result column="MARKET_PRICE" property="marketPrice" jdbcType="BIGINT" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="WAP_URL" property="wapUrl" jdbcType="VARCHAR" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.caitu99.service.transaction.domain.TradingSnapshot" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ITEM_ID, TITLE, SUB_TITLE, SALE_PRICE, MARKET_PRICE, VERSION, WAP_URL, 
+    IMG_URL, CREATE_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_trading_snapshot
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_trading_snapshot
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.transaction.domain.TradingSnapshot" >
+    insert into t_trading_snapshot (ID, ORDER_ITEM_ID, TITLE, 
+      SUB_TITLE, SALE_PRICE, MARKET_PRICE, 
+      VERSION, WAP_URL, IMG_URL, 
+      CREATE_TIME, CONTENT)
+    values (#{id,jdbcType=BIGINT}, #{orderItemId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{subTitle,jdbcType=VARCHAR}, #{salePrice,jdbcType=BIGINT}, #{marketPrice,jdbcType=BIGINT}, 
+      #{version,jdbcType=VARCHAR}, #{wapUrl,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.transaction.domain.TradingSnapshot" >
+    insert into t_trading_snapshot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="subTitle != null" >
+        SUB_TITLE,
+      </if>
+      <if test="salePrice != null" >
+        SALE_PRICE,
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="wapUrl != null" >
+        WAP_URL,
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderItemId != null" >
+        #{orderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="wapUrl != null" >
+        #{wapUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.transaction.domain.TradingSnapshot" >
+    update t_trading_snapshot
+    <set >
+      <if test="orderItemId != null" >
+        ORDER_ITEM_ID = #{orderItemId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="subTitle != null" >
+        SUB_TITLE = #{subTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="salePrice != null" >
+        SALE_PRICE = #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        MARKET_PRICE = #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="wapUrl != null" >
+        WAP_URL = #{wapUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.caitu99.service.transaction.domain.TradingSnapshot" >
+    update t_trading_snapshot
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=BIGINT},
+      TITLE = #{title,jdbcType=VARCHAR},
+      SUB_TITLE = #{subTitle,jdbcType=VARCHAR},
+      SALE_PRICE = #{salePrice,jdbcType=BIGINT},
+      MARKET_PRICE = #{marketPrice,jdbcType=BIGINT},
+      VERSION = #{version,jdbcType=VARCHAR},
+      WAP_URL = #{wapUrl,jdbcType=VARCHAR},
+      IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.transaction.domain.TradingSnapshot" >
+    update t_trading_snapshot
+    set ORDER_ITEM_ID = #{orderItemId,jdbcType=BIGINT},
+      TITLE = #{title,jdbcType=VARCHAR},
+      SUB_TITLE = #{subTitle,jdbcType=VARCHAR},
+      SALE_PRICE = #{salePrice,jdbcType=BIGINT},
+      MARKET_PRICE = #{marketPrice,jdbcType=BIGINT},
+      VERSION = #{version,jdbcType=VARCHAR},
+      WAP_URL = #{wapUrl,jdbcType=VARCHAR},
+      IMG_URL = #{imgUrl,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.WeixinFenPKMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.WeixinFenPK" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="inviterid" property="inviterid" jdbcType="INTEGER" />
+    <result column="total_integral" property="totalIntegral" jdbcType="BIGINT" />
+    <result column="award_import_mail" property="awardImportMail" jdbcType="BIGINT" />
+    <result column="award_login_app" property="awardLoginApp" jdbcType="BIGINT" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWeixin" type="com.caitu99.service.user.controller.vo.WeixinFenPKVo"
+		extends="BaseResultMap">
+		<result column="weixin_nickname" property="weixinNickname" jdbcType="VARCHAR" />
+		<result column="weixin_imgurl" property="weixinImgurl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, userid, inviterid, total_integral, award_import_mail, award_login_app, integral, 
+    time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_weixin_fen_pk
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByUserId" resultMap="ResultMapWeixin" parameterType="java.lang.Long" >
+  select 
+    a.*,b.weixin_nickname,b.weixin_imgurl
+    from t_weixin_fen_pk a LEFT JOIN (SELECT a.* from t_user_third_info a,t_user b where a.user_id=b.id) b
+    ON a.userid=b.user_id where a.userid = #{userid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectOrderSeq" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    select count(1) from t_weixin_fen_pk
+    where total_integral >= #{totalIntegral,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectOrderSeqMax" resultType="java.lang.Integer">
+    select count(1) from t_weixin_fen_pk
+  </select>
+  
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    select count(1) from t_weixin_fen_pk where userid= #{userid,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTop5" resultMap="ResultMapWeixin">
+    select a.* ,b.weixin_nickname,b.weixin_imgurl
+    from t_weixin_fen_pk a LEFT JOIN (SELECT a.* from t_user_third_info a,t_user b where a.user_id=b.id) b
+    ON a.userid=b.user_id order by a.total_integral DESC limit 0,10
+  </select>
+  
+  <select id="getFriendInfos" resultMap="ResultMapWeixin" parameterType="java.lang.Integer">
+  	select 
+    a.*,b.weixin_nickname,b.weixin_imgurl
+    from t_weixin_fen_pk a LEFT JOIN (SELECT a.* from t_user_third_info a,t_user b where a.user_id=b.id) b
+    ON a.userid=b.user_id where a.inviterid=#{inviterid,jdbcType=INTEGER} order by a.total_integral DESC
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_weixin_fen_pk
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.user.domain.WeixinFenPK" >
+  	<selectKey keyProperty="id" resultType="java.lang.Integer" order="AFTER" keyColumn="ID">
+		SELECT LAST_INSERT_ID() ID
+	</selectKey>
+    insert into t_weixin_fen_pk (id, userid, inviterid, 
+      total_integral, award_import_mail, award_login_app, 
+      integral, time)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{inviterid,jdbcType=INTEGER}, 
+      #{totalIntegral,jdbcType=BIGINT}, #{awardImportMail,jdbcType=BIGINT}, #{awardLoginApp,jdbcType=BIGINT}, 
+      #{integral,jdbcType=BIGINT}, now())
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.WeixinFenPK" >
+    insert into t_weixin_fen_pk
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="inviterid != null" >
+        inviterid,
+      </if>
+      <if test="totalIntegral != null" >
+        total_integral,
+      </if>
+      <if test="awardImportMail != null" >
+        award_import_mail,
+      </if>
+      <if test="awardLoginApp != null" >
+        award_login_app,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="inviterid != null" >
+        #{inviterid,jdbcType=INTEGER},
+      </if>
+      <if test="totalIntegral != null" >
+        #{totalIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="awardImportMail != null" >
+        #{awardImportMail,jdbcType=BIGINT},
+      </if>
+      <if test="awardLoginApp != null" >
+        #{awardLoginApp,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.WeixinFenPK" >
+    update t_weixin_fen_pk
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="inviterid != null" >
+        inviterid = #{inviterid,jdbcType=INTEGER},
+      </if>
+      <if test="totalIntegral != null" >
+        total_integral = #{totalIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="awardImportMail != null" >
+        award_import_mail = #{awardImportMail,jdbcType=BIGINT},
+      </if>
+      <if test="awardLoginApp != null" >
+        award_login_app = #{awardLoginApp,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.WeixinFenPK" >
+    update t_weixin_fen_pk
+    set userid = #{userid,jdbcType=INTEGER},
+      inviterid = #{inviterid,jdbcType=INTEGER},
+      total_integral = #{totalIntegral,jdbcType=BIGINT},
+      award_import_mail = #{awardImportMail,jdbcType=BIGINT},
+      award_login_app = #{awardLoginApp,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=BIGINT},
+      time = #{time,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateInvitedUser" parameterType="com.caitu99.service.user.domain.WeixinFenPK" >
+    update t_weixin_fen_pk
+    set total_integral = total_integral+ #{totalIntegral,jdbcType=BIGINT},
+      integral = IFNULL(integral,0)+ IFNULL(#{integral,jdbcType=BIGINT},0)
+    where userid = #{inviterid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateInvitedUserLoginApp" parameterType="com.caitu99.service.user.domain.WeixinFenPK" >
+    update t_weixin_fen_pk
+    set total_integral = IFNULL(total_integral,0)+ #{totalIntegral,jdbcType=BIGINT}
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

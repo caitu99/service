@@ -1,0 +1,225 @@
+1. 接口描述:用户登陆
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/user/login/1.0
+输入参数:
+    user        用户信息
+    vcode       验证码
+可选参数:
+输出参数:
+    code        message                     data
+        0       成功
+        2002    手机号不能为空
+        2002    请先获取验证码
+        2003    验证码不能为空码
+        2004    验证码错误码
+        2005    登录失败，手机号或密码错误
+输出样例:
+
+
+2. 接口描述:更新用户信息
+作者:
+请求方式:
+   method      GET, POST
+   URL         /api/user/update/1.0
+输入参数:
+    user        用户信息
+可选参数:
+输出参数:
+   code        message                     data
+       0       成功
+       2008    用户id不能为空
+       2009    用户信息收集并完善失败
+输出样例:
+
+
+3. 接口描述:保存用户联系方式
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/contacts/save/1.0
+输入参数:
+    userId          用户ID
+    contacts        用户信息
+入参样例:
+    contacts        {contacts:[{"email":"","phone":"15267777053","name":"白妹"},{"email":"huluww@126.com,huluww@126.com","phone":"13587888292","name":"胡良云"}]}
+可选参数:
+输出参数:
+   code        message                     data
+       0       成功
+       2008    用户id不能为空
+       2009    用户信息收集并完善失败
+输出样例:
+
+
+接口描述:积分信息查询
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/user/card/query/integral/1.0
+输入参数:
+    userid      用户id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       获取用户积分信息成功
+输出样例:
+        {"code":0,"data":[{"integral":9000,"money":9000,"size":0,"type":0}],"message":"获取用户积分信息成功"}
+
+
+接口描述:查询某类卡片的积分信息
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/user/card/query/card/integral/1.0
+输入参数:
+    userid      用户id
+    cardType    卡片类型，可选1（信用卡）、2（购物卡）、3（商旅卡）
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       积分查询成功
+        2103    卡片类型不能为空
+        2104    购物卡未上线
+        2105    商旅卡未上线
+输出样例:
+        {"code":0,"data":[{"billDay":13,"canexchange":0,"cardNo":"9936","cardTypeId":10,"email":"993932965@qq.com","emailPassword":"","gmtCreate":1445398653000,"gmtModify":1445398653000,"id":107,"integralBalance":2698,"maxAmount":10000,"minamount":100,"name":"沈黎明","repaymentDay":2,"scale":0.2,"totalbalance":139.82,"typeId":1,"typeName":"广发银行","url":"http://shop.cgbchina.com.cn/\r\n","userId":8}],"message":"积分查询成功"}
+        {"code":2103,"message":"卡片类型不能为空"}
+        {"code":2104,"message":"购物卡未上线"}
+        {"code":2105,"message":"商旅卡未上线"}
+
+
+接口描述:查询积分最近到期时间
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/user/card/query/integral/expire/1.0
+输入参数:
+    userid      用户id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       积分查询成功
+输出样例:
+        {"code":0,"data":{"balance":1106,"bankname":"中国银行","cardId":152,"cardNo":"6784","cardTypeId":1,"datenum":248,"gmtCreate":1445486669000,"gmtEffective":1467216000000,"gmtModify":1445486669000,"id":25,"name":"刘存显","scale":0.2},"message":"获取最近到期时间成功"}
+        {"code":2103,"message":"卡片类型不能为空"}
+        {"code":2104,"message":"购物卡未上线"}
+        {"code":2105,"message":"商旅卡未上线"}
+        
+        
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+接口描述:保存用户头像图片
+作者:
+请求方式:
+    method      POST
+    URL         /api/photo/save/img/1.0
+输入参数:
+	file		图像文件
+    userid      用户id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       用户头像保存成功
+        2304	用户头像保存失败
+        2305	用户id不能为空
+输出样例:
+		{"code":0,"data":"http://localhost:8080/profile/20151027/57145018-94f0-47fa-a005-806e8297402b.png","message":"用户头像保存成功"}
+        {"code":2305,"message":"用户id不能为空"}
+        
+        
+接口描述:保存用户头像图片(for ios)
+作者:
+请求方式:
+    method      POST
+    URL         /api/photo/save/img4ios/1.0
+输入参数:
+	file		图像文件
+    userid      用户id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       用户头像保存成功
+        2304	用户头像保存失败
+        2305	用户id不能为空
+输出样例:
+		{"code":0,"data":"http://localhost:8080/profile/20151027/57145018-94f0-47fa-a005-806e8297402b.png","message":"用户头像保存成功"}
+        {"code":2305,"message":"用户id不能为空"}
+
+
+接口描述: 签到
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/sign/sign/every
+输入参数:
+   		userId	用户id	
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0   	签到成功
+	2307	您今天已经签过到了
+输出样例:
+	{"code":0,"data":{"gmtCreate":1445238181000,"gmtModify":1445238181000,"id":11,"integral":1,"isauth":0,"mobile":"13588219937","status":1},"message":"签到成功！！"}
+	{"code":2307,"message":"您今天已经签过到了！！"}
+	
+接口描述: 获取用户邮箱列表
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/user/mail/get/mails/1.0
+输入参数:
+   		userId	用户id	
+可选参数:
+	无
+输出参数:
+    code        message                     data
+	0			获取邮箱成功
+	2306		获取邮箱列表失败
+输出样例:
+	{"code":0,"data":[{"email":"993932965@qq.com","emailPassword":"oIGJVyT4yfQ/FddWjfOkrg==","flag":2,"gmtCreate":1445398652000,"gmtLastUpdate":1445415423000,"gmtModify":1445415423000,"id":40,"isforward":2,"needFresh":false,"status":1,"userId":8}],"message":"获取邮箱成功"}
+
+接口描述:删除用户邮箱
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/user/mail/del/mail/1.0
+输入参数:
+		userMail	邮箱
+   		userId		用户id	
+可选参数:
+	无
+输出参数:
+    code        message                     data
+	0			删除成功
+				
+输出样例:
+	{"code":0,"data":true,"message":"删除成功"}
+
+接口描述:
+作者:
+请求方式:
+    method      GET, POST
+    URL         /user/third/info/update/1.0
+输入参数:
+		userThirdInfo	用户第三方信息
+   		userId		用户id	
+可选参数:
+	无
+输出参数:
+    code        message                     data
+	0			更新成功!
+	2309		更新第三方信息失败
+输出样例:
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+
+	

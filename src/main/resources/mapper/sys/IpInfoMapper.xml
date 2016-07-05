@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.sys.dao.IpInfoMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.sys.domain.IpInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="city_code" property="cityCode" jdbcType="VARCHAR"/>
+        <result column="host_id" property="hostId" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="eip_id" property="eipId" jdbcType="VARCHAR"/>
+        <result column="regon" property="regon" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, city_code, host_id, ip, eip_id, regon, status
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_ip_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_ip_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.sys.domain.IpInfo">
+    insert into t_ip_info (id, city_code, host_id, 
+      ip, eip_id, regon, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{cityCode,jdbcType=VARCHAR}, #{hostId,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{eipId,jdbcType=VARCHAR}, #{regon,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.sys.domain.IpInfo">
+        insert into t_ip_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="cityCode != null">
+                city_code,
+            </if>
+            <if test="hostId != null">
+                host_id,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="eipId != null">
+                eip_id,
+            </if>
+            <if test="regon != null">
+                regon,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="cityCode != null">
+                #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="hostId != null">
+                #{hostId,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="eipId != null">
+                #{eipId,jdbcType=VARCHAR},
+            </if>
+            <if test="regon != null">
+                #{regon,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.sys.domain.IpInfo">
+        update t_ip_info
+        <set>
+            <if test="cityCode != null">
+                city_code = #{cityCode,jdbcType=VARCHAR},
+            </if>
+            <if test="hostId != null">
+                host_id = #{hostId,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="eipId != null">
+                eip_id = #{eipId,jdbcType=VARCHAR},
+            </if>
+            <if test="regon != null">
+                regon = #{regon,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.sys.domain.IpInfo">
+    update t_ip_info
+    set city_code = #{cityCode,jdbcType=VARCHAR},
+      host_id = #{hostId,jdbcType=VARCHAR},
+      ip = #{ip,jdbcType=VARCHAR},
+      eip_id = #{eipId,jdbcType=VARCHAR},
+      regon = #{regon,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="listByStatus" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_ip_info where status = #{status,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

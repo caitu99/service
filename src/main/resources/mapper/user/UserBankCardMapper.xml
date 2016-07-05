@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserBankCardMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.UserBankCard" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="acc_name" property="accName" jdbcType="VARCHAR" />
+    <result column="acc_id" property="accId" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="bank_id" property="bankId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="last_no" property="lastNo" jdbcType="VARCHAR" />
+    <result column="form" property="form" jdbcType="INTEGER" />
+    <result column="card_type" property="cardType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, card_no, acc_name, acc_id, mobile, bank_name, bank_id, type, create_time,
+    update_time,form,card_type,status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_bank_card
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  	
+	<select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select
+  	 		tubc.id, user_id, card_no, acc_name, acc_id, mobile, bank_name, bank_id, type, create_time,
+    		update_time, tb.pic_url, right(tubc.card_no,4) as last_no,tubc.card_type,tubc.status
+  		from 
+  			t_user_bank_card tubc 
+  		left join 
+  			t_bank tb
+  		on 
+  			tubc.bank_name=tb.`name`
+  		where 
+  			user_id = #{userId,jdbcType=BIGINT}
+  		and 
+  			form = #{form,jdbcType=INTEGER}
+  		and	
+  			status = 1
+  		order by
+  			tubc.create_time 
+	</select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_bank_card
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.user.domain.UserBankCard" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER"
+               keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_user_bank_card (id, user_id, card_no, 
+      acc_name, acc_id, mobile, 
+      bank_name, bank_id, create_time, 
+      update_time,form,card_type,status)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{cardNo,jdbcType=VARCHAR}, 
+      #{accName,jdbcType=VARCHAR}, #{accId,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{form,jdbcType=INTEGER},#{cardType,jdbcType=INTEGER},#{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.UserBankCard" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER"
+               keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_user_bank_card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="accName != null" >
+        acc_name,
+      </if>
+      <if test="accId != null" >
+        acc_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="bankId != null" >
+        bank_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="form != null" >
+        form,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accName != null" >
+        #{accName,jdbcType=VARCHAR},
+      </if>
+      <if test="accId != null" >
+        #{accId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null" >
+        #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="form != null" >
+        #{form,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.UserBankCard" >
+    update t_user_bank_card
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="accName != null" >
+        acc_name = #{accName,jdbcType=VARCHAR},
+      </if>
+      <if test="accId != null" >
+        acc_id = #{accId,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankId != null" >
+        bank_id = #{bankId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="form != null" >
+        form = #{form,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.UserBankCard" >
+    update t_user_bank_card
+    set user_id = #{userId,jdbcType=BIGINT},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      acc_name = #{accName,jdbcType=VARCHAR},
+      acc_id = #{accId,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      bank_id = #{bankId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      form = #{form,jdbcType=INTEGER},
+      card_type = #{cardType,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByUseIdAndCardNo" parameterType="com.caitu99.service.user.domain.UserBankCard">
+    update t_user_bank_card
+    set type = 0
+    where user_id = #{userId,jdbcType=BIGINT}
+    and card_no != #{cardNo,jdbcType=VARCHAR}
+    and form = 0
+  </update>
+  <update id="updateByUseIdAndCardNo1" parameterType="com.caitu99.service.user.domain.UserBankCard">
+    update t_user_bank_card
+    set type = 1
+    where user_id = #{userId,jdbcType=BIGINT}
+    and card_no = #{cardNo,jdbcType=VARCHAR}
+    and form = 0
+  </update>
+
+  <select id="selectByUseIdAndCardNo" resultMap="BaseResultMap"
+          parameterType="com.caitu99.service.user.domain.UserBankCard">
+    select
+    <include refid="Base_Column_List" />
+    from t_user_bank_card
+    where user_id = #{userId,jdbcType=BIGINT}
+    and card_no = #{cardNo,jdbcType=VARCHAR}
+    and form = 0
+  </select>
+  
+  <sql id="queryObjWhereClause">
+  		<where>
+			<if test="userBankCard.userId != null" >
+	        	and user_id = #{userBankCard.userId,jdbcType=BIGINT}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userBankCard.cardNo)">
+				and card_no = #{userBankCard.cardNo, jdbcType=VARCHAR} 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userBankCard.accName)">
+				and acc_name = #{userBankCard.accName, jdbcType=VARCHAR} 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userBankCard.accId)">
+				and acc_id = #{userBankCard.accId, jdbcType=VARCHAR} 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(userBankCard.bankName)">
+				and bank_name = #{userBankCard.bankName, jdbcType=VARCHAR} 
+			</if>
+			<if test="userBankCard.form != null" >
+	        	and form = #{userBankCard.form,jdbcType=INTEGER}
+	      	</if>
+			<if test="userBankCard.cardType != null" >
+	        	and card_type = #{userBankCard.cardType,jdbcType=INTEGER}
+	      	</if>
+			<if test="userBankCard.status != null" >
+	        	and status = #{userBankCard.status,jdbcType=INTEGER}
+	      	</if>
+		</where>
+  	</sql>
+  
+  <select id="selectByUserBackCard" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    	<include refid="Base_Column_List" />
+    from 
+    	t_user_bank_card
+   		<include refid="queryObjWhereClause"/>
+  </select>
+
+</mapper>

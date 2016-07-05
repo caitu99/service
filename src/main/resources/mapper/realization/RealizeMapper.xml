@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.RealizeMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.Realize" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="cash" property="cash" jdbcType="BIGINT" />
+    <result column="propotion" property="propotion" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, platform_id, integral, cash, propotion, sort, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_realize
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByPlatformId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	 select 
+    <include refid="Base_Column_List" />
+    from t_realize
+    where platform_id = #{platformId,jdbcType=BIGINT}
+    order by sort 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_realize
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.Realize" >
+    insert into t_realize (id, platform_id, integral, 
+      cash, propotion, sort, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{platformId,jdbcType=BIGINT}, #{integral,jdbcType=BIGINT}, 
+      #{cash,jdbcType=BIGINT}, #{propotion,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.realization.domain.Realize" >
+    insert into t_realize
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="platformId != null" >
+        platform_id,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="cash != null" >
+        cash,
+      </if>
+      <if test="propotion != null" >
+        propotion,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="cash != null" >
+        #{cash,jdbcType=BIGINT},
+      </if>
+      <if test="propotion != null" >
+        #{propotion,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.realization.domain.Realize" >
+    update t_realize
+    <set >
+      <if test="platformId != null" >
+        platform_id = #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="cash != null" >
+        cash = #{cash,jdbcType=BIGINT},
+      </if>
+      <if test="propotion != null" >
+        propotion = #{propotion,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.Realize" >
+    update t_realize
+    set platform_id = #{platformId,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=BIGINT},
+      cash = #{cash,jdbcType=BIGINT},
+      propotion = #{propotion,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

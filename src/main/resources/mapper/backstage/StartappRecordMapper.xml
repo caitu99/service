@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.backstage.dao.StartappRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.backstage.domain.StartappRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="startup_time" property="startupTime" jdbcType="TIMESTAMP" />
+    <result column="shutdown_time" property="shutdownTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, startup_time, shutdown_time, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_startapp_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_startapp_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.backstage.domain.StartappRecord" >
+    insert into t_startapp_record (id, user_id, startup_time, 
+      shutdown_time, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{startupTime,jdbcType=TIMESTAMP}, 
+      #{shutdownTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.backstage.domain.StartappRecord" >
+    insert into t_startapp_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="startupTime != null" >
+        startup_time,
+      </if>
+      <if test="shutdownTime != null" >
+        shutdown_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="startupTime != null" >
+        #{startupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shutdownTime != null" >
+        #{shutdownTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.backstage.domain.StartappRecord" >
+    update t_startapp_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="startupTime != null" >
+        startup_time = #{startupTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shutdownTime != null" >
+        shutdown_time = #{shutdownTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.backstage.domain.StartappRecord" >
+    update t_startapp_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      startup_time = #{startupTime,jdbcType=TIMESTAMP},
+      shutdown_time = #{shutdownTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByUserIdAndTime" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+      <include refid="Base_Column_List" />
+    from
+      t_startapp_record
+    where
+      user_id = #{user_id,jdbcType=BIGINT}
+    <if test="start_time != null" >
+      <![CDATA[and CREATE_TIME >= STR_TO_DATE(#{start_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end_time != null" >
+      <![CDATA[and CREATE_TIME <= STR_TO_DATE(#{end_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    order by create_time desc
+  </select>
+
+</mapper>

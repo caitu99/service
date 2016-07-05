@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.life.dao.ProductExchangeMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.life.domain.ProductExchange">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="userId" property="userid" jdbcType="BIGINT"/>
+        <result column="productId" property="productid" jdbcType="BIGINT"/>
+        <result column="activationId" property="activationid" jdbcType="BIGINT"/>
+        <result column="time" property="time" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, userId, productId, activationId, time, status
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_chage
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_product_chage
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.service.life.domain.ProductExchange">
+		insert into t_product_chage
+		(id, userId, productId,
+		activationId, time, status
+		)
+		values
+		(#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT},
+		#{productid,jdbcType=BIGINT},
+		#{activationid,jdbcType=BIGINT},
+		#{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}
+		)
+	</insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.life.domain.ProductExchange">
+        insert into t_product_chage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userid != null">
+                userId,
+            </if>
+            <if test="productid != null">
+                productId,
+            </if>
+            <if test="activationid != null">
+                activationId,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userid != null">
+                #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="productid != null">
+                #{productid,jdbcType=BIGINT},
+            </if>
+            <if test="activationid != null">
+                #{activationid,jdbcType=BIGINT},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.life.domain.ProductExchange">
+        update t_product_chage
+        <set>
+            <if test="userid != null">
+                userId = #{userid,jdbcType=BIGINT},
+            </if>
+            <if test="productid != null">
+                productId = #{productid,jdbcType=BIGINT},
+            </if>
+            <if test="activationid != null">
+                activationId = #{activationid,jdbcType=BIGINT},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.life.domain.ProductExchange">
+		update
+		t_product_chage
+		set userId = #{userid,jdbcType=BIGINT},
+		productId =
+		#{productid,jdbcType=BIGINT},
+		activationId =
+		#{activationid,jdbcType=BIGINT},
+		time = #{time,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+    <select id="selectByTime" resultMap="BaseResultMap"
+            parameterType="com.caitu99.service.life.domain.ProductExchange">
+        SELECT
+        	<include refid="Base_Column_List"/>
+        FROM 
+        	t_product_chage
+        WHERE 
+        	time > #{time,jdbcType=TIMESTAMP}
+        AND 
+        	userId = #{userid,jdbcType=BIGINT}
+    </select>
+
+
+	<!-- chencheng 20151105 mod -->
+    <select id="selectByUser" resultType="com.caitu99.service.life.domain.ProductExchangeRecord" parameterType="java.lang.Long">
+		SELECT 
+			p.product AS product,
+			p.price AS price,
+			a.activation AS activation,
+			DATE_FORMAT(a.valid,"%Y-%m-%d") AS valid
+		FROM 
+			t_product_chage AS pc
+		JOIN 
+			t_product AS p ON pc.productId = p.id
+		JOIN 
+			t_activation a ON pc.activationId = a.id
+		WHERE pc.userId = #{userId,jdbcType=BIGINT}
+	</select>
+	
+    <select id="selectByTimeAndId" resultMap="BaseResultMap"
+            parameterType="com.caitu99.service.life.domain.ProductExchange">
+        select
+        	<include refid="Base_Column_List"/>
+        from 
+        	t_product_chage
+        where 
+        	time > #{time,jdbcType=TIMESTAMP}
+        and 
+        	userId= #{userid,jdbcType=BIGINT}
+        and 
+        	productId =#{productid,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAllByProductId" resultMap="BaseResultMap"
+            parameterType="com.caitu99.service.life.domain.ProductExchange">
+        select
+        	<include refid="Base_Column_List"/>
+        from 
+        	t_product_chage
+        where
+        	userId= #{userid,jdbcType=BIGINT}
+        and 
+        	productId =#{productid,jdbcType=BIGINT}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM
+        t_product_chage
+
+    </select>
+
+</mapper>

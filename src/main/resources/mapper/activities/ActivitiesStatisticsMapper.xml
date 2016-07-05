@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.activities.dao.ActivitiesStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.activities.domain.ActivitiesStatistics" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="activities_code" property="activitiesCode" jdbcType="VARCHAR" />
+    <result column="point_code" property="pointCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, activities_code, point_code, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activities_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_activities_statistics
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.activities.domain.ActivitiesStatistics" >
+    insert into t_activities_statistics (id, activities_code, point_code, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{activitiesCode,jdbcType=VARCHAR}, #{pointCode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.activities.domain.ActivitiesStatistics" >
+    insert into t_activities_statistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="activitiesCode != null" >
+        activities_code,
+      </if>
+      <if test="pointCode != null" >
+        point_code,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="activitiesCode != null" >
+        #{activitiesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCode != null" >
+        #{pointCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.activities.domain.ActivitiesStatistics" >
+    update t_activities_statistics
+    <set >
+      <if test="activitiesCode != null" >
+        activities_code = #{activitiesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pointCode != null" >
+        point_code = #{pointCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.activities.domain.ActivitiesStatistics" >
+    update t_activities_statistics
+    set activities_code = #{activitiesCode,jdbcType=VARCHAR},
+      point_code = #{pointCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.ParseMailErrorMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.ParseMailError">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="mail_id" property="mailId" jdbcType="BIGINT"/>
+        <result column="error_date" property="errorDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.caitu99.service.user.domain.ParseMailError" extends="BaseResultMap">
+        <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, user_id, mail_id, error_date
+  </sql>
+    <sql id="Extend_Column_List">
+    id, user_id, mail_id, error_date, card_id
+  </sql>
+    <sql id="Blob_Column_List">
+    error_msg
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_parse_mail_error
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_parse_mail_error
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.ParseMailError">
+    insert into t_parse_mail_error (id, user_id, mail_id, 
+      error_date, error_msg)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{mailId,jdbcType=BIGINT}, 
+      now(), #{errorMsg,jdbcType=LONGVARCHAR})
+  </insert>
+
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.ParseMailError">
+        insert into t_parse_mail_error
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="mailId != null">
+                mail_id,
+            </if>
+            <if test="errorDate != null">
+                error_date,
+            </if>
+            <if test="errorMsg != null">
+                error_msg,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="mailId != null">
+                #{mailId,jdbcType=BIGINT},
+            </if>
+            <if test="errorDate != null">
+                #{errorDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="errorMsg != null">
+                #{errorMsg,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.ParseMailError">
+        update t_parse_mail_error
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="mailId != null">
+                mail_id = #{mailId,jdbcType=BIGINT},
+            </if>
+            <if test="errorDate != null">
+                error_date = #{errorDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="errorMsg != null">
+                error_msg = #{errorMsg,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.caitu99.service.user.domain.ParseMailError">
+    update t_parse_mail_error
+    set user_id = #{userId,jdbcType=BIGINT},
+      mail_id = #{mailId,jdbcType=BIGINT},
+      error_date = #{errorDate,jdbcType=TIMESTAMP},
+      error_msg = #{errorMsg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.ParseMailError">
+    update t_parse_mail_error
+    set user_id = #{userId,jdbcType=BIGINT},
+      mail_id = #{mailId,jdbcType=BIGINT},
+      error_date = #{errorDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

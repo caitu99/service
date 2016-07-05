@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.RealizeRecordCmMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.RealizeRecordCm" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="realize_detail_id" property="realizeDetailId" jdbcType="BIGINT" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="wlt_account" property="wltAccount" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, account,realize_detail_id, integral, level, wlt_account, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_realize_record_cm
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_realize_record_cm
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.RealizeRecordCm" >
+    insert into t_realize_record_cm (id, user_id, account, realize_detail_id, 
+      integral, level, wlt_account, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{realizeDetailId,jdbcType=BIGINT}, 
+      #{integral,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, #{wltAccount,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.realization.domain.RealizeRecordCm" >
+    insert into t_realize_record_cm
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="realizeDetailId != null" >
+        realize_detail_id,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="wltAccount != null" >
+        wlt_account,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=BIGINT},
+      </if>
+      <if test="realizeDetailId != null" >
+        #{realizeDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="wltAccount != null" >
+        #{wltAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.realization.domain.RealizeRecordCm" >
+    update t_realize_record_cm
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=BIGINT},
+      </if>
+      <if test="realizeDetailId != null" >
+        realize_detail_id = #{realizeDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="wltAccount != null" >
+        wlt_account = #{wltAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.RealizeRecordCm" >
+    update t_realize_record_cm
+    set user_id = #{userId,jdbcType=BIGINT},
+      account = #{account,jdbcType=BIGINT},
+      realize_detail_id = #{realizeDetailId,jdbcType=BIGINT},
+      integral = #{integral,jdbcType=BIGINT},
+      level = #{level,jdbcType=INTEGER},
+      wlt_account = #{wltAccount,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="getUserRealizeSUM" resultType="java.lang.Long" parameterType="com.caitu99.service.realization.domain.RealizeRecordCm">
+  	select 
+  		sum(integral) 
+  	from 
+  		t_realize_record_cm
+  	where 
+  		user_id = #{userId,jdbcType=BIGINT}
+  		and account = #{account,jdbcType=BIGINT}
+  		<if test="realizeDetailId != null" >
+  			and realize_detail_id = #{realizeDetailId,jdbcType=BIGINT}
+  		</if>
+  		and DATE_FORMAT(create_time,'%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+  </select>
+  <select id="getWLTAccountSUM" resultType="java.lang.Long" parameterType="java.lang.String">
+  	select 
+  		SUM(integral) 
+  	from 
+  		t_realize_record_cm
+  	where
+  		wlt_account = #{wltAccount,jdbcType=VARCHAR}
+  		and DATE_FORMAT(create_time,'%Y-%m') = DATE_FORMAT(now(),'%Y-%m')
+  </select>
+</mapper>

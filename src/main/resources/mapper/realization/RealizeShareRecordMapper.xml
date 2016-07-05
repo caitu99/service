@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.RealizeShareRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.RealizeShareRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="realize_share_id" property="realizeShareId" jdbcType="BIGINT" />
+    <result column="money" property="money" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="platform" property="platform" jdbcType="INTEGER" />
+    <result column="realize_record_id" property="realizeRecordId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, realize_share_id, money, user_id, platform, realize_record_id, status, gmt_create, 
+    gmt_modify , type
+  </sql>
+  
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_share_record
+    	where 
+    		id = #{id,jdbcType=BIGINT}
+    	and
+    		status = 1
+  	</select>
+  	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_realize_share_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.RealizeShareRecord" >
+    insert into t_realize_share_record (id, realize_share_id, money, 
+      user_id, platform, realize_record_id, 
+      status, gmt_create, gmt_modify,type
+      )
+    values (#{id,jdbcType=BIGINT}, #{realizeShareId,jdbcType=BIGINT}, #{money,jdbcType=BIGINT}, 
+      #{userId,jdbcType=BIGINT}, #{platform,jdbcType=INTEGER}, #{realizeRecordId,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP},
+      #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.realization.domain.RealizeShareRecord" >
+  <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_realize_share_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="realizeShareId != null" >
+        realize_share_id,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="platform != null" >
+        platform,
+      </if>
+      <if test="realizeRecordId != null" >
+        realize_record_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="realizeShareId != null" >
+        #{realizeShareId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="platform != null" >
+        #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="realizeRecordId != null" >
+        #{realizeRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.realization.domain.RealizeShareRecord" >
+    update t_realize_share_record
+    <set >
+      <if test="realizeShareId != null" >
+        realize_share_id = #{realizeShareId,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="platform != null" >
+        platform = #{platform,jdbcType=INTEGER},
+      </if>
+      <if test="realizeRecordId != null" >
+        realize_record_id = #{realizeRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.RealizeShareRecord" >
+    update t_realize_share_record
+    set realize_share_id = #{realizeShareId,jdbcType=BIGINT},
+      money = #{money,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      platform = #{platform,jdbcType=INTEGER},
+      realize_record_id = #{realizeRecordId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="realizeShareRecord.userId != null" >
+	        	and user_id = #{realizeShareRecord.userId,jdbcType=BIGINT}
+	      	</if>
+			<if test="realizeShareRecord.realizeShareId != null" >
+	        	and realize_share_id = #{realizeShareRecord.realizeShareId,jdbcType=BIGINT}
+	      	</if>
+			<if test="realizeShareRecord.platform != null" >
+	        	and platform = #{realizeShareRecord.platform,jdbcType=INTEGER}
+	      	</if>
+			<if test="realizeShareRecord.status != null" >
+	        	and status = #{realizeShareRecord.status,jdbcType=INTEGER}
+	      	</if>
+		</where>
+  	</sql>
+  
+  	<select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_share_record
+    	<include refid="queryObjWhereClause"/>
+  	</select>
+  	
+  	<select id="selectFirstRecord" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_share_record
+    	where 
+    		user_id = #{userId,jdbcType=BIGINT}
+    	and
+    		status = 1
+    	and
+    	 	date_add(gmt_create, interval #{expiresTime,jdbcType=BIGINT} SECOND) >= now()
+    	and
+    		type = #{type,jdbcType=INTEGER}
+    	order by
+    		gmt_create
+    	limit 1
+  	</select>
+  	
+  	
+  	<select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		<![CDATA[
+	   		select 
+	   			id, realize_share_id, money, user_id, platform, realize_record_id, 
+	   			CASE WHEN (status = 1 and date_add(gmt_create, interval #{expiresTime,jdbcType=BIGINT} SECOND) < now()) THEN 0
+				ELSE status
+				END AS status,
+				date_add(gmt_create, interval #{expiresTime,jdbcType=BIGINT} SECOND) as gmt_create, 
+    			gmt_modify,type
+	   		from 
+	   			t_realize_share_record 
+	   		where 
+	   			user_id = #{user_id,jdbcType=BIGINT}
+	   		and 
+	   			status != -1
+	    	order by 
+	    		gmt_create desc
+	   			
+	    	limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+	    ]]>
+  	</select>
+  	
+  	<select id="selectCountByUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+	   		select 
+	   			count(1)
+	   		from 
+	   			t_realize_share_record 
+	   		where 
+	   			user_id = #{user_id,jdbcType=BIGINT}
+	   		and 
+	   			status != -1
+  	</select>
+</mapper>

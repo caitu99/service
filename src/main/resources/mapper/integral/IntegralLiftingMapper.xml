@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.IntegralLiftingMapper">
+	<resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.IntegralLifting">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userid" property="userid" jdbcType="BIGINT" />
+		<result column="orderNo" property="orderno" jdbcType="VARCHAR" />
+		<result column="retDesc" property="retdesc" jdbcType="VARCHAR" />
+		<result column="orderStatus" property="orderstatus" jdbcType="INTEGER" />
+		<result column="processDate" property="processdate" jdbcType="TIMESTAMP" />
+		<result column="integral" property="integral" jdbcType="INTEGER" />
+		<result column="time" property="time" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, userid, orderNo, retDesc, orderStatus, processDate,
+		integral, time,
+		status
+	</sql>
+	<resultMap type="com.caitu99.service.integral.controller.vo.IntegralLiftingVo"
+		id="BaseResultMapVO" extends="BaseResultMap">
+
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_integral_lifting
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_integral_lifting
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		<selectKey keyProperty="id" resultType="long" order="AFTER"
+			keyColumn="ID">
+			SELECT LAST_INSERT_ID() ID
+		</selectKey>
+		insert into t_integral_lifting (id, userid, orderNo,
+		retDesc,
+		orderStatus, processDate,
+		integral, time, status
+		)
+		values
+		(#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT},
+		#{orderno,jdbcType=VARCHAR},
+		#{retdesc,jdbcType=VARCHAR},
+		#{orderstatus,jdbcType=INTEGER}, #{processdate,jdbcType=TIMESTAMP},
+		#{integral,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		<selectKey keyProperty="id" resultType="long" order="AFTER"
+			keyColumn="ID">
+			SELECT LAST_INSERT_ID() ID
+		</selectKey>
+		insert into t_integral_lifting
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="orderno != null">
+				orderNo,
+			</if>
+			<if test="retdesc != null">
+				retDesc,
+			</if>
+			<if test="orderstatus != null">
+				orderStatus,
+			</if>
+			<if test="processdate != null">
+				processDate,
+			</if>
+			<if test="integral != null">
+				integral,
+			</if>
+			<if test="time != null">
+				time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=BIGINT},
+			</if>
+			<if test="orderno != null">
+				#{orderno,jdbcType=VARCHAR},
+			</if>
+			<if test="retdesc != null">
+				#{retdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="orderstatus != null">
+				#{orderstatus,jdbcType=INTEGER},
+			</if>
+			<if test="processdate != null">
+				#{processdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="integral != null">
+				#{integral,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				#{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		update t_integral_lifting
+		<set>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=BIGINT},
+			</if>
+			<if test="orderno != null">
+				orderNo = #{orderno,jdbcType=VARCHAR},
+			</if>
+			<if test="retdesc != null">
+				retDesc = #{retdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="orderstatus != null">
+				orderStatus = #{orderstatus,jdbcType=INTEGER},
+			</if>
+			<if test="processdate != null">
+				processDate = #{processdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="integral != null">
+				integral = #{integral,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		update
+		t_integral_lifting
+		set userid = #{userid,jdbcType=BIGINT},
+		orderNo =
+		#{orderno,jdbcType=VARCHAR},
+		retDesc = #{retdesc,jdbcType=VARCHAR},
+		orderStatus = #{orderstatus,jdbcType=INTEGER},
+		processDate =
+		#{processdate,jdbcType=TIMESTAMP},
+		integral =
+		#{integral,jdbcType=INTEGER},
+		time = #{time,jdbcType=TIMESTAMP},
+		status
+		= #{status,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="countintergral" resultType="java.lang.Long"
+		parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		SELECT SUM(a.integral) FROM t_integral_lifting a WHERE
+		a.time>#{time,jdbcType=TIMESTAMP} and !(orderStatus!=2 and status=1)
+	</select>
+	<update id="updateByPrimaryKeySelectivebyorder" parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		update t_integral_lifting
+		<set>
+			<if test="retdesc != null">
+				retDesc = #{retdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="orderstatus != null">
+				orderStatus = #{orderstatus,jdbcType=INTEGER},
+			</if>
+			<if test="processdate != null">
+				processDate = #{processdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="integral != null">
+				integral = #{integral,jdbcType=INTEGER},
+			</if>
+			<if test="time != null">
+				time = #{time,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where orderNo = #{orderno,jdbcType=VARCHAR}
+		and userid =
+		#{userid,jdbcType=BIGINT}
+	</update>
+	<select id="countintergralbyuser" resultType="java.lang.Long"
+		parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		SELECT SUM(a.integral) FROM t_integral_lifting a WHERE
+		a.time>#{time,jdbcType=TIMESTAMP} and userid =
+		#{userid,jdbcType=BIGINT} and !(orderStatus!=2 and status=1)
+	</select>
+
+	<select id="selectBystatus" resultMap="BaseResultMap"
+		parameterType="com.caitu99.service.integral.domain.IntegralLifting">
+		select
+		<include refid="Base_Column_List" />
+		from t_integral_lifting
+		where status = #{status,jdbcType=INTEGER}
+		and
+		#{time,jdbcType=TIMESTAMP}>time
+	</select>
+
+
+	<select id="listSucess" resultMap="BaseResultMapVO" parameterType="com.caitu99.service.base.Page">
+		SELECT a.orderNo,a.time,b.mobile,a.integral,a.orderStatus,a.status FROM t_integral_lifting
+		a,t_user b WHERE a.userid=b.id AND ((a.orderStatus=2 and a.`status`=1) or (a.orderStatus=2 AND a.`status`=3))  ORDER BY
+		a.time desc limit
+		#{startPos,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+	</select>
+	
+	<select id="listAll" resultMap="BaseResultMapVO" parameterType="com.caitu99.service.base.Page">
+		SELECT a.orderNo,a.time,b.mobile,a.integral,a.orderStatus,a.status FROM t_integral_lifting
+		a,t_user b WHERE a.userid=b.id ORDER BY
+		a.time desc limit
+		#{startPos,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+	</select>
+
+	<select id="countNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM t_integral_lifting a,t_user b WHERE a.userid=b.id 
+	</select>
+</mapper>

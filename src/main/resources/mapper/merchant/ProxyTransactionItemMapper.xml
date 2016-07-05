@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.merchant.dao.ProxyTransactionItemMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.merchant.domain.ProxyTransactionItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="proxy_transaction_id" property="proxyTransactionId" jdbcType="BIGINT" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="platform_name" property="platformName" jdbcType="VARCHAR" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, proxy_transaction_id, platform_id, platform_name, integral, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_transaction_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_proxy_transaction_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.merchant.domain.ProxyTransactionItem" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER"
+               keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_proxy_transaction_item (id, proxy_transaction_id, platform_id, 
+      platform_name, integral, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{proxyTransactionId,jdbcType=BIGINT}, #{platformId,jdbcType=BIGINT}, 
+      #{platformName,jdbcType=VARCHAR}, #{integral,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.merchant.domain.ProxyTransactionItem" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER"
+               keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_proxy_transaction_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="proxyTransactionId != null" >
+        proxy_transaction_id,
+      </if>
+      <if test="platformId != null" >
+        platform_id,
+      </if>
+      <if test="platformName != null" >
+        platform_name,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="proxyTransactionId != null" >
+        #{proxyTransactionId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="platformName != null" >
+        #{platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.merchant.domain.ProxyTransactionItem" >
+    update t_proxy_transaction_item
+    <set >
+      <if test="proxyTransactionId != null" >
+        proxy_transaction_id = #{proxyTransactionId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        platform_id = #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="platformName != null" >
+        platform_name = #{platformName,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.merchant.domain.ProxyTransactionItem" >
+    update t_proxy_transaction_item
+    set proxy_transaction_id = #{proxyTransactionId,jdbcType=BIGINT},
+      platform_id = #{platformId,jdbcType=BIGINT},
+      platform_name = #{platformName,jdbcType=VARCHAR},
+      integral = #{integral,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getBySettleId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_transaction_item
+    where proxy_transaction_id = #{proxyTransactionId,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

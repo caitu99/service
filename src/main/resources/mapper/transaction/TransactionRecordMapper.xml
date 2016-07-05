@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.transaction.dao.TransactionRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.transaction.domain.TransactionRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="TRANSACTION_NUMBER" property="transactionNumber" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="BIGINT" />
+    <result column="INFO" property="info" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="INTEGER" />
+    <result column="PAY_TYPE" property="payType" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="TOTAL" property="total" jdbcType="BIGINT" />
+    <result column="SOURCE" property="source" jdbcType="INTEGER" />
+    <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
+    <result column="CHANNEL" property="channel" jdbcType="INTEGER" />
+    <result column="FREEZE_TIME" property="freezeTime" jdbcType="TIMESTAMP" />
+    <result column="SUCCESS_TIME" property="successTime" jdbcType="TIMESTAMP" />
+    <result column="FAILE_TIME" property="faileTime" jdbcType="TIMESTAMP" />
+    <result column="COMPANY_ID" property="companyId" jdbcType="BIGINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="TUBI" property="tubi" jdbcType="BIGINT" />
+    <result column="RMB" property="rmb" jdbcType="BIGINT" />
+    <result column="HANDLE_STATUS" property="handleStatus" jdbcType="INTEGER" />
+    <result column="FEE" property="fee" jdbcType="BIGINT" />
+    <result column="FEE_RATE" property="feeRate" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="CusBaseResultMap" type="com.caitu99.service.transaction.domain.CusTransactionRecord" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="TRANSACTION_NUMBER" property="transactionNumber" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="BIGINT" />
+    <result column="INFO" property="info" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="INTEGER" />
+    <result column="PAY_TYPE" property="payType" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="TOTAL" property="total" jdbcType="BIGINT" />
+    <result column="SOURCE" property="source" jdbcType="INTEGER" />
+    <result column="COMMENT" property="comment" jdbcType="VARCHAR" />
+    <result column="CHANNEL" property="channel" jdbcType="INTEGER" />
+    <result column="FREEZE_TIME" property="freezeTime" jdbcType="TIMESTAMP" />
+    <result column="SUCCESS_TIME" property="successTime" jdbcType="TIMESTAMP" />
+    <result column="FAILE_TIME" property="faileTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="TUBI" property="tubi" jdbcType="BIGINT" />
+    <result column="RMB" property="rmb" jdbcType="BIGINT" />
+  </resultMap>
+
+  <resultMap  id="resultMapDto" type="com.caitu99.service.transaction.dto.EnterpriseDto" >
+     	 <result column="COUNT_ID" property="countId" jdbcType="BIGINT" />
+   		 <result column="SUM_TOTAL" property="sumTotal" jdbcType="BIGINT" />
+  </resultMap>
+  
+  
+  <resultMap  id="resultMapDetailDto" type="com.caitu99.service.transaction.dto.EnterpriseDetailDto" >
+	    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+	    <result column="TRANSACTION_NUMBER" property="transactionNumber" jdbcType="VARCHAR" />
+	    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />		
+	    <result column="ACC_NO" property="accNo" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+	    <result column="ACC_NAME" property="accName" jdbcType="VARCHAR" />    		
+	    <result column="CHANNEL" property="channel" jdbcType="INTEGER" />    
+	    <result column="TOTAL" property="total" jdbcType="BIGINT" />    
+	    <result column="FEE" property="fee" jdbcType="BIGINT" />  
+	    <result column="STATUS" property="status" jdbcType="INTEGER" /> 	
+	    <result column="HANDLE_STATUS" property="handleStatus" jdbcType="INTEGER" /> 	
+	    
+	    
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, TRANSACTION_NUMBER, ORDER_NO, SOURCE, USER_ID, INFO, PIC_URL, TYPE, PAY_TYPE, 
+    STATUS, TOTAL, SOURCE,COMMENT, CHANNEL, FREEZE_TIME, SUCCESS_TIME, FAILE_TIME, 
+    company_id, CREATE_TIME, UPDATE_TIME, TUBI, RMB, HANDLE_STATUS, FEE, FEE_RATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_transaction_record
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_transaction_record
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.transaction.domain.TransactionRecord" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER"
+		keyColumn="ID">
+		SELECT LAST_INSERT_ID() ID
+	</selectKey>
+    insert into t_transaction_record (ID, TRANSACTION_NUMBER, ORDER_NO, 
+      USER_ID, INFO, PIC_URL, 
+      TYPE, PAY_TYPE, STATUS, 
+      TOTAL,COUPON_INTEGRAL, SOURCE,COMMENT, CHANNEL, FREEZE_TIME, 
+      SUCCESS_TIME, FAILE_TIME, company_id, CREATE_TIME, 
+      UPDATE_TIME, TUBI, RMB, HANDLE_STATUS, FEE, FEE_RATE)
+    values (#{id,jdbcType=BIGINT}, #{transactionNumber,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=BIGINT}, #{info,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{total,jdbcType=BIGINT},#{couponIntegral,jdbcType=BIGINT},#{source,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{channel,jdbcType=INTEGER}, #{freezeTime,jdbcType=TIMESTAMP}, 
+      #{successTime,jdbcType=TIMESTAMP}, #{faileTime,jdbcType=TIMESTAMP}, #{companyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP},#{tubi,jdbcType=BIGINT},#{rmb,jdbcType=BIGINT},#{handleStatus,jdbcType=INTEGER},
+      #{fee,jdbcType=BIGINT}, #{feeRate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.transaction.domain.TransactionRecord" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER"
+		keyColumn="ID">
+		SELECT LAST_INSERT_ID() ID
+	</selectKey>
+    insert into t_transaction_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="transactionNumber != null" >
+        TRANSACTION_NUMBER,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="info != null" >
+        INFO,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE,
+      </if>
+      <if test="source != null">
+      	SOURCE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="total != null" >
+        TOTAL,
+      </if>
+      <if test="couponIntegral != null" >
+        COUPON_INTEGRAL,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+      <if test="channel != null" >
+        CHANNEL,
+      </if>
+      <if test="freezeTime != null" >
+        FREEZE_TIME,
+      </if>
+      <if test="successTime != null" >
+        SUCCESS_TIME,
+      </if>
+      <if test="faileTime != null" >
+        FAILE_TIME,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="thirdPartyNumber != null">
+      	THIRD_PARTY_NUMBER,
+      </if>
+      
+      <if test="tubi != null" >
+        TUBI,
+      </if>  
+      <if test="rmb != null" >
+        RMB,
+      </if>   
+      <if test="handleStatus != null" >
+        HANDLE_STATUS,
+      </if>   
+      <if test="fee != null" >
+        FEE,
+      </if>
+      <if test="feeRate != null" >
+        FEE_RATE,
+      </if> 
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="transactionNumber != null" >
+        #{transactionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=BIGINT},
+      </if>
+      <if test="couponIntegral != null" >
+        #{couponIntegral,jdbcType=BIGINT},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="freezeTime != null" >
+        #{freezeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="successTime != null" >
+        #{successTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="faileTime != null" >
+        #{faileTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdPartyNumber != null">
+      	#{thirdPartyNumber,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="tubi != null" >
+        #{tubi,jdbcType=BIGINT},
+      </if>  
+      <if test="rmb != null" >
+        #{rmb,jdbcType=BIGINT},
+      </if>  
+      <if test="handleStatus != null" >
+        #{handleStatus,jdbcType=INTEGER},
+      </if>  
+      <if test="fee != null" >
+        #{fee,jdbcType=BIGINT},
+      </if> 
+      <if test="feeRate != null" >
+        #{feeRate,jdbcType=VARCHAR},
+      </if> 
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.transaction.domain.TransactionRecord" >
+    update t_transaction_record
+    <set >
+      <if test="transactionNumber != null" >
+        TRANSACTION_NUMBER = #{transactionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="info != null" >
+        INFO = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        PAY_TYPE = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="source != null">
+      	SOURCE = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="total != null" >
+        TOTAL = #{total,jdbcType=BIGINT},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        CHANNEL = #{channel,jdbcType=INTEGER},
+      </if>
+      <if test="freezeTime != null" >
+        FREEZE_TIME = #{freezeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="successTime != null" >
+        SUCCESS_TIME = #{successTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="faileTime != null" >
+        FAILE_TIME = #{faileTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="thirdPartyNumber != null">
+      	THIRD_PARTY_NUMBER = #{thirdPartyNumber,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="tubi != null" >
+        TUBI = #{tubi,jdbcType=BIGINT},
+      </if>  
+      <if test="rmb != null" >
+         RMB = #{rmb,jdbcType=BIGINT},
+      </if>  
+      <if test="handleStatus != null" >
+         HANDLE_STATUS = #{handleStatus,jdbcType=INTEGER},
+      </if>  
+      <if test="fee != null" >
+         FEE = #{fee,jdbcType=BIGINT},
+      </if>  
+      <if test="feeRate != null" >
+         FEE_RATE = #{feeRate,jdbcType=VARCHAR},
+      </if>  
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.transaction.domain.TransactionRecord" >
+    update t_transaction_record
+    set TRANSACTION_NUMBER = #{transactionNumber,jdbcType=VARCHAR},
+      ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=BIGINT},
+      INFO = #{info,jdbcType=VARCHAR},
+      PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=INTEGER},
+      PAY_TYPE = #{payType,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      TOTAL = #{total,jdbcType=BIGINT},
+      SOURCE = #{source,jdbcType=INTEGER},
+      COMMENT = #{comment,jdbcType=VARCHAR},
+      CHANNEL = #{channel,jdbcType=INTEGER},
+      FREEZE_TIME = #{freezeTime,jdbcType=TIMESTAMP},
+      SUCCESS_TIME = #{successTime,jdbcType=TIMESTAMP},
+      FAILE_TIME = #{faileTime,jdbcType=TIMESTAMP},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectPageListByUserId" resultMap="CusBaseResultMap" parameterType="java.util.Map">
+    select  <include refid="Base_Column_List"/>
+    from t_transaction_record
+    where USER_ID=#{user_id,jdbcType=BIGINT} and type!=7
+    <if test="start_time != null" >
+      <![CDATA[and CREATE_TIME >= STR_TO_DATE(#{start_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end_time != null" >
+      <![CDATA[and CREATE_TIME <= STR_TO_DATE(#{end_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    order by CREATE_TIME desc
+    limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByUserIdFreeze" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select  
+    	<include refid="Base_Column_List"/>
+    from 
+    	t_transaction_record
+    where 
+    	USER_ID=#{userId,jdbcType=BIGINT}
+    and status = 0
+  </select>
+  
+  
+  <select id="selectByUserIdAndOrderNo" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select  <include refid="Base_Column_List"/>
+    from t_transaction_record
+    where USER_ID=#{userId,jdbcType=BIGINT}
+	and ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+	<if test="status != null" >
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectByOrderNoExludeUserId" resultMap="CusBaseResultMap" parameterType="java.util.Map">
+    select  <include refid="Base_Column_List"/>
+    from t_transaction_record
+    where USER_ID != #{userId,jdbcType=BIGINT}
+	and ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+	<if test="status != null" >
+      and status = #{status,jdbcType=INTEGER}
+    </if>
+  </select>
+  
+  <select id="selectByOrderNo" resultMap="CusBaseResultMap" parameterType="java.lang.String">
+    select  <include refid="Base_Column_List"/>
+    from t_transaction_record
+	where ORDER_NO = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="countTotalFreezeByUserId" resultType="java.lang.Long" parameterType="java.lang.Long">
+    select  
+    	sum(total)
+    from 
+    	t_transaction_record
+    where 
+    	USER_ID = #{userId,jdbcType=BIGINT}
+	and STATUS = 0
+  </select>
+
+  <select id="selectCountByUserId" resultType="java.lang.Integer" parameterType="java.lang.Long">
+    select
+    count(1)
+    from
+    t_transaction_record
+    where
+    USER_ID=#{user_id,jdbcType=BIGINT}
+    <if test="start_time != null" >
+      <![CDATA[and CREATE_TIME >= STR_TO_DATE(#{start_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end_time != null" >
+      <![CDATA[and CREATE_TIME <= STR_TO_DATE(#{end_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+  </select>
+  
+  <select id="selectByUserIdAndTime" resultMap="BaseResultMap" parameterType="java.util.Map">
+    	select
+    	<include refid="Base_Column_List"/>
+	    from 
+	    	t_transaction_record
+	    where
+	    USER_ID=#{userId,jdbcType=BIGINT} 
+    	<if test="begin != null" >
+	        <![CDATA[and create_time >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+	    </if>
+	    <if test="end != null" >
+	        <![CDATA[and create_time <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+	    </if>
+  </select>
+
+  <select id="selectByTime" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    t_transaction_record
+    where
+    status = 2
+    <if test="begin != null" >
+      <![CDATA[and create_time >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end != null" >
+      <![CDATA[and create_time <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+  </select>
+  
+  
+  <select  id="sumPtTotal" resultType="java.lang.Long" parameterType="java.util.Map">
+    select   
+		aa.a-bb.b 
+	from   
+	(select	SUM(abs(total)) as a	from	t_transaction_record	where	status = 2	and type in (2,3,5,6,8)
+		<if test="begin != null" >
+	      <![CDATA[and create_time >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+	    </if>
+	    <if test="end != null" >
+	      <![CDATA[and create_time <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+	    </if>
+	) as aa
+	,
+	(select sum(abs(total)) as b	from	t_transaction_record	where	status = 2	and type in (1,4,9)
+	    <if test="begin != null" >
+	      <![CDATA[and create_time >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+	    </if>
+	    <if test="end != null" >
+	      <![CDATA[and create_time <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+	    </if>
+	)   as bb
+  </select>
+
+  
+  
+  <select id="selectForUnionPay" parameterType="java.util.Map" 
+  	resultType="com.caitu99.service.integral.controller.vo.UnionPayOrder">
+  	select b.mobile as mobile, a.order_no as orderNo, a.transaction_number as thirdNo, 
+  			a.status as status, a.total as integral, a.create_time as createTime,
+  			a.type as type
+  	from 
+  		t_transaction_record as a
+  	join t_user as b
+  	  on a.user_id = b.id
+  	where a.company_id = #{companyId,jdbcType=BIGINT}
+  	  and a.type = 5<!-- 用户  充值 -->
+  	<if test="serialNo != null and serialNo != ''">
+  		and a.transaction_number = #{serialNo,jdbcType=VARCHAR}
+  	</if>
+  	<if test="orderNo != null and orderNo != ''">
+  		and a.order_no = #{orderNo,jdbcType=VARCHAR}
+  	</if>
+  	<if test="mobile != null and mobile != ''">
+  		and b.mobile = #{mobile,jdbcType=VARCHAR}
+  	</if>
+  </select>
+
+  <select id="countByUserIdAndTime" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+      count(total)
+    from
+      t_transaction_record
+    where
+      USER_ID=#{userId,jdbcType=BIGINT}
+      <if test="begin != null" >
+          <![CDATA[and create_time >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+      </if>
+      <if test="end != null" >
+          <![CDATA[and create_time <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+      </if>
+      and type in
+      <foreach collection="types" index="index" item="item" open="(" separator="," close=")">
+          #{item}
+      </foreach>
+  </select>
+  
+  
+  <sql id="queryObjWhereClause">
+  		<where>
+	        a.company_id = #{companyId,jdbcType=BIGINT}
+		  	  	and a.type = 5<!-- 用户  充值 -->
+		  	<if test="serialNo != null and serialNo != ''">
+		  		and a.transaction_number = #{serialNo,jdbcType=VARCHAR}
+		  	</if>
+		  	<if test="orderNo != null and orderNo != ''">
+		  		and a.order_no = #{orderNo,jdbcType=VARCHAR}
+		  	</if>
+		  	<if test="mobile != null and mobile != ''">
+		  		and b.mobile = #{mobile,jdbcType=VARCHAR}
+		  	</if>
+		</where>
+  </sql>
+  
+  <select id="queryRechargeOrdersCount" parameterType="java.util.Map" 
+  	resultType="java.lang.Integer">
+  	select count(1)
+  	from 
+  		t_transaction_record as a
+  	join t_user as b
+  	  on a.user_id = b.id
+  	<include refid="queryObjWhereClause" />
+  </select>
+  
+  <select id="queryRechargeOrdersByPage" parameterType="java.util.Map" 
+  	resultType="com.caitu99.service.integral.controller.vo.UnionPayOrder">
+  	select b.mobile as mobile, a.order_no as orderNo, a.transaction_number as thirdNo, 
+  			a.status as status, a.total as integral, a.create_time as createTime,
+  			a.type as type
+  	from 
+  		t_transaction_record as a
+  	join t_user as b
+  	  on a.user_id = b.id
+  	<include refid="queryObjWhereClause" />
+  	order by a.create_time desc
+	limit ${start},${pageSize}
+  </select>
+  
+  <sql id="queryObjWhereClause2">
+  		<where>
+	        a.company_id = #{companyId,jdbcType=BIGINT}
+		  	  	and (a.type = 30 or a.type = 31 )<!-- 代充代付 -->
+		  	<if test="unionNo != null and unionNo != ''">
+		  		and a.order_no = #{unionNo,jdbcType=VARCHAR}
+		  	</if>
+		  	<if test="mobile != null and mobile != ''">
+		  		and c.mobile = #{mobile,jdbcType=VARCHAR}
+		  	</if>
+		</where>
+  </sql>
+  
+  <select id="queryUnionPaySmartOrdersCount" parameterType="java.util.Map" 
+  	resultType="java.lang.Integer">
+  	select count(1)
+  	from 
+  		t_transaction_record as a
+  	join t_user as b
+  	  on a.user_id = b.id
+  	join t_sxf_record c
+	  on a.transaction_number = c.transaction_number
+  	<include refid="queryObjWhereClause2" />
+  </select>
+  
+  <select id="queryUnionPaySmartOrdersByPage" parameterType="java.util.Map" 
+  	resultType="com.caitu99.service.transaction.controller.vo.UnionPaySmartOrder">
+  	select a.order_no as orderNo, a.transaction_number as transactionNumber, 
+				a.id as batchNo,a.create_time as createTime,c.mobile as mobile,
+				c.acc_name as accName,c.acc_no as accNo,b.nick as custName,a.type as businessType,
+				a.total,a.fee,a.handle_status as handleStatus,  
+				case when a.`status` = 1 and c.`status` = 3 then '未知' else a.`comment` end as message,
+  			case when a.`status` = 1 and c.`status` = 3 then 3 else a.`status` end as `status`
+  	from 
+  		t_transaction_record as a
+  		join t_user as b
+  	  		on a.user_id = b.id
+		join t_sxf_record c
+			on a.transaction_number = c.transaction_number
+  	<include refid="queryObjWhereClause2" />
+  	order by a.create_time desc
+	limit ${start},${pageSize}
+  </select>
+  
+  <select id="queryByOrderNos" parameterType="java.util.Map" 
+  	resultType="com.caitu99.service.integral.controller.vo.UnionPayOrder">
+  	select b.mobile as mobile, a.order_no as orderNo, a.transaction_number as thirdNo, 
+  			a.status as status, a.total as integral, a.create_time as createTime,
+  			a.type as type
+  	from t_transaction_record as a
+  	join t_user as b
+  	  on a.user_id = b.id
+  	where a.company_id = #{companyId,jdbcType=BIGINT}
+  	and a.type = 5<!-- 用户累积的记录 -->
+  	and a.order_no in 
+  	<foreach collection="orderList" item="orderNo" index="index" open="(" separator="," close=")">
+          #{orderNo,jdbcType=VARCHAR}
+    </foreach>
+  	<!-- <foreach collection="orderList" item="orderNo" index="index" open="and (" separator="or" close=")">
+          a.order_no = #{orderNo,jdbcType=VARCHAR}
+    </foreach> -->
+  	
+  </select>
+  
+  <select id="queryUnionPaySmartOrderByOrderNos" parameterType="java.util.Map" 
+  	resultType="com.caitu99.service.transaction.controller.vo.UnionPaySmartOrder">
+  	select a.order_no as orderNo, a.transaction_number as transactionNumber, 
+			a.id as batchNo,a.create_time as createTime,c.mobile as mobile,
+			c.acc_name as accName,c.acc_no as accNo,b.nick as custName,a.type as businessType,
+			a.total,a.fee,a.handle_status as handleStatus,  
+			case when a.`status` = 1 and c.`status` = 3 then '未知' else a.`comment` end as message,
+  			case when a.`status` = 1 and c.`status` = 3 then 3 else a.`status` end as `status`
+  	from t_transaction_record as a
+  	join t_user as b
+  	  on a.user_id = b.id
+  	join t_sxf_record c
+	  on a.transaction_number = c.transaction_number
+  	where a.company_id = #{companyId,jdbcType=BIGINT}
+  	and (a.type = 30 or a.type = 31 )<!-- 代充代付 -->
+  	and a.order_no in 
+  	<foreach collection="orderList" item="orderNo" index="index" open="(" separator="," close=")">
+          #{orderNo,jdbcType=VARCHAR}
+    </foreach>
+  	<!-- <foreach collection="orderList" item="orderNo" index="index" open="and (" separator="or" close=")">
+          a.order_no = #{orderNo,jdbcType=VARCHAR}
+    </foreach> -->
+  	
+  </select>
+  
+  <select id="queryTest" resultType="java.lang.String">
+  	SELECT DISTINCT order_no FROM t_transaction_record
+  </select>
+
+  <select id="isWithdraw" resultType="java.lang.Integer" parameterType="java.lang.Long">
+     select
+    count(1)
+    from
+    t_transaction_record
+    where
+    USER_ID=#{userId,jdbcType=BIGINT}
+    and type = 4
+    and DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+  </select>
+  <select id="sameDayWithrawSUM" resultType="java.lang.Long" parameterType="java.lang.Long">
+    select
+    sum(total)
+    from
+    t_transaction_record
+    where
+    USER_ID=#{userId,jdbcType=BIGINT}
+    and type = 4
+    and DATE_FORMAT(create_time,'%Y-%m-%d') = DATE_FORMAT(now(),'%Y-%m-%d')
+  </select>
+  
+  <select id="enterpriseTotalInfo" resultMap="resultMapDto" parameterType="java.util.Map">
+  	select 
+  		count(id) as count_id,sum(total) as sum_total 
+  	from 
+  		t_transaction_record 
+  	where 
+  		type in(30,31)
+	<if test="status != null">
+  		and status = #{status,jdbcType=INTEGER}
+  	</if>
+  </select>
+  
+
+  <select id="pageEnterpriseDetail" resultMap="resultMapDetailDto" parameterType="java.util.Map" >
+        select 
+      		tr.order_no,tr.type,tr.handle_status,tr.transaction_number,tr.create_time,sr.acc_no,sr.acc_name,sr.channel,tr.total,tr.fee,tr.status
+	    from 
+	    	t_transaction_record as tr 
+		left join 
+			t_sxf_record as sr
+		on 
+			tr.transaction_number = sr.transaction_number
+		where 
+			tr.type in (30,31)
+		
+		    <if test="startTime != null" >
+		        <![CDATA[and tr.create_time >= STR_TO_DATE(#{startTime,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+		    </if>
+		    <if test="endTime != null" >
+		        <![CDATA[and tr.create_time <= STR_TO_DATE(#{endTime,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+		    </if>
+		    
+		order by tr.create_time desc
+		<if test="start != null" >
+        limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+    	</if>
+    
+  </select>
+  
+  
+  <select id="pageCountEnterpriseDetail" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select 
+        	count(tr.id)
+	    from 
+	    	t_transaction_record as tr 
+		left join 
+			t_sxf_record as sr
+		on 
+			tr.transaction_number = sr.transaction_number
+		where 
+			tr.type in (30,31)
+    <if test="startTime != null" >
+        <![CDATA[and tr.create_time >= STR_TO_DATE(#{startTime,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="endTime != null" >
+        <![CDATA[and tr.create_time <= STR_TO_DATE(#{endTime,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+  </select>
+  
+  <select id="selectByTransactionNumberAndType" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_transaction_record
+    where transaction_number = #{transactionNumber,jdbcType=BIGINT}
+    and type =  #{type,jdbcType=INTEGER}
+  </select>
+  
+</mapper>
+

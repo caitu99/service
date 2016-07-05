@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.file.dao.AttachFileOperationMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.file.domain.AttachFileOperation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="date_del_time" property="dateDelTime" jdbcType="TIMESTAMP" />
+    <result column="file_del_time" property="fileDelTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, path, status, date_del_time, file_del_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_attach_file_operation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_attach_file_operation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.file.domain.AttachFileOperation" >
+    insert into t_attach_file_operation (id, path, status, 
+      date_del_time, file_del_time)
+    values (#{id,jdbcType=BIGINT}, #{path,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{dateDelTime,jdbcType=TIMESTAMP}, #{fileDelTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.file.domain.AttachFileOperation" >
+    insert into t_attach_file_operation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="dateDelTime != null" >
+        date_del_time,
+      </if>
+      <if test="fileDelTime != null" >
+        file_del_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="dateDelTime != null" >
+        #{dateDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileDelTime != null" >
+        #{fileDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.file.domain.AttachFileOperation" >
+    update t_attach_file_operation
+    <set >
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="dateDelTime != null" >
+        date_del_time = #{dateDelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fileDelTime != null" >
+        file_del_time = #{fileDelTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.file.domain.AttachFileOperation" >
+    update t_attach_file_operation
+    set path = #{path,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      date_del_time = #{dateDelTime,jdbcType=TIMESTAMP},
+      file_del_time = #{fileDelTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.realization.dao.RealizeRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.realization.domain.RealizeRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="realize_id" property="realizeId" jdbcType="BIGINT" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="realize_detail_id" property="realizeDetailId" jdbcType="BIGINT" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="sku_id" property="skuId" jdbcType="BIGINT" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="cash" property="cash" jdbcType="BIGINT" />
+    
+    <result column="tubi" property="tubi" jdbcType="BIGINT" />
+    
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="transfer_time" property="transferTime" jdbcType="TIMESTAMP" />
+    <result column="user_term_id" property="userTermId" jdbcType="BIGINT" />
+    
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, realize_id, platform_id, realize_detail_id, item_id, sku_id, quantity, 
+    integral, cash, tubi, status,memo,order_no, create_time, update_time, transfer_time,user_term_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_realize_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_realize_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.realization.domain.RealizeRecord" >
+    insert into t_realize_record (id, user_id, realize_id, 
+      platform_id, realize_detail_id, item_id, 
+      sku_id, quantity, integral, 
+      cash, status,order_no,memo, create_time, 
+      update_time, transfer_time,user_term_id)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{realizeId,jdbcType=BIGINT}, 
+      #{platformId,jdbcType=BIGINT}, #{realizeDetailId,jdbcType=BIGINT}, #{itemId,jdbcType=BIGINT}, 
+      #{skuId,jdbcType=BIGINT}, #{quantity,jdbcType=INTEGER}, #{integral,jdbcType=BIGINT}, 
+      #{cash,jdbcType=BIGINT}, #{status,jdbcType=INTEGER},#{orderNo,jdbcType=VARCHAR},
+      #{memo,jdbcType=VARCHAR}), #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{transferTime,jdbcType=TIMESTAMP},#{userTermId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.realization.domain.RealizeRecord" >
+    <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_realize_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="realizeId != null" >
+        realize_id,
+      </if>
+      <if test="platformId != null" >
+        platform_id,
+      </if>
+      <if test="realizeDetailId != null" >
+        realize_detail_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="cash != null" >
+        cash,
+      </if>
+      <if test="tubi != null" >
+        tubi,
+      </if>      
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="transferTime != null" >
+        transfer_time,
+      </if>
+      <if test="userTermId != null" >
+        user_term_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="realizeId != null" >
+        #{realizeId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="realizeDetailId != null" >
+        #{realizeDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="cash != null" >
+        #{cash,jdbcType=BIGINT},
+      </if>
+      <if test="tubi != null" >
+        #{tubi,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferTime != null" >
+        #{transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userTermId != null" >
+        #{userTermId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.realization.domain.RealizeRecord" >
+    update t_realize_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="realizeId != null" >
+        realize_id = #{realizeId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        platform_id = #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="realizeDetailId != null" >
+        realize_detail_id = #{realizeDetailId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null" >
+        sku_id = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=INTEGER},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="cash != null" >
+        cash = #{cash,jdbcType=BIGINT},
+      </if>
+      <if test="tubi != null" >
+        tubi = #{tubi,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="transferTime != null" >
+        transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userTermId != null" >
+        user_term_id = #{userTermId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.realization.domain.RealizeRecord" >
+    update t_realize_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      realize_id = #{realizeId,jdbcType=BIGINT},
+      platform_id = #{platformId,jdbcType=BIGINT},
+      realize_detail_id = #{realizeDetailId,jdbcType=BIGINT},
+      item_id = #{itemId,jdbcType=BIGINT},
+      sku_id = #{skuId,jdbcType=BIGINT},
+      quantity = #{quantity,jdbcType=INTEGER},
+      integral = #{integral,jdbcType=BIGINT},
+      cash = #{cash,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      transfer_time = #{transferTime,jdbcType=TIMESTAMP},
+      user_term_id = #{userTermId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_record
+    	where 
+    		order_no = #{orderNo,jdbcType=BIGINT}
+  	</select>
+  	
+  <select id="selectRealizeDetailFirst" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_realize_record
+    	where 
+    		user_id = #{userId,jdbcType=BIGINT}
+    	and 
+    		status = #{status,jdbcType=INTEGER}
+    	order by 
+    		update_time asc 
+  </select>
+</mapper>

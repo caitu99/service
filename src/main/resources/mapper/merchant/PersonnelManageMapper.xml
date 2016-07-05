@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.merchant.dao.PersonnelManageMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.merchant.domain.PersonnelManage" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="proxy_relation_id" property="proxyRelationId" jdbcType="BIGINT" />
+    <result column="admin_user_id" property="adminUserId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+    
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="login_account" property="loginAccount" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, name, proxy_relation_id, admin_user_id, user_id, status, gmt_create, gmt_modify
+  </sql>
+  
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  		select 
+    		t.id, t.name, t.proxy_relation_id, t.admin_user_id, t.user_id, t.status, t.gmt_create, t.gmt_modify,
+    		t_user.mobile as login_account, t_user.contacts , t_proxy_relation.type, t_user.province,t_user.city,
+    		t_proxy_relation.rate
+    	from 
+    		t_personnel_manage t
+    	join
+    		t_user
+    	on
+    		t_user.id = t.user_id
+    	and
+    		t.id = #{id,jdbcType=BIGINT}
+    	join
+    		t_proxy_relation
+    	on
+    		t_proxy_relation.emp_user_id = t_user.id
+  	</select>
+  	
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_personnel_manage
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.caitu99.service.merchant.domain.PersonnelManage" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER"
+                   keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+    insert into t_personnel_manage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="proxyRelationId != null" >
+        proxy_relation_id,
+      </if>
+      <if test="adminUserId != null" >
+        admin_user_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyRelationId != null" >
+        #{proxyRelationId,jdbcType=BIGINT},
+      </if>
+      <if test="adminUserId != null" >
+        #{adminUserId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.merchant.domain.PersonnelManage" >
+    update t_personnel_manage
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="proxyRelationId != null" >
+        proxy_relation_id = #{proxyRelationId,jdbcType=BIGINT},
+      </if>
+      <if test="adminUserId != null" >
+        admin_user_id = #{adminUserId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="personnelManage.adminUserId != null" >
+	        	and admin_user_id = #{personnelManage.adminUserId,jdbcType=BIGINT}
+	      	</if>
+			<if test="personnelManage.status != null" >
+	        	and status = #{personnelManage.status,jdbcType=INTEGER}
+	      	</if>
+		</where>
+  	</sql>
+  
+  	<!-- 查询总数 -->
+  	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select 
+  			count(1) 
+  		from 
+  			t_personnel_manage 
+  		<include refid="queryObjWhereClause"/>
+  	</select>
+  	
+  	<select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		t.id, t.name, t.proxy_relation_id, t.admin_user_id, t.user_id, t.status, t.gmt_create, t.gmt_modify,
+    		t_user.mobile as login_account, t_user.contacts , t_proxy_relation.type, t_user.province,t_user.city,
+    		t_proxy_relation.rate
+    	from 
+    		t_personnel_manage t
+    	join
+    		t_user
+    	on
+    		t_user.id = t.user_id
+    	join
+    		t_proxy_relation
+    	on
+    		t_proxy_relation.emp_user_id = t_user.id
+    	where
+    		t.status = 1
+    	and
+    		t.admin_user_id = #{personnelManage.adminUserId,jdbcType=BIGINT}
+    	
+    	order by t.gmt_create
+		limit ${start},${pageSize}
+  	</select>
+</mapper>

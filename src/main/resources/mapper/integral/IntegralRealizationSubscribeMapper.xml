@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.IntegralRealizationSubscribeMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.IntegralRealizationSubscribe" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="card_type_id" property="cardTypeId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, card_type_id, status, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_integral_realization_subscribe
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_integral_realization_subscribe
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.caitu99.service.integral.domain.IntegralRealizationSubscribe" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER">
+		SELECT LAST_INSERT_ID();
+	</selectKey>
+    insert into t_integral_realization_subscribe
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="cardTypeId != null" >
+        card_type_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null" >
+        #{cardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.integral.domain.IntegralRealizationSubscribe" >
+    update t_integral_realization_subscribe
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null" >
+        card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.integral.domain.IntegralRealizationSubscribe" >
+    update t_integral_realization_subscribe
+    set user_id = #{userId,jdbcType=BIGINT},
+      card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<select id="selectByUserIdCardTypeId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_integral_realization_subscribe
+   		where 
+   			user_id = #{userId,jdbcType=BIGINT}
+   		and
+   			card_type_id = #{cardTypeId,jdbcType=BIGINT}
+  	</select>
+  
+  	<select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.Long" >
+    	select 
+    		count(1)
+    	from 
+    		t_integral_realization_subscribe
+   		where 
+   			card_type_id = #{cardTypeId,jdbcType=BIGINT}
+  	</select>
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserInvitationMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.UserInvitation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="invitation_user_id" property="invitationUserId" jdbcType="BIGINT" />
+    <result column="invited_user_id" property="invitedUserId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, invitation_user_id, invited_user_id, status, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_invitation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_invitation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.user.domain.UserInvitation" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT LAST_INSERT_ID();
+   		</selectKey>
+    insert into t_user_invitation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="invitationUserId != null" >
+        invitation_user_id,
+      </if>
+      <if test="invitedUserId != null" >
+        invited_user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="invitationUserId != null" >
+        #{invitationUserId,jdbcType=BIGINT},
+      </if>
+      <if test="invitedUserId != null" >
+        #{invitedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.UserInvitation" >
+    update t_user_invitation
+    <set >
+      <if test="invitationUserId != null" >
+        invitation_user_id = #{invitationUserId,jdbcType=BIGINT},
+      </if>
+      <if test="invitedUserId != null" >
+        invited_user_id = #{invitedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.UserInvitation" >
+    update t_user_invitation
+    set invitation_user_id = #{invitationUserId,jdbcType=BIGINT},
+      invited_user_id = #{invitedUserId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="userInvitation.invitationUserId != null">
+				and invitation_user_id = #{userInvitation.invitationUserId,jdbcType=BIGINT}
+			</if>
+			<if test="userInvitation.invitedUserId != null">
+				and invited_user_id = #{userInvitation.invitedUserId,jdbcType=BIGINT}
+			</if>
+		</where>
+  	</sql>
+  
+  	<select id="selectBySelective" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select 
+  			<include refid="Base_Column_List"/>
+  		from
+  			t_user_invitation
+  		<include refid="queryObjWhereClause"/>
+  	</select>
+</mapper>

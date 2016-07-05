@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.lottery.dao.LotteryOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.lottery.domain.LotteryOrder" >
+    <id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="out_order_id" property="outOrderId" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="BIGINT" />
+    <result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+    <result column="real_price" property="realPrice" jdbcType="BIGINT" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="com.caitu99.service.lottery.dto.LotteryPageDto" id="DtoResultMap" extends="BaseResultMap">
+  	<result column="total" property="total" jdbcType="BIGINT" />
+  	<result column="tubi" property="tubi" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    order_no, user_id, status, name, out_order_id, points, market_price, real_price, 
+    finish_time, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_lottery_order
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_lottery_order
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.lottery.domain.LotteryOrder" >
+    insert into t_lottery_order (order_no, user_id, status, 
+      name, out_order_id, points, 
+      market_price, real_price, finish_time, 
+      create_time, update_time)
+    values (#{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{outOrderId,jdbcType=VARCHAR}, #{points,jdbcType=BIGINT}, 
+      #{marketPrice,jdbcType=BIGINT}, #{realPrice,jdbcType=BIGINT}, #{finishTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.lottery.domain.LotteryOrder" >
+    insert into t_lottery_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="outOrderId != null" >
+        out_order_id,
+      </if>
+      <if test="points != null" >
+        points,
+      </if>
+      <if test="marketPrice != null" >
+        market_price,
+      </if>
+      <if test="realPrice != null" >
+        real_price,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="outOrderId != null" >
+        #{outOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="realPrice != null" >
+        #{realPrice,jdbcType=BIGINT},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.lottery.domain.LotteryOrder" >
+    update t_lottery_order
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="outOrderId != null" >
+        out_order_id = #{outOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="points != null" >
+        points = #{points,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        market_price = #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="realPrice != null" >
+        real_price = #{realPrice,jdbcType=BIGINT},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.lottery.domain.LotteryOrder" >
+    update t_lottery_order
+    set user_id = #{userId,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      out_order_id = #{outOrderId,jdbcType=VARCHAR},
+      points = #{points,jdbcType=BIGINT},
+      market_price = #{marketPrice,jdbcType=BIGINT},
+      real_price = #{realPrice,jdbcType=BIGINT},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="checkIsSame" resultType="java.lang.Integer" parameterType="java.lang.String">
+  	select 
+  		count(order_no)
+  	from 
+  		t_lottery_order
+  	where 
+  		out_order_id = #{outOrderId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByOutOrderId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  		<include refid="Base_Column_List" />
+  	from 
+  		t_lottery_order
+  	where 
+  		out_order_id = #{outOrderId,jdbcType=VARCHAR}  
+  </select>
+  
+  <select id="pageByLottery" resultMap="DtoResultMap" parameterType="java.util.Map">
+  	select 
+  		 lo.order_no, lo.user_id, lo.status, lo.name, lo.out_order_id, lo.create_time,tr.total,tr.tubi
+  	from 
+  		t_lottery_order lo
+  	left join
+		t_transaction_record tr
+	on 
+		lo.order_no = tr.order_no 
+  	where
+		lo.user_id = #{userId,jdbcType=BIGINT}
+	and 
+		lo.status > -1
+	order by 
+		lo.create_time desc	
+	limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+  </select>
+  
+  <select id="pageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select 
+			count(order_no)
+		from 
+			t_lottery_order
+		where 
+			user_id = #{userId,jdbcType=BIGINT}
+		and 
+			status > -1
+  </select>
+</mapper>

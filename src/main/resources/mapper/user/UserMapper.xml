@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="qq" property="qq" jdbcType="VARCHAR"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="weibo" property="weibo" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="imgurl" property="imgurl" jdbcType="VARCHAR"/>
+        <result column="zfb_name" property="zfbName" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="login_count" property="loginCount" jdbcType="INTEGER"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="integral" property="integral" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="paypass" property="paypass" jdbcType="VARCHAR"/>
+        <result column="qq_nick" property="qqNick" jdbcType="VARCHAR"/>
+        <result column="weibo_nick" property="weiboNick" jdbcType="VARCHAR"/>
+        <result column="wechat_nick" property="wechatNick" jdbcType="VARCHAR"/>
+        <result column="isauth" property="isauth" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="openid_binding" property="openidBinding" jdbcType="VARCHAR"/>
+        <result column="invitation_code" property="invitationCode" jdbcType="VARCHAR"/>
+        <result column="ishn" property="ishn" jdbcType="INTEGER"/>
+        <result column="is_give" property="isGive" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="ResultMapWithBLOBs" type="com.caitu99.service.user.domain.User"
+               extends="BaseResultMap">
+        <result column="contacts" property="contacts" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    
+    <resultMap type="com.caitu99.service.user.dto.UserDto" id="ResultDto">
+ 	    <result column="user_total" property="userTotal" jdbcType="INTEGER"/>
+    </resultMap>
+    
+    <resultMap type="com.caitu99.service.user.dto.ManualDto" id="ManualDto">
+        <result column="manual_id" property="manualId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="pt_account" property="ptAccount" jdbcType="INTEGER"/>
+        <result column="pt_user" property="ptUser" jdbcType="INTEGER"/>
+    </resultMap>
+    
+
+    <sql id="Base_Column_List">
+		id, qq, nick, weibo, openid, imgurl, zfb_name, mobile,
+		login_count, password, province, city, integral, gmt_create, gmt_modify,
+		status, paypass, qq_nick, weibo_nick, wechat_nick, isauth, type,openid_binding,
+		invitation_code,ishn,is_give
+	</sql>
+
+    <sql id="Blob_Column_List">
+		contacts
+	</sql>
+
+    <select id="getById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- ================old=================== -->
+
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from 
+        	t_user
+        where 
+        	id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectLogin" parameterType="com.caitu99.service.user.domain.User"
+            resultMap="ResultMapWithBLOBs">
+        select <include refid="Base_Column_List"/>, <include refid="Blob_Column_List"/>
+        from t_user
+        <where>
+            <if test="qq != null">
+                and qq=#{qq,jdbcType=VARCHAR}
+            </if>
+            <if test="weibo != null">
+                and weibo=#{weibo,jdbcType=VARCHAR}
+            </if>
+            <if test="zfbName != null">
+                and zfb_name=#{zfbName,jdbcType=VARCHAR}
+            </if>
+            <if test="openid != null">
+                and openid=#{openid,jdbcType=VARCHAR}
+            </if>
+            <!-- <if test="mobile != null" > and mobile=#{mobile,jdbcType=VARCHAR}
+                </if> -->
+        </where>
+    </select>
+    <select id="selectLoginByMobile" parameterType="com.caitu99.service.user.domain.User"
+            resultMap="ResultMapWithBLOBs">
+		select 
+			<include refid="Base_Column_List"/>
+		from t_user where status=1 and
+		mobile=#{mobile,jdbcType=VARCHAR}
+        and type = 1
+	</select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.User">
+        <selectKey keyProperty="id" resultType="long" order="AFTER"
+                   keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_user (id, qq, nick,
+        weibo, openid, imgurl,
+        zfb_name,
+        mobile, login_count,
+        password, province, city,
+        integral, gmt_create,
+        gmt_modify,
+        status, paypass,qq_nick,
+        weibo_nick, wechat_nick, contacts,
+        isauth, type
+        )
+        values (#{id,jdbcType=BIGINT}, #{qq,jdbcType=VARCHAR},
+        #{nick,jdbcType=VARCHAR},
+        #{weibo,jdbcType=VARCHAR},
+        #{openid,jdbcType=VARCHAR}, #{imgurl,jdbcType=VARCHAR},
+        #{zfbName,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+        #{loginCount,jdbcType=INTEGER},
+        #{password,jdbcType=VARCHAR},
+        #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR},
+        #{integral,jdbcType=INTEGER}, NOW(),
+        NOW(),
+        #{status,jdbcType=INTEGER},
+        #{paypass,jdbcType=VARCHAR}, #{qqNick,jdbcType=VARCHAR},
+        #{weiboNick,jdbcType=VARCHAR}, #{wechatNick,jdbcType=VARCHAR},
+        #{contacts,jdbcType=LONGVARCHAR}, 0, 1
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.User">
+    	<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="qq != null">
+                qq,
+            </if>
+            <if test="nick != null">
+                nick,
+            </if>
+            <if test="weibo != null">
+                weibo,
+            </if>
+            <if test="openid != null">
+                openid,
+            </if>
+            <if test="imgurl != null">
+                imgurl,
+            </if>
+            <if test="zfbName != null">
+                zfb_name,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="loginCount != null">
+                login_count,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
+            </if>
+            <if test="integral != null">
+                integral,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="paypass != null">
+                paypass,
+            </if>
+            <if test="qqNick != null">
+                qq_nick,
+            </if>
+            <if test="weiboNick != null">
+                weibo_nick,
+            </if>
+            <if test="wechatNick != null">
+                wechat_nick,
+            </if>
+            <if test="isauth != null">
+                isauth,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="contacts != null">
+                contacts,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="qq != null">
+                #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="nick != null">
+                #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="weibo != null">
+                #{weibo,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null">
+                #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="imgurl != null">
+                #{imgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="zfbName != null">
+                #{zfbName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="loginCount != null">
+                #{loginCount,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="integral != null">
+                #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="paypass != null">
+                #{paypass,jdbcType=VARCHAR},
+            </if>
+            <if test="qqNick != null">
+                #{qqNick,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboNick != null">
+                #{weiboNick,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatNick != null">
+                #{wechatNick,jdbcType=VARCHAR},
+            </if>
+            <if test="isauth != null">
+                #{isauth,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="contacts != null">
+                #{contacts,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.User">
+        update t_user
+        <set>
+            <if test="qq != null">
+                qq = #{qq,jdbcType=VARCHAR},
+            </if>
+            <if test="nick != null">
+                nick = #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="weibo != null">
+                weibo = #{weibo,jdbcType=VARCHAR},
+            </if>
+            <if test="openid != null">
+                openid = #{openid,jdbcType=VARCHAR},
+            </if>
+            <if test="imgurl != null">
+                imgurl = #{imgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="zfbName != null">
+                zfb_name = #{zfbName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="loginCount != null">
+                login_count = #{loginCount,jdbcType=INTEGER},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+                province = #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="integral != null">
+                integral = #{integral,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="paypass != null">
+                paypass = #{paypass,jdbcType=VARCHAR},
+            </if>
+            <if test="qqNick != null">
+                qq_nick = #{qqNick,jdbcType=VARCHAR},
+            </if>
+            <if test="weiboNick != null">
+                weibo_nick = #{weiboNick,jdbcType=VARCHAR},
+            </if>
+            <if test="wechatNick != null">
+                wechat_nick = #{wechatNick,jdbcType=VARCHAR},
+            </if>
+            <if test="isauth != null">
+                isauth = #{isauth,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="contacts != null">
+                contacts = #{contacts,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="openidBinding != null">
+                openid_binding = #{openidBinding,jdbcType=VARCHAR},
+            </if>
+            <if test="invitationCode != null">
+                invitation_code = #{invitationCode,jdbcType=VARCHAR},
+            </if>
+            <if test="isGive != null">
+                is_give = #{isGive,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.caitu99.service.user.domain.User">
+		update
+		t_user
+		set qq = #{qq,jdbcType=VARCHAR},
+		nick = #{nick,jdbcType=VARCHAR},
+		weibo = #{weibo,jdbcType=VARCHAR},
+		openid = #{openid,jdbcType=VARCHAR},
+		imgurl = #{imgurl,jdbcType=VARCHAR},
+		zfb_name =
+		#{zfbName,jdbcType=VARCHAR},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		login_count = #{loginCount,jdbcType=INTEGER},
+		password =
+		#{password,jdbcType=VARCHAR},
+		province = #{province,jdbcType=VARCHAR},
+		city = #{city,jdbcType=VARCHAR},
+		integral =
+		#{integral,jdbcType=INTEGER},
+		gmt_create =
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modify =
+		#{gmtModify,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		paypass = #{paypass,jdbcType=VARCHAR},
+		qq_nick =
+		#{qqNick,jdbcType=VARCHAR},
+		weibo_nick = #{weiboNick,jdbcType=VARCHAR},
+		wechat_nick = #{wechatNick,jdbcType=VARCHAR},
+		isauth =
+		#{isauth,jdbcType=INTEGER},
+		contacts = #{contacts,jdbcType=LONGVARCHAR},
+		is_give =
+		#{isGive,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.User">
+		update t_user
+		set
+		qq = #{qq,jdbcType=VARCHAR},
+		nick = #{nick,jdbcType=VARCHAR},
+		weibo =
+		#{weibo,jdbcType=VARCHAR},
+		openid = #{openid,jdbcType=VARCHAR},
+		imgurl =
+		#{imgurl,jdbcType=VARCHAR},
+		zfb_name = #{zfbName,jdbcType=VARCHAR},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		login_count =
+		#{loginCount,jdbcType=INTEGER},
+		password =
+		#{password,jdbcType=VARCHAR},
+		province = #{province,jdbcType=VARCHAR},
+		city = #{city,jdbcType=VARCHAR},
+		integral =
+		#{integral,jdbcType=INTEGER},
+		gmt_create =
+		#{gmtCreate,jdbcType=TIMESTAMP},
+		gmt_modify =
+		#{gmtModify,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		paypass = #{paypass,jdbcType=VARCHAR},
+		qq_nick =
+		#{qqNick,jdbcType=VARCHAR},
+		weibo_nick = #{weiboNick,jdbcType=VARCHAR},
+		wechat_nick = #{wechatNick,jdbcType=VARCHAR},
+		isauth =
+		#{isauth,jdbcType=VARCHAR},
+		is_give =
+		#{isGive,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+    <update id="updateIntegral" parameterType="com.caitu99.service.user.domain.User">
+		update t_user set
+		integral = #{integral,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+    <select id="isExistMobile" resultMap="ResultMapWithBLOBs"
+            parameterType="com.caitu99.service.user.domain.User">
+		select 
+			<include refid="Base_Column_List"/>
+		from t_user
+		where mobile =
+		#{mobile,jdbcType=VARCHAR}
+		and type=1
+	</select>
+
+
+    <select id="sum" resultType="java.lang.Long">
+		SELECT SUM(integral) FROM t_user  WHERE status!=2 and type=1
+	</select>
+
+    <select id="num" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM t_user WHERE status!=2 and type=1
+	</select>
+
+    <select id="selectall" resultMap="ResultMapWithBLOBs">
+		select *
+		from t_user
+		where type=1
+	</select>
+	
+	<select id="all" resultMap="ResultMapWithBLOBs">
+		select *
+		from t_user
+	</select>
+	
+	<select id="checkUserExit" resultMap="ResultMapWithBLOBs" parameterType="com.caitu99.service.user.domain.User">
+		select 
+			<include refid="Base_Column_List"/>
+		from 
+			t_user
+		where 
+			type = 1 and mobile = #{mobile,jdbcType=VARCHAR} and openid = #{openid,jdbcType=VARCHAR} and status = #{status,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectUserByOpenidBinding" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+		select 
+			<include refid="Base_Column_List"/>
+		from 
+			t_user
+		where 
+			type = 1 and openid_binding = #{openid,jdbcType=VARCHAR} and status = 1
+	</select>
+	
+	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(user.invitationCode)">
+				and invitation_code = #{user.invitationCode, jdbcType=VARCHAR} 
+			</if>
+			<if test="user.type != null">
+				and type = #{user.type, jdbcType=INTEGER} 
+			</if>
+			<if test="user.mobile != null">
+				and mobile = #{user.mobile, jdbcType=VARCHAR} 
+			</if>
+			<if test="user.id != null">
+				and id = #{user.id, jdbcType=BIGINT} 
+			</if>
+		</where>
+  	</sql>
+  	
+  	<select id="selectBySelective" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select 
+  			<include refid="Base_Column_List"/>
+  		from 
+  			t_user
+  		<include refid="queryObjWhereClause"/>
+  	</select>
+  	
+  	<select id="selectCompanyUser" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=BIGINT}
+        and type = 2
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id BETWEEN #{startUserId,jdbcType=BIGINT} and #{endUserId,jdbcType=BIGINT}
+        order by id asc
+        limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectCountByUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+        select
+        count(1)
+        from
+          t_user
+        where
+          id BETWEEN #{startUserId,jdbcType=BIGINT} and #{endUserId,jdbcType=BIGINT}
+    </select>
+
+
+	<select id="countuser" resultMap="ResultDto" parameterType="java.util.Map">
+		select 
+			count(id) as user_total
+		from 
+			t_user 
+		where 
+			type=1
+			and 
+				status = 1
+		<if test="start != null and end != null" >
+	  		<![CDATA[
+	  		and 
+	  			gmt_create >= STR_TO_DATE(#{start,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		and 
+	  			gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		]]>
+		</if>
+	</select>
+	
+	
+	<select id="countActiveUser"  resultType="java.lang.Integer" parameterType="java.util.Map">
+		select 
+			count(distinct(ml.user_id)) as active_user
+		from 
+			t_user u
+		left join 
+			t_manual_login ml
+		on 
+			u.id = ml.user_id
+		where 
+			u.type=1
+			and 
+				u.status = 1
+			and 
+				ml.status = 1
+		<if test="start != null and end != null" >
+	  		<![CDATA[
+	  		and 
+	  			u.gmt_create >= STR_TO_DATE(#{start,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		and 
+	  			u.gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		]]>
+		</if>
+	</select>
+	
+	
+	
+	
+	<select id="countPtTotal"  resultType="java.lang.Integer" parameterType="java.util.Map">
+		select 
+			count(ml.manual_id) as pt_total
+		from 
+			t_user u
+		left join 
+			t_manual_login ml
+		on 
+			u.id = ml.user_id
+		where 
+			u.type=1
+			and 
+				u.status = 1
+			and 
+				ml.status = 1
+		<if test="start != null and end != null" >
+	  		<![CDATA[
+	  		and 
+	  			u.gmt_create >= STR_TO_DATE(#{start,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		and 
+	  			u.gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		]]>
+		</if>
+	</select>
+	
+	
+	<select id="queryPtAvg" resultMap="ManualDto" parameterType="java.util.Map">
+		select 
+			ml.manual_id,m.name,count(ml.user_id) as pt_account,count(distinct(ml.user_id)) as pt_user
+		from 
+			t_user u
+		left join 
+			t_manual_login ml
+		on 
+			u.id = ml.user_id
+		left join 
+			t_manual m
+		on 
+			ml.manual_id = m.id
+		where 
+			u.type=1
+			and 
+				u.status = 1
+			and 
+				ml.status = 1
+			and 
+				m.status = 1
+	    <if test="start != null and end != null" >
+	  		<![CDATA[
+	  		and 
+	  			u.gmt_create >= STR_TO_DATE(#{start,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		and 
+	  			u.gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+	  		]]>
+		</if>
+		group by ml.manual_id
+	</select>
+	
+	
+
+</mapper>

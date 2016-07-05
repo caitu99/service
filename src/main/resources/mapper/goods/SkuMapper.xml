@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.goods.dao.SkuMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.goods.domain.Sku" >
+    <id column="sku_id" property="skuId" jdbcType="BIGINT" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="sale_price" property="salePrice" jdbcType="BIGINT" />
+    <result column="cost_price" property="costPrice" jdbcType="BIGINT" />
+    <result column="version" property="version" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="prop_code" property="propCode" jdbcType="VARCHAR" />
+    <result column="prop_name" property="propName" jdbcType="VARCHAR" />
+    <result column="dis_price" property="disPrice" jdbcType="BIGINT" />
+    <result column="rmb_price" property="rmbPrice" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    sku_id, item_id, sale_price, cost_price, version, create_time, update_time, prop_code, 
+    prop_name, dis_price, rmb_price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sku
+    where sku_id = #{skuId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sku
+    where sku_id = #{skuId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.goods.domain.Sku" >
+    insert into t_sku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="skuId != null" >
+        sku_id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="costPrice != null" >
+        cost_price,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="propCode != null" >
+        prop_code,
+      </if>
+      <if test="propName != null" >
+        prop_name,
+      </if>
+      <if test="disPrice != null" >
+        dis_price,
+      </if>
+      <if test="rmbPrice != null" >
+        rmb_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="skuId != null" >
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="costPrice != null" >
+        #{costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="propCode != null" >
+        #{propCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propName != null" >
+        #{propName,jdbcType=VARCHAR},
+      </if>
+      <if test="disPrice != null" >
+        #{disPrice,jdbcType=BIGINT},
+      </if>
+      <if test="rmbPrice != null" >
+        #{rmbPrice,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.service.goods.domain.Sku" >
+    update t_sku
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="costPrice != null" >
+        cost_price = #{costPrice,jdbcType=BIGINT},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="propCode != null" >
+        prop_code = #{propCode,jdbcType=VARCHAR},
+      </if>
+      <if test="propName != null" >
+        prop_name = #{propName,jdbcType=VARCHAR},
+      </if>
+      <if test="disPrice != null" >
+        dis_price = #{disPrice,jdbcType=BIGINT},
+      </if>
+      <if test="rmbPrice != null" >
+        rmb_price = #{rmbPrice,jdbcType=BIGINT},
+      </if>
+    </set>
+    where sku_id = #{skuId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.goods.domain.Sku" >
+    update t_sku
+    set item_id = #{itemId,jdbcType=BIGINT},
+      sale_price = #{salePrice,jdbcType=BIGINT},
+      cost_price = #{costPrice,jdbcType=BIGINT},
+      version = #{version,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      prop_code = #{propCode,jdbcType=VARCHAR},
+      prop_name = #{propName,jdbcType=VARCHAR},
+      dis_price = #{disPrice,jdbcType=BIGINT},
+      rmb_price = #{rmbPrice,jdbcType=BIGINT}
+    where sku_id = #{skuId,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findSkuByItemId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+ 	select 
+ 		<include refid="Base_Column_List" />
+	from 
+	t_sku
+ 	where 
+ 		item_id = #{itemId,jdbcType=BIGINT}
+  </select>
+ 	
+  <select id="findAllByItemIdAndVersion" resultType="java.lang.Long" parameterType="com.caitu99.service.goods.domain.Sku">
+  SELECT 
+  	sku_id
+  FROM t_sku
+  WHERE item_id = #{itemId,jdbcType=BIGINT}
+  AND version =  #{version,jdbcType=VARCHAR}
+  </select>
+  	
+</mapper>
+
+  

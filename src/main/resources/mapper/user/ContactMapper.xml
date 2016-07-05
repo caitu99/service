@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.ContactMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.Contact">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="mobile1" property="mobile1" jdbcType="VARCHAR"/>
+        <result column="mobile2" property="mobile2" jdbcType="VARCHAR"/>
+        <result column="name1" property="name1" jdbcType="VARCHAR"/>
+        <result column="name2" property="name2" jdbcType="VARCHAR"/>
+        <result column="email1" property="email1" jdbcType="VARCHAR"/>
+        <result column="email2" property="email2" jdbcType="VARCHAR"/>
+        <result column="address1" property="address1" jdbcType="VARCHAR"/>
+        <result column="address2" property="address2" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.Contact">
+        <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_contact (mobile1, mobile2, name1,
+        name2, email1, email2,
+        address1, address2, gmt_create,
+        gmt_modify, status)
+        values (#{mobile1,jdbcType=VARCHAR}, #{mobile2,jdbcType=VARCHAR}, #{name1,jdbcType=VARCHAR},
+        #{name2,jdbcType=VARCHAR}, #{email1,jdbcType=VARCHAR}, #{email2,jdbcType=VARCHAR},
+        #{address1,jdbcType=VARCHAR}, #{address2,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
+        #{gmtModify,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.Contact">
+        insert into t_contact
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mobile1 != null">
+                mobile1,
+            </if>
+            <if test="mobile2 != null">
+                mobile2,
+            </if>
+            <if test="name1 != null">
+                name1,
+            </if>
+            <if test="name2 != null">
+                name2,
+            </if>
+            <if test="email1 != null">
+                email1,
+            </if>
+            <if test="email2 != null">
+                email2,
+            </if>
+            <if test="address1 != null">
+                address1,
+            </if>
+            <if test="address2 != null">
+                address2,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="mobile1 != null">
+                #{mobile1,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile2 != null">
+                #{mobile2,jdbcType=VARCHAR},
+            </if>
+            <if test="name1 != null">
+                #{name1,jdbcType=VARCHAR},
+            </if>
+            <if test="name2 != null">
+                #{name2,jdbcType=VARCHAR},
+            </if>
+            <if test="email1 != null">
+                #{email1,jdbcType=VARCHAR},
+            </if>
+            <if test="email2 != null">
+                #{email2,jdbcType=VARCHAR},
+            </if>
+            <if test="address1 != null">
+                #{address1,jdbcType=VARCHAR},
+            </if>
+            <if test="address2 != null">
+                #{address2,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="selectCount" parameterType="com.caitu99.service.user.domain.Contact" resultType="int">
+    select count(1) count from 
+    t_contact where mobile1=#{mobile1,jdbcType=VARCHAR} and mobile2=#{mobile2,jdbcType=VARCHAR}
+  	</select>
+  
+  	<sql id="Base_Column_List">
+		id, mobile1, mobile2, name1, name2, email1, email2,
+        address1, address2, gmt_create, gmt_modify, status
+  	</sql>
+  
+  
+  	<select id="selectByMobile1" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List"/>
+    from 
+    	t_contact 
+    where 
+    	mobile1=#{mobile1,jdbcType=VARCHAR}
+  	</select>
+  	
+    <select id="selectByMobile2" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+		<include refid="Base_Column_List"/> 
+    from 
+    	t_contact 
+    where 
+    	mobile2=#{mobile2,jdbcType=VARCHAR}
+  	</select>
+  	
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.Contact">
+        update t_contact
+        <set>
+            <if test="mobile1 != null">
+                mobile1 = #{mobile1,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile2 != null">
+                mobile2 = #{mobile2,jdbcType=VARCHAR},
+            </if>
+            <if test="name1 != null">
+                name1 = #{name1,jdbcType=VARCHAR},
+            </if>
+            <if test="name2 != null">
+                name2 = #{name2,jdbcType=VARCHAR},
+            </if>
+            <if test="email1 != null">
+                email1 = #{email1,jdbcType=VARCHAR},
+            </if>
+            <if test="email2 != null">
+                email2 = #{email2,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

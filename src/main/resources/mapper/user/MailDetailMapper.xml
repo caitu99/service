@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.MailDetailMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.MailDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="mail_title" property="mailTitle" jdbcType="VARCHAR"/>
+        <result column="mail_bank_name" property="mailBankName" jdbcType="VARCHAR"/>
+        <result column="mail_date" property="mailDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.caitu99.service.user.domain.MailDetail" extends="BaseResultMap">
+        <result column="mail_body" property="mailBody" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <resultMap id="ExtendResultMap" type="com.caitu99.service.user.controller.vo.MailDetailVo" extends="BaseResultMap">
+        <result column="card_id" property="cardId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, email, user_id, mail_title, mail_bank_name, mail_date
+  </sql>
+    <sql id="Extend_Column_List">
+    id, email, user_id, mail_title, mail_bank_name, mail_date,card_id
+  </sql>
+    <sql id="Blob_Column_List">
+    mail_body
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_mail_detail
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="list" resultMap="ResultMapWithBLOBs">
+    select * from t_mail_detail where id BETWEEN 1800 and 2000
+  </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_mail_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.MailDetail">
+        <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_mail_detail (id, email, user_id,
+        mail_title, mail_bank_name, mail_date,
+        mail_body)
+        values (#{id,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+        #{mailTitle,jdbcType=VARCHAR}, #{mailBankName,jdbcType=VARCHAR}, #{mailDate,jdbcType=TIMESTAMP},
+        #{mailBody,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <insert id="insertWithCardId" parameterType="com.caitu99.service.user.controller.vo.MailDetailVo">
+        <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_mail_detail (id, email, user_id,
+        mail_title, mail_bank_name, mail_date,
+        mail_body,card_id)
+        values (#{id,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+        #{mailTitle,jdbcType=VARCHAR}, #{mailBankName,jdbcType=VARCHAR}, #{mailDate,jdbcType=TIMESTAMP},
+        #{mailBody,jdbcType=LONGVARCHAR}, #{cardId,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertExt" parameterType="com.caitu99.service.user.controller.vo.MailDetailVo">
+        <selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+        insert into t_mail_detail (id, email, user_id,
+        mail_title, mail_bank_name, mail_date,
+        mail_body,card_type_id)
+        values (#{id,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+        #{mailTitle,jdbcType=VARCHAR}, #{mailBankName,jdbcType=VARCHAR}, #{mailDate,jdbcType=TIMESTAMP},
+        #{mailBody,jdbcType=LONGVARCHAR}, #{cardTypeId,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.MailDetail">
+        insert into t_mail_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="mailTitle != null">
+                mail_title,
+            </if>
+            <if test="mailBankName != null">
+                mail_bank_name,
+            </if>
+            <if test="mailDate != null">
+                mail_date,
+            </if>
+            <if test="mailBody != null">
+                mail_body,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="mailTitle != null">
+                #{mailTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="mailBankName != null">
+                #{mailBankName,jdbcType=VARCHAR},
+            </if>
+            <if test="mailDate != null">
+                #{mailDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mailBody != null">
+                #{mailBody,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.MailDetail">
+        update t_mail_detail
+        <set>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="mailTitle != null">
+                mail_title = #{mailTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="mailBankName != null">
+                mail_bank_name = #{mailBankName,jdbcType=VARCHAR},
+            </if>
+            <if test="mailDate != null">
+                mail_date = #{mailDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mailBody != null">
+                mail_body = #{mailBody,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.caitu99.service.user.domain.MailDetail">
+    update t_mail_detail
+    set email = #{email,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      mail_title = #{mailTitle,jdbcType=VARCHAR},
+      mail_bank_name = #{mailBankName,jdbcType=VARCHAR},
+      mail_date = #{mailDate,jdbcType=TIMESTAMP},
+      mail_body = #{mailBody,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.MailDetail">
+    update t_mail_detail
+    set email = #{email,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      mail_title = #{mailTitle,jdbcType=VARCHAR},
+      mail_bank_name = #{mailBankName,jdbcType=VARCHAR},
+      mail_date = #{mailDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

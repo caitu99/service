@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.merchant.dao.ProxyRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.merchant.domain.ProxyRelation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="emp_user_id" property="empUserId" jdbcType="BIGINT" />
+    <result column="rate" property="rate" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, emp_user_id, rate, type, status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_proxy_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insertSelective" parameterType="com.caitu99.service.merchant.domain.ProxyRelation" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER"
+                   keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+    insert into t_proxy_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="empUserId != null" >
+        emp_user_id,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="empUserId != null" >
+        #{empUserId,jdbcType=BIGINT},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.merchant.domain.ProxyRelation" >
+    update t_proxy_relation
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="empUserId != null" >
+        emp_user_id = #{empUserId,jdbcType=BIGINT},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<select id="selectByEmpUserId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_proxy_relation
+    	where 
+    		emp_user_id = #{empUserId,jdbcType=BIGINT}  and status = 1
+  	</select>
+
+  <select id="selectByUserIDAndEmpUserId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_proxy_relation
+    where  user_id = #{userId,jdbcType=BIGINT} AND emp_user_id = #{empUserId,jdbcType=BIGINT}  and status = 1
+  </select>
+  
+  <select id="selectRelationBy" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_relation
+    where user_id = #{userId,jdbcType=BIGINT}
+      and emp_user_id = #{empUserId,jdbcType=BIGINT}
+      and status = 1
+  </select>
+  
+  <select id="selectMyLoad" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_relation
+    where emp_user_id = #{empUserId,jdbcType=BIGINT}
+      and status = 1
+  </select>
+  
+  
+  <select id="getMyUnderling" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_proxy_relation
+    where user_id = #{userId,jdbcType=BIGINT}
+      and status = 1
+  </select>
+  
+</mapper>

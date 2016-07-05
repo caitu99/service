@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.message.dao.GwInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.message.domain.GwInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="class_id" property="classId" jdbcType="BIGINT" />
+    <result column="gmt_publish" property="gmtPublish" jdbcType="TIMESTAMP" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+    <result column="digest" property="digest" jdbcType="LONGVARCHAR" />
+    <result column="body" property="body" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, title, author, class_id, gmt_publish, images, status, gmt_create, gmt_modify,digest, body
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_gw_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_gw_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.message.domain.GwInfo" >
+    insert into t_gw_info (id, title, author, 
+      class_id, gmt_publish, images, 
+      status, gmt_create, gmt_modify, 
+      digest, body)
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
+      #{classId,jdbcType=BIGINT}, #{gmtPublish,jdbcType=TIMESTAMP}, #{images,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, 
+      #{digest,jdbcType=LONGVARCHAR}, #{body,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.message.domain.GwInfo" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+        SELECT LAST_INSERT_ID() ID
+    </selectKey>
+    insert into t_gw_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="classId != null" >
+        class_id,
+      </if>
+      <if test="gmtPublish != null" >
+        gmt_publish,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+      <if test="digest != null" >
+        digest,
+      </if>
+      <if test="body != null" >
+        body,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        #{classId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtPublish != null" >
+        #{gmtPublish,jdbcType=TIMESTAMP},
+      </if>
+      <if test="images != null" >
+        #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="digest != null" >
+        #{digest,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="body != null" >
+        #{body,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.message.domain.GwInfo" >
+    update t_gw_info
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="classId != null" >
+        class_id = #{classId,jdbcType=BIGINT},
+      </if>
+      <if test="gmtPublish != null" >
+        gmt_publish = #{gmtPublish,jdbcType=TIMESTAMP},
+      </if>
+      <if test="images != null" >
+        images = #{images,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="digest != null" >
+        digest = #{digest,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="body != null" >
+        body = #{body,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(gwInfo.title)">
+				and title LIKE CONCAT('%',#{gwInfo.title, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(gwInfo.author)">
+				and author LIKE CONCAT('%',#{gwInfo.author, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="gwInfo.classId != null" >
+	        	and class_id = #{gwInfo.classId,jdbcType=BIGINT}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(gwInfo.digest)">
+				and digest LIKE CONCAT('%',#{gwInfo.digest, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(gwInfo.body)">
+				and body = #{gwInfo.body,jdbcType=VARCHAR}
+			</if>
+			<if test="gwInfo.status != null" >
+	        	and status = #{gwInfo.status,jdbcType=BIGINT}
+	      	</if>
+		</where>
+  	</sql>
+  	
+  	<!-- 查询总数 -->
+  	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select 
+  			count(1) 
+  		from 
+  			t_gw_info 
+  		<include refid="queryObjWhereClause" />
+  	</select>
+  	
+  	<!-- 分页查询属性列表 sort=1为精选商品-->
+  	<select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_gw_info
+		<include refid="queryObjWhereClause" />
+		
+    	order by gmt_publish DESC
+		limit ${start},${pageSize}
+  	</select>
+</mapper>

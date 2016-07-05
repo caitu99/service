@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="log_filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="resultSetLogEnabled" value="false"/>
+        <property name="dataSourceLogEnabled" value="false"/>
+        <property name="connectionLogEnabled" value="false"/>
+        <property name="statementExecutableSqlLogEnable" value="true"/>
+    </bean>
+
+    <!-- 主要是用于limit，分页 -->
+    <bean id="mySqlDialect" class="com.caitu99.platform.dao.mybatis3.dialect.MysqlDialect"/>
+
+    <!-- data source -->
+    <bean id="dataSourceCommon" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="driverClassName" value="${common.driver}"/>
+        <property name="url" value="${common.url}"/>
+        <property name="username" value="${common.username}"/>
+        <property name="password" value="${common.password}"/>
+
+        <!-- Connection Pooling Info -->
+        <property name="maxWait" value="${common.maxWait}"/>
+        <property name="initialSize" value="${common.initialSize}"/>
+        <property name="maxActive" value="${common.maxActive}"/>
+        <property name="minIdle" value="${common.minIdle}"/>
+        <property name="defaultAutoCommit" value="${common.defaultAutoCommit}"/>
+        <property name="timeBetweenEvictionRunsMillis"
+                  value="${common.timeBetweenEvictionRunsMillis}"/>
+        <property name="minEvictableIdleTimeMillis" value="${common.minEvictableIdleTimeMillis}"/>
+        <property name="removeAbandoned" value="${common.removeAbandoned}"/>
+        <property name="removeAbandonedTimeout" value="${common.removeAbandonedTimeout}"/>
+        <property name="logAbandoned" value="${common.logAbandoned}"/>
+        <property name="testWhileIdle" value="${common.testWhileIdle}"/>
+        <property name="testOnBorrow" value="${common.testOnBorrow}"/>
+        <property name="testOnReturn" value="${common.testOnReturn}"/>
+        <property name="validationQuery" value="${common.validationQuery}"/>
+        <property name="proxyFilters">
+            <list>
+                <ref bean="log_filter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- session factory -->
+    <bean id="sqlSessionFactoryCommon"
+          class="com.caitu99.platform.dao.mybatis3.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceCommon"/>
+        <property name="dataBaseDialect" ref="mySqlDialect"/>
+        <property name="configLocation" value="classpath:mybatis/app-mybatis.xml"/>
+        <property name="mapperLocations" value="classpath*:mapper/**/*.xml"/>
+    </bean>
+
+    <!-- mapper interface -->
+    <!-- for user database -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.caitu99.service.*.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryCommon"/>
+    </bean>
+
+    <!-- transaction support-->
+    <bean id="txManagerCommon"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceCommon"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="txManagerCommon"/>
+
+</beans>

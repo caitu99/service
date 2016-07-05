@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.goods.dao.ItemMapper" >
+  	<resultMap id="BaseResultMap" type="com.caitu99.service.goods.domain.Item" >
+	    <id column="item_id" property="itemId" jdbcType="BIGINT" />
+	    <result column="title" property="title" jdbcType="VARCHAR" />
+	    <result column="sub_title" property="subTitle" jdbcType="VARCHAR" />
+	    <result column="item_no" property="itemNo" jdbcType="VARCHAR" />
+	    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+	    <result column="sale_price" property="salePrice" jdbcType="BIGINT" />
+	    <result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+	    <result column="sale_volume" property="saleVolume" jdbcType="BIGINT" />
+	    <result column="version" property="version" jdbcType="VARCHAR" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+	    <result column="list_time" property="listTime" jdbcType="TIMESTAMP" />
+	    <result column="delist_time" property="delistTime" jdbcType="TIMESTAMP" />
+	    <result column="wap_url" property="wapUrl" jdbcType="VARCHAR" />
+	    <result column="sort" property="sort" jdbcType="BIGINT" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+	    <result column="source" property="source" jdbcType="INTEGER" />
+	    <result column="sales_type" property="salesType" jdbcType="VARCHAR" />
+	    
+	    <result column="limit_num" property="limitNum" jdbcType="INTEGER" />
+	    <result column="item_type" property="itemType" jdbcType="INTEGER" />
+	    <result column="is_free_trade" property="isFreeTrade" jdbcType="INTEGER" />
+	    <result column="discount" property="discount" jdbcType="VARCHAR" />
+	    <result column="free_trade_price" property="freeTradePrice" jdbcType="BIGINT" />
+	    <result column="exchange_price" property="exchangePrice" jdbcType="BIGINT" />
+  	</resultMap>
+  	<sql id="Base_Column_List" >
+    	item_id, title, sub_title, item_no, brand_id, sale_price, market_price, sale_volume, 
+    	version, status, pic_url, list_time, delist_time, wap_url, sort, create_time, update_time,content,
+    	source,sales_type,limit_num,item_type,is_free_trade,discount,free_trade_price,exchange_price
+  	</sql>
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_item
+    	where 
+    		item_id = #{itemId,jdbcType=BIGINT}
+  	</select>
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    	delete from t_item where item_id = #{itemId,jdbcType=BIGINT}
+  	</delete>
+  	<insert id="insert" parameterType="com.caitu99.service.goods.domain.Item" >
+    	insert into t_item
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="itemId != null" >
+        		item_id,
+      		</if>
+	      	<if test="title != null" >
+	        	title,
+	      	</if>
+	      	<if test="subTitle != null" >
+	        	sub_title,
+	      	</if>
+	      	<if test="itemNo != null" >
+	        	item_no,
+	      	</if>
+	      	<if test="brandId != null" >
+	        	brand_id,
+	      	</if>
+	      	<if test="salePrice != null" >
+	        	sale_price,
+	      	</if>
+	      	<if test="marketPrice != null" >
+	        	market_price,
+	      	</if>
+	      	<if test="saleVolume != null" >
+	        	sale_volume,
+	      	</if>
+	      	<if test="version != null" >
+	        	version,
+	      	</if>
+	      	<if test="status != null" >
+	        	status,
+	      	</if>
+	      	<if test="picUrl != null" >
+	        	pic_url,
+	      	</if>
+	      	<if test="listTime != null" >
+	        	list_time,
+	      	</if>
+	      	<if test="delistTime != null" >
+	        	delist_time,
+	      	</if>
+	      	<if test="wapUrl != null" >
+	        	wap_url,
+	      	</if>
+	      	<if test="sort != null" >
+	        	sort,
+	      	</if>
+	      	<if test="createTime != null" >
+	        	create_time,
+	      	</if>
+	      	<if test="updateTime != null" >
+	        	update_time,
+	      	</if>
+	      	<if test="content != null" >
+	        	content,
+	      	</if>
+	      	<if test="source != null" >
+	        	source,
+	      	</if>
+	      	<if test="salesType != null" >
+	        	sales_type,
+	      	</if>
+	        <if test="itemType != null" >
+	        	item_type,
+	      	</if>
+	      	<if test="isFreeTrade != null" >
+	        	is_free_trade,
+	      	</if>
+	      	<if test="discount != null" >
+	        	discount,
+	      	</if>
+	      	<if test="freeTradePrice != null" >
+	        	free_trade_price,
+	      	</if>
+	      	<if test="exchangePrice != null" >
+	        	exchange_price,
+	      	</if>
+    	</trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      	<if test="itemId != null" >
+	        	#{itemId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="title != null" >
+	        	#{title,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="subTitle != null" >
+	        	#{subTitle,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="itemNo != null" >
+	        	#{itemNo,jdbcType=VARCHAR},
+	      	</if>
+     	 	<if test="brandId != null" >
+	        	#{brandId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="salePrice != null" >
+	        	#{salePrice,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="marketPrice != null" >
+	        	#{marketPrice,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="saleVolume != null" >
+      	  		#{saleVolume,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="version != null" >
+	        	#{version,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="status != null" >
+	        	#{status,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="picUrl != null" >
+	        	#{picUrl,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="listTime != null" >
+	        	#{listTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="delistTime != null" >
+	        	#{delistTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="wapUrl != null" >
+	        	#{wapUrl,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="sort != null" >
+	        	#{sort,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="createTime != null" >
+	        	#{createTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="updateTime != null" >
+	        	#{updateTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="content != null" >
+	        	#{content,jdbcType=LONGVARCHAR},
+	      	</if>
+	      	
+	        <if test="source != null" >
+	        	#{source,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="salesType != null" >
+	        	#{salesType,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="itemType != null" >
+	        	#{itemType,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="isFreeTrade != null" >
+	        	#{isFreeTrade,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="discount != null" >
+	        	#{discount,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="freeTradePrice != null" >
+	        	#{freeTradePrice,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="exchangePrice != null" >
+	        	#{exchangePrice,jdbcType=BIGINT},
+	      	</if>
+    	</trim>
+  	</insert>
+  	<update id="update" parameterType="com.caitu99.service.goods.domain.Item" >
+    	update t_item
+    	<set >
+      		<if test="title != null" >
+        		title = #{title,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="subTitle != null" >
+	        	sub_title = #{subTitle,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="itemNo != null" >
+	        	item_no = #{itemNo,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="brandId != null" >
+	        	brand_id = #{brandId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="salePrice != null" >
+	        	sale_price = #{salePrice,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="marketPrice != null" >
+	        	market_price = #{marketPrice,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="saleVolume != null" >
+	        	sale_volume = #{saleVolume,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="version != null" >
+	        	version = #{version,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="status != null" >
+	        	status = #{status,jdbcType=INTEGER},
+	      	</if>
+	     	<if test="picUrl != null" >
+	        	pic_url = #{picUrl,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="listTime != null" >
+	        	list_time = #{listTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="delistTime != null" >
+	        	delist_time = #{delistTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="wapUrl != null" >
+	        	wap_url = #{wapUrl,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="sort != null" >
+	        	sort = #{sort,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="createTime != null" >
+	        	create_time = #{createTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="updateTime != null" >
+	        	update_time = #{updateTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="content != null" >
+	        	content = #{content,jdbcType=LONGVARCHAR},
+	      	</if>
+	        <if test="source != null" >
+	        	source = #{source,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="salesType != null" >
+	        	salesType = #{salesType,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="itemType != null" >
+	        	item_type = #{itemType,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="isFreeTrade != null" >
+	        	is_free_trade = #{isFreeTrade,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="discount != null" >
+	        	discount = #{discount,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="freeTradePrice != null" >
+	        	free_trade_price = #{freeTradePrice,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="exchangePrice != null" >
+	        	exchange_price = #{exchangePrice,jdbcType=BIGINT},
+	      	</if>
+    	</set>
+	    where item_id = #{itemId,jdbcType=BIGINT}
+  	</update>
+  	
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.title)">
+				and title LIKE CONCAT('%',#{item.title, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.subTitle)">
+				and sub_title LIKE CONCAT('%',#{item.subTitle, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.itemNo)">
+				and item_no LIKE CONCAT('%',#{item.itemNo, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="item.brandId != null" >
+	        	and brand_id = #{item.brandId,jdbcType=BIGINT}
+	      	</if>
+			<if test="item.salePrice != null" >
+	        	and sale_price = #{item.salePrice,jdbcType=BIGINT}
+	      	</if>
+			<if test="item.marketPrice != null" >
+	        	and market_price = #{item.marketPrice,jdbcType=BIGINT}
+	      	</if>
+			<if test="item.saleVolume != null" >
+	        	and sale_volume = #{item.saleVolume,jdbcType=BIGINT}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.version)">
+				and version = #{item.version,jdbcType=VARCHAR}
+			</if>
+			<if test="item.status != null" >
+	        	and status = #{item.status,jdbcType=INTEGER}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.picUrl)">
+				and pic_url = #{item.picUrl,jdbcType=VARCHAR}
+			</if>
+			<if test="item.listTime != null" >
+        		and list_time = #{item.listTime,jdbcType=TIMESTAMP}
+	      	</if>
+	      	<if test="item.delistTime != null" >
+	        	and delist_time = #{item.delistTime,jdbcType=TIMESTAMP}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.wapUrl)">
+				and wap_url = #{item.wapUrl,jdbcType=VARCHAR}
+			</if>
+	      	<if test="item.sort != null" >
+	        	and sort = #{item.sort,jdbcType=BIGINT}
+	      	</if>
+	      	<if test="item.createTime != null" >
+	        	and create_time = #{item.createTime,jdbcType=TIMESTAMP}
+	      	</if>
+	      	<if test="item.updateTime != null" >
+	        	and update_time = #{item.updateTime,jdbcType=TIMESTAMP}
+	      	</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.content)">
+				and content LIKE CONCAT('%',#{item.content, jdbcType=LONGVARCHAR},'%') 
+			</if>
+			<if test="item.source != null" >
+	        	and source = #{item.source,jdbcType=INTEGER}
+	      	</if>
+			<if test="item.salesType != null" >
+	        	and sales_type = #{item.salesType,jdbcType=VARCHAR}
+	      	</if>
+			<if test="item.itemType != null" >
+	        	and item_type = #{item.itemType,jdbcType=INTEGER}
+	      	</if>
+			<if test="item.isFreeTrade != null" >
+	        	and is_free_trade = #{item.isFreeTrade,jdbcType=INTEGER}
+	      	</if>
+			<if test="item.sourceShop != null" >
+				and source in <foreach collection="item.sourceShop" item="itemSourceShop"
+							   open="(" separator="," close=")">#{itemSourceShop}</foreach>
+			</if>
+			<if test="item.sourceShops != null" >
+				and source in <foreach collection="item.sourceShops" item="itemSourceShops"
+								 open="(" separator="," close=")">#{itemSourceShops}</foreach>
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(item.itemNoFillter)">
+				and item_no LIKE CONCAT('',#{item.itemNoFillter, jdbcType=VARCHAR},'%')
+			</if>
+
+		</where>
+  	</sql>
+  	
+  	<!-- 查询总数 -->
+  	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select 
+  			count(1) 
+  		from 
+  			t_item 
+  		<include refid="queryObjWhereClause" />
+		<if test="typeId2s != null">
+			and item_id in (SELECT item_id from t_type_item_relation
+			where type_id in <foreach collection="typeId2s" item="typeId2s"
+									  open="(" separator="," close=")">#{typeId2s}</foreach> )
+		</if>
+  	</select>
+  	
+  	<!-- 分页查询属性列表 sort=1为精选商品-->
+  	<select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_item
+		<include refid="queryObjWhereClause" />
+		<if test="typeId2s != null">
+			and item_id in (SELECT item_id from t_type_item_relation
+			where type_id in <foreach collection="typeId2s" item="typeId2s"
+									  open="(" separator="," close=")">#{typeId2s}</foreach> )
+		</if>
+    	order by sort
+		limit ${start},${pageSize}
+  	</select>
+  	
+  	<select id="findItemByskuId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+		select
+			i.item_id as item_id,i.source as source
+		from 
+			t_sku s 
+		LEFT JOIN 
+			t_item i
+		on 
+			s.item_id = i.item_id
+		WHERE 
+			s.sku_id = #{skuId,jdbcType=BIGINT}
+  	</select>
+  	
+</mapper>

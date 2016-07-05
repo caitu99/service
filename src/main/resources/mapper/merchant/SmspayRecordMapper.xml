@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.merchant.dao.SmspayRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.merchant.domain.SmspayRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="platform_id" property="platformId" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="integral" property="integral" jdbcType="BIGINT" />
+    <result column="smspay_item_id" property="smspayItemId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, platform_id, mobile, integral, smspay_item_id, name, code, password, 
+    create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_smspay_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_smspay_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.merchant.domain.SmspayRecord" >
+    insert into t_smspay_record (id, user_id, platform_id, 
+      mobile, integral, smspay_item_id, 
+      name, code, password, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{platformId,jdbcType=BIGINT}, 
+      #{mobile,jdbcType=VARCHAR}, #{integral,jdbcType=BIGINT}, #{smspayItemId,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.merchant.domain.SmspayRecord" >
+    insert into t_smspay_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="platformId != null" >
+        platform_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="smspayItemId != null" >
+        smspay_item_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="smspayItemId != null" >
+        #{smspayItemId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.merchant.domain.SmspayRecord" >
+    update t_smspay_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="platformId != null" >
+        platform_id = #{platformId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=BIGINT},
+      </if>
+      <if test="smspayItemId != null" >
+        smspay_item_id = #{smspayItemId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.merchant.domain.SmspayRecord" >
+    update t_smspay_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      platform_id = #{platformId,jdbcType=BIGINT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      integral = #{integral,jdbcType=BIGINT},
+      smspay_item_id = #{smspayItemId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="collectSettleData" resultType="java.lang.Long" 
+  		parameterType="java.util.Map" >
+    <![CDATA[
+    select sum(t.integral) from t_smspay_record t
+	where user_id = #{empUserId,jdbcType=BIGINT}
+	  and create_time between #{startDay,jdbcType=VARCHAR}
+	  and #{endDay,jdbcType=VARCHAR}
+	]]>
+  </select>
+  
+  
+  
+  <select id="collectSettleDetailData" resultType="com.caitu99.service.merchant.domain.ProxyTransactionItem" 
+  		parameterType="java.util.Map" >
+    <![CDATA[
+    select t.platform_id as platformId, a.name as platformName ,sum(t.integral) as integral
+    from t_smspay_record t
+    left join t_smspay_platform a
+      	on t.platform_id = a.id
+	where t.user_id = #{empUserId,jdbcType=BIGINT}
+	  and t.create_time between #{startDay,jdbcType=VARCHAR}
+	  and #{endDay,jdbcType=VARCHAR}
+	group by t.platform_id
+	]]>
+  </select>
+  
+  
+  
+  <select id="queryRecord"  resultMap="BaseResultMap" 
+  		parameterType="java.util.Map" >
+    select 
+    	<include refid="Base_Column_List" />
+    from t_smspay_record t
+	<![CDATA[
+	where user_id = #{empUserId,jdbcType=BIGINT}
+	  and create_time between #{startDay,jdbcType=VARCHAR}
+	  and #{endDay,jdbcType=VARCHAR}
+	  and platform_id = #{platformId,jdbcType=BIGINT}
+	]]>
+  </select>
+  
+  
+  <select id="collectAll" resultType="java.lang.Long" 
+  		parameterType="java.lang.Long" >
+    select sum(t.integral) as integral
+    from t_smspay_record t
+	where user_id = #{empUserId,jdbcType=BIGINT}
+  </select>
+  
+  
+</mapper>

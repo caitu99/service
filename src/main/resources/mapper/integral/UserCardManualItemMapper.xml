@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.UserCardManualItemMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.UserCardManualItem" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_card_manual_id" property="userCardManualId" jdbcType="BIGINT" />
+    <result column="expiration_integral" property="expirationIntegral" jdbcType="INTEGER" />
+    <result column="expiration_time" property="expirationTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapPlus" type="com.caitu99.service.integral.controller.vo.CardIntegralLastTime" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="card_id" property="cardId" jdbcType="BIGINT" />
+    <result column="balance" property="balance" jdbcType="INTEGER" />
+    <result column="gmt_effective" property="gmtEffective" jdbcType="TIMESTAMP" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="card_type_id" property="cardTypeId" jdbcType="BIGINT" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="bankname" property="bankname" jdbcType="VARCHAR" />
+    <result column="datenum" property="datenum" jdbcType="INTEGER" />
+    <result column="scale" property="scale" jdbcType="FLOAT" />
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_card_manual_id, expiration_integral, expiration_time, status, gmt_create, 
+    gmt_modify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_card_manual_item
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_card_manual_item
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" parameterType="com.caitu99.service.integral.domain.UserCardManualItem" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER">
+		SELECT LAST_INSERT_ID();
+	</selectKey>
+    insert into t_user_card_manual_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userCardManualId != null" >
+        user_card_manual_id,
+      </if>
+      <if test="expirationIntegral != null" >
+        expiration_integral,
+      </if>
+      <if test="expirationTime != null" >
+        expiration_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userCardManualId != null" >
+        #{userCardManualId,jdbcType=BIGINT},
+      </if>
+      <if test="expirationIntegral != null" >
+        #{expirationIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="expirationTime != null" >
+        #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.caitu99.service.integral.domain.UserCardManualItem" >
+    update t_user_card_manual_item
+    <set >
+      <if test="userCardManualId != null" >
+        user_card_manual_id = #{userCardManualId,jdbcType=BIGINT},
+      </if>
+      <if test="expirationIntegral != null" >
+        expiration_integral = #{expirationIntegral,jdbcType=INTEGER},
+      </if>
+      <if test="expirationTime != null" >
+        expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  	<!--  
+  	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  		select
+			count(1)
+		from
+			(
+				select
+					a.user_card_manual_id as card_id,
+					a.expiration_integral as balance,
+					a.expiration_time as gmt_effective,
+					(select datediff(a.expiration_time, now())) as datenum,
+					b.name,
+					b.card_type_id,
+					b.card_no,
+					b.scale
+				from
+					t_user_card_manual_item a
+				inner join 
+					(
+						select
+							a.id,a.user_name as name,a.card_type_id,a.card_no,a.user_id,b.scale
+						from
+							t_user_card_manual a
+						inner join 
+							t_exchange_rule b 
+						on 
+							a.card_type_id = b.card_type_id
+					) b 
+				on 
+					a.user_card_manual_id = b.id
+				where
+					b.user_id = #{userId,jdbcType=BIGINT}
+				and 
+					a.expiration_time is not null
+				
+				union
+				
+				select
+					a.card_id,a.balance,a.gmt_effective, 
+					(select datediff(a.gmt_effective, now())) as datenum,
+					b.name,
+					b.card_type_id,
+					b.card_no,
+					b.scale
+				from
+					t_card_integral a
+				inner join (
+					select
+						a.id,a.name,a.card_type_id,a.card_no,a.user_id,b.scale
+					from
+						t_user_card a
+					inner join 
+						t_exchange_rule b 
+					on 
+						a.card_type_id = b.card_type_id
+				) b 
+				on 
+					a.card_id = b.id
+				where
+					b.user_id = #{userId,jdbcType=BIGINT}
+				and 
+					a.gmt_effective is not null
+			)c
+		inner join 
+			t_card_type d 
+		on 
+			c.card_type_id = d.id
+		join 
+			t_bank
+		on
+			t_bank.name = d.belong_to
+  </select>
+  
+  <select id="selectLastTimePageList" resultMap="ResultMapPlus" parameterType="java.util.Map" >
+  		select
+			c.*, d.name as bankname, t_bank.pic_url as pic_url
+		from
+			(
+				select
+					a.user_card_manual_id as card_id,
+					a.expiration_integral as balance,
+					a.expiration_time as gmt_effective,
+					(select datediff(a.expiration_time, now())) as datenum,
+					b.name,
+					b.card_type_id,
+					b.card_no,
+					b.scale
+				from
+					t_user_card_manual_item a
+				inner join 
+					(
+						select
+							a.id,a.user_name as name,a.card_type_id,
+							IF(a.card_no is null,a.login_account,a.card_no) as card_no,
+							a.user_id,b.scale
+						from
+							t_user_card_manual a
+						inner join 
+							t_exchange_rule b 
+						on 
+							a.card_type_id = b.card_type_id
+					) b 
+				on 
+					a.user_card_manual_id = b.id
+				where
+					b.user_id = #{userId,jdbcType=BIGINT}
+				and 
+					a.expiration_time is not null
+				
+				union
+				
+				select
+					a.card_id,a.balance,a.gmt_effective, 
+					(select datediff(a.gmt_effective, now())) as datenum,
+					b.name,
+					b.card_type_id,
+					b.card_no,
+					b.scale
+				from
+					t_card_integral a
+				inner join (
+					select
+						a.id,a.name,a.card_type_id,a.card_no,a.user_id,b.scale
+					from
+						t_user_card a
+					inner join 
+						t_exchange_rule b 
+					on 
+						a.card_type_id = b.card_type_id
+				) b 
+				on 
+					a.card_id = b.id
+				where
+					b.user_id = #{userId,jdbcType=BIGINT}
+				and 
+					a.gmt_effective is not null
+			)c
+		inner join 
+			t_card_type d 
+		on 
+			c.card_type_id = d.id
+		join 
+			t_bank
+		on
+			t_bank.name = d.belong_to
+  </select>
+  -->
+  
+  	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map" >
+  		select 
+			count(distinct(IF(t.importType = 1,(select datediff(a.expiration_time, now())),(select datediff(b.gmt_effective, now())))))
+		from 
+			t_user_card_manual_item a
+		join
+			t_card_integral b
+		join
+		(
+			select 
+				t1.id,t1.user_id,t1.user_name as name,t1.card_type_id,t1.card_no,t1.integral,t1.login_account,1 as importType
+			from 
+				t_user_card_manual t1 
+			where 
+				t1.user_id = #{userId,jdbcType=BIGINT}
+				
+			union
+			
+			select 
+				t2.id,t2.user_id,t2.name,t2.card_type_id,t2.card_no,t2.integral_balance as integral,t2.card_no as login_account,0 as importType
+			from 
+				t_user_card t2 
+			where 
+				not exists
+				(
+					select 
+						tm.user_id,tm.user_name,tm.card_type_id,tm.card_no,tm.integral
+					from 
+						t_user_card_manual tm 
+					where 
+						tm.card_type_id = t2.card_type_id and tm.user_id = #{userId,jdbcType=BIGINT} and tm.user_name = t2.name
+				) and t2.user_id = #{userId,jdbcType=BIGINT}
+		) t 
+		on
+			(a.user_card_manual_id = t.id and t.importType = 1 and a.expiration_time is not null and TO_DAYS(a.expiration_time) >= TO_DAYS(now()))
+		or
+			(b.card_id = t.id and t.importType = 0 and b.gmt_effective is not null and TO_DAYS(b.gmt_effective) >= TO_DAYS(now()))
+		join 
+			t_exchange_rule
+		on 
+			t.card_type_id = t_exchange_rule.card_type_id
+		join 
+			t_card_type d 
+		on 
+			t.card_type_id = d.id
+		join 
+			t_bank
+		on
+			t_bank.name = d.belong_to
+  	</select>
+  	
+  	<select id="selectLastTimePageList" resultMap="ResultMapPlus" parameterType="java.util.Map" >
+		select 
+			distinct(t.id),
+			IF(t.importType = 1,a.expiration_integral,b.balance) as balance,
+			IF(t.importType = 1,a.expiration_time,b.gmt_effective) as gmt_effective,
+			IF(t.importType = 1,(select datediff(a.expiration_time, now())),(select datediff(b.gmt_effective, now()))) as datenum,
+			t.name,
+			t.card_type_id,
+			IF(t.card_no is null,t.login_account,t.card_no) as card_no,
+			t_exchange_rule.scale,
+			t_bank.pic_url,
+			d.name as bankname
+		from 
+			t_user_card_manual_item a
+		join
+			t_card_integral b
+		join
+		(
+			select 
+				t1.id,t1.user_id,t1.user_name as name,t1.card_type_id,t1.card_no,t1.integral,t1.login_account,1 as importType
+			from 
+				t_user_card_manual t1 
+			where 
+				t1.user_id = #{userId,jdbcType=BIGINT}
+				
+			union
+			
+			select 
+				t2.id,t2.user_id,t2.name,t2.card_type_id,t2.card_no,t2.integral_balance as integral,t2.card_no as login_account,0 as importType
+			from 
+				t_user_card t2 
+			where 
+				not exists
+				(
+					select 
+						tm.user_id,tm.user_name,tm.card_type_id,tm.card_no,tm.integral
+					from 
+						t_user_card_manual tm 
+					where 
+						tm.card_type_id = t2.card_type_id and tm.user_id = #{userId,jdbcType=BIGINT} and tm.user_name = t2.name
+				) and t2.user_id = #{userId,jdbcType=BIGINT}
+		) t 
+		on
+			(a.user_card_manual_id = t.id and t.importType = 1 and a.expiration_time is not null and TO_DAYS(a.expiration_time) >= TO_DAYS(now()))
+		or
+			(b.card_id = t.id and t.importType = 0 and b.gmt_effective is not null and TO_DAYS(b.gmt_effective) >= TO_DAYS(now()))
+		join 
+			t_exchange_rule
+		on 
+			t.card_type_id = t_exchange_rule.card_type_id
+		join 
+			t_card_type d 
+		on 
+			t.card_type_id = d.id
+		join 
+			t_bank
+		on
+			t_bank.name = d.belong_to
+		order by 
+			datenum
+		limit ${start},${pageSize}
+ 	</select>
+ 	 
+ 	<select id="selectByUserCardManualId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_user_card_manual_item
+    	where 
+    		user_card_manual_id = #{userCardManualId,jdbcType=BIGINT}
+	</select>
+	
+ 	<delete id="deleteByUserCardManualId" parameterType="java.lang.Long" >
+   		delete from t_user_card_manual_item where user_card_manual_id = #{user_card_manual_id,jdbcType=BIGINT}
+  	</delete>
+  	
+  	<select id="selectFirstTimeByCardId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		SELECT 
+			<include refid="Base_Column_List" />
+		FROM 
+			t_user_card_manual_item
+		where 
+    		user_card_manual_id = #{userCardManualId,jdbcType=BIGINT}
+    	and 
+    		TO_DAYS(expiration_time) >= TO_DAYS(now())
+		order by 
+			expiration_time 
+		limit ${start},${pageSize}
+  	</select>
+</mapper>

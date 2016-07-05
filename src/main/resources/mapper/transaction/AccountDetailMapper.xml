@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.transaction.dao.AccountDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.transaction.domain.AccountDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="record_id" property="recordId" jdbcType="BIGINT" />
+    <result column="integral_change" property="integralChange" jdbcType="BIGINT" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, record_id, integral_change, type, stall, memo, gmt_create, gmt_modify
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_account_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.transaction.domain.AccountDetail" >
+    insert into t_account_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="integralChange != null" >
+        integral_change,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="stall != null" >
+        stall,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="integralChange != null" >
+        #{integralChange,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="stall != null" >
+        #{stall,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.transaction.domain.AccountDetail" >
+    insert into t_account_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="recordId != null" >
+        record_id,
+      </if>
+      <if test="integralChange != null" >
+        integral_change,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="memo != null" >
+        memo,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="recordId != null" >
+        #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="integralChange != null" >
+        #{integralChange,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.transaction.domain.AccountDetail" >
+    update t_account_detail
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="recordId != null" >
+        record_id = #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="integralChange != null" >
+        integral_change = #{integralChange,jdbcType=BIGINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.transaction.domain.AccountDetail" >
+    update t_account_detail
+    set user_id = #{userId,jdbcType=BIGINT},
+      record_id = #{recordId,jdbcType=BIGINT},
+      integral_change = #{integralChange,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="countTotalIntegralByUserId" resultType="java.lang.Long" parameterType="java.lang.Long" >
+    select 
+    	sum(integral_change)
+    from 
+    	t_account_detail
+    where user_id = #{userId,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectByUserIdAndTime" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_account_detail
+    where user_id = #{userId,jdbcType=BIGINT}
+    <if test="begin != null" >
+        <![CDATA[and gmt_create >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end != null" >
+        <![CDATA[and gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    order by gmt_create desc
+    <if test="start != null" >
+        limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+    </if>
+    
+  </select>
+
+  <select id="selectByTimeAndMemo" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+      <include refid="Base_Column_List" />
+    from
+      t_account_detail
+    WHERE
+    <if test="memo != null">
+      memo LIKE CONCAT('%',#{memo, jdbcType=VARCHAR},'%')
+    </if>
+    <if test="begin != null" >
+      <![CDATA[and gmt_create >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end != null" >
+      <![CDATA[and gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+  </select>
+  
+  
+  <select id="sumIntegerByTime" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+      sum(abs(integral_change)) as integral_change,type
+    from
+      t_account_detail
+    WHERE
+      memo LIKE CONCAT('%',#{memo, jdbcType=VARCHAR},'%')
+    <if test="begin != null" >
+      <![CDATA[and gmt_create >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end != null" >
+      <![CDATA[and gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    group by type
+  </select>
+  
+   <select id="selectCountByUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+    select  
+    	count(1)
+    from 
+    	t_account_detail
+    where 
+    	user_id=#{userId,jdbcType=BIGINT}
+    <if test="begin != null" >
+        <![CDATA[and gmt_create >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end != null" >
+        <![CDATA[and gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+  </select>
+
+  <select id="selectByStall" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from
+    t_account_detail
+    where
+    stall=#{stall,jdbcType=VARCHAR}
+    and integral_change>0
+    <if test="begin != null" >
+      <![CDATA[and gmt_create <= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.backstage.dao.SalesmanPushRelationMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.backstage.domain.SalesmanPushRelation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="manager_id" property="managerId" jdbcType="BIGINT" />
+    <result column="salesman_id" property="salesmanId" jdbcType="BIGINT" />
+    <result column="salesman_stall" property="salesmanStall" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="com.caitu99.service.backstage.dto.SalesmanDto" id="ResultMapDto" extends="BaseResultMap">
+    <result column="stalls" property="stalls" jdbcType="INTEGER" />
+    <result column="total_integral" property="totalIntegral" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, manager_id, salesman_id, salesman_stall, mobile, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_salesman_push_relation
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_salesman_push_relation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.backstage.domain.SalesmanPushRelation" >
+    insert into t_salesman_push_relation (id, manager_id, salesman_id, 
+      salesman_stall, mobile, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{managerId,jdbcType=BIGINT}, #{salesmanId,jdbcType=BIGINT}, 
+      #{salesmanStall,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.backstage.domain.SalesmanPushRelation" >
+    insert into t_salesman_push_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id,
+      </if>
+      <if test="salesmanStall != null" >
+        salesman_stall,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="managerId != null" >
+        #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanStall != null" >
+        #{salesmanStall,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.backstage.domain.SalesmanPushRelation" >
+    update t_salesman_push_relation
+    <set >
+      <if test="managerId != null" >
+        manager_id = #{managerId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanId != null" >
+        salesman_id = #{salesmanId,jdbcType=BIGINT},
+      </if>
+      <if test="salesmanStall != null" >
+        salesman_stall = #{salesmanStall,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.backstage.domain.SalesmanPushRelation" >
+    update t_salesman_push_relation
+    set manager_id = #{managerId,jdbcType=BIGINT},
+      salesman_id = #{salesmanId,jdbcType=BIGINT},
+      salesman_stall = #{salesmanStall,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  
+    
+  <select id="selectByStall" resultMap="ResultMapDto" parameterType="java.util.Map">
+    select
+			sum(integral_change) as total_integral,count(DISTINCT(memo)) as stalls
+    from
+ 		t_account_detail
+    where
+    	stall=#{stall,jdbcType=VARCHAR}
+    <if test="start != null and end != null" >
+  		<![CDATA[
+  		and 
+  			gmt_create >= STR_TO_DATE(#{start,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+  		and 
+  			gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+  		]]>
+  		
+    </if>
+  </select>
+  
+  
+ <select id="findByStall" resultMap="ResultMapDto" parameterType="java.util.Map">
+	select 
+		spr.mobile,spr.manager_id,spr.salesman_id,spr.salesman_stall,sum(ad.integral_change) as total_integral,count(DISTINCT(ad.memo)) as stalls
+	from 
+		t_salesman_push_relation as spr 
+	left join
+		 t_salesman_push as sp 
+	on 
+		spr.manager_id = sp.id 
+	left join 
+		t_account_detail as ad
+	on 
+		spr.salesman_stall = ad.stall
+	where 
+		sp.stall=#{stall,jdbcType=VARCHAR}
+	   <if test="start != null and end != null" >
+  		<![CDATA[
+  		and 
+  			ad.gmt_create >= STR_TO_DATE(#{start,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+  		and 
+  			ad.gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')
+  		]]>
+  		
+    </if>
+	group by 
+		spr.salesman_id
+  </select>
+  
+  <select id="countIsManager" resultType="java.lang.Integer" parameterType="java.lang.String">
+	  select 
+	  		count(sp.id) 
+	  from 
+	  		t_salesman_push sp 
+	  right join
+	  		t_salesman_push_relation spr
+	  on sp.id = spr.manager_id
+	  where 
+	  		sp.mobile = #{mobile,jdbcType=VARCHAR}
+	  and sp.status= 1
+  </select>
+  
+  
+</mapper>

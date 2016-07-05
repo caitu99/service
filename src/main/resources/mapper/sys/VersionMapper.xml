@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.sys.dao.VersionMapper">
+	<resultMap id="BaseResultMap" type="com.caitu99.service.sys.domain.Version">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="notice" property="notice" jdbcType="VARCHAR" />
+		<result column="necessary" property="necessary" jdbcType="INTEGER" />
+		<result column="no" property="no" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, version, notice, necessary, no, status
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_version
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_version
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.caitu99.service.sys.domain.Version">
+		insert into t_version (id,
+		version, notice,
+		necessary, no, status
+		)
+		values (#{id,jdbcType=BIGINT},
+		#{version,jdbcType=VARCHAR},
+		#{notice,jdbcType=VARCHAR},
+		#{necessary,jdbcType=INTEGER}, #{no,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.caitu99.service.sys.domain.Version">
+		insert into t_version
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="notice != null">
+				notice,
+			</if>
+			<if test="necessary != null">
+				necessary,
+			</if>
+			<if test="no != null">
+				no,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=VARCHAR},
+			</if>
+			<if test="notice != null">
+				#{notice,jdbcType=VARCHAR},
+			</if>
+			<if test="necessary != null">
+				#{necessary,jdbcType=INTEGER},
+			</if>
+			<if test="no != null">
+				#{no,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.sys.domain.Version">
+		update t_version
+		<set>
+			<if test="version != null">
+				version = #{version,jdbcType=VARCHAR},
+			</if>
+			<if test="notice != null">
+				notice = #{notice,jdbcType=VARCHAR},
+			</if>
+			<if test="necessary != null">
+				necessary = #{necessary,jdbcType=INTEGER},
+			</if>
+			<if test="no != null">
+				no = #{no,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.caitu99.service.sys.domain.Version">
+		update t_version
+		set version = #{version,jdbcType=VARCHAR},
+		notice =
+		#{notice,jdbcType=VARCHAR},
+		necessary = #{necessary,jdbcType=INTEGER},
+		no = #{no,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER}
+		where
+		id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="findall" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_version a
+		ORDER BY a.`no`
+	</select>
+	<select id="findbustatus" resultMap="BaseResultMap" parameterType="com.caitu99.service.sys.domain.Version">
+		select
+		<include refid="Base_Column_List" />
+		from t_version a
+		where status = #{status,jdbcType=INTEGER}
+		ORDER BY
+		a.`no`
+	</select>
+	
+	<select id="findNewest" resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from 
+			t_version
+		order by no desc
+		limit 1
+	</select>
+</mapper>

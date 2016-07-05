@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.activities.dao.ActivitiesGoodMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.activities.domain.ActivitiesGood" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="com.caitu99.service.activities.dto.ActivitiesGoodDto" id="ResultDtoMap" extends="BaseResultMap">
+  	<result column="name" property="name" jdbcType="VARCHAR" />
+	<result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+	<result column="sale_price" property="salePrice" jdbcType="BIGINT" />  
+    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+    <result column="wap_url" property="wapUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    id, item_id, title, sort, status, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_activities_good
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_activities_good
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.activities.domain.ActivitiesGood" >
+    insert into t_activities_good (id, item_id, title, 
+      sort, status, start_time, 
+      end_time)
+    values (#{id,jdbcType=BIGINT}, #{itemId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.activities.domain.ActivitiesGood" >
+    insert into t_activities_good
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.activities.domain.ActivitiesGood" >
+    update t_activities_good
+    <set >
+      <if test="itemId != null" >
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.activities.domain.ActivitiesGood" >
+    update t_activities_good
+    set item_id = #{itemId,jdbcType=BIGINT},
+      title = #{title,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="findBySort" resultMap="ResultDtoMap" parameterType="java.util.Map"> 
+		select	 
+			 ag.id,ag.item_id, ag.sort, ag.start_time, ag.end_time, i.title as name, i.market_price as market_price,i.sale_price as sale_price,i.pic_url as pic_url,i.wap_url as wap_url
+		from 
+			t_activities_good as ag
+		left join 
+			t_item as i
+		on 
+			ag.item_id = i.item_id
+		where 
+			ag.status = 1
+	    <if test="endTime != null" >
+	          <![CDATA[ and ag.end_time >= #{endTime}]]>
+	    </if> 
+		order by ag.sort
+  </select>
+  
+  
+  <select id="findAllByItemId" resultMap="BaseResultMap" parameterType="java.util.Map">
+  		select 
+  			  <include refid="Base_Column_List" />
+  		from 
+  			t_activities_good
+  		where 
+  			item_id = #{itemId,jdbcType=BIGINT}
+  		and 
+  			status = 1
+  		<if test="newTime != null" >
+	          <![CDATA[ and start_time <= #{newTime}]]>
+	          <![CDATA[ and end_time >= #{newTime}]]>
+	    </if> 
+  </select>
+  
+</mapper>

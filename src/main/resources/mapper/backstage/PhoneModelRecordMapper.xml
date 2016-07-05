@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.backstage.dao.PhoneModelRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.backstage.domain.PhoneModelRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="model" property="model" jdbcType="VARCHAR" />
+    <result column="IMEI" property="imei" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, model, IMEI, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_phone_model_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_phone_model_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.backstage.domain.PhoneModelRecord" >
+    insert into t_phone_model_record (id, user_id, model, 
+      IMEI, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{model,jdbcType=VARCHAR}, 
+      #{imei,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.backstage.domain.PhoneModelRecord" >
+    insert into t_phone_model_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="model != null" >
+        model,
+      </if>
+      <if test="imei != null" >
+        IMEI,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.backstage.domain.PhoneModelRecord" >
+    update t_phone_model_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="model != null" >
+        model = #{model,jdbcType=VARCHAR},
+      </if>
+      <if test="imei != null" >
+        IMEI = #{imei,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.backstage.domain.PhoneModelRecord" >
+    update t_phone_model_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      model = #{model,jdbcType=VARCHAR},
+      IMEI = #{imei,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByUID" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+      <include refid="Base_Column_List" />
+    from
+      t_phone_model_record
+    where
+      user_id = #{userId,jdbcType=BIGINT}
+    ORDER BY create_time DESC
+  </select>
+
+  <select id="selectByUIDAndTime" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from
+    t_phone_model_record
+    where
+    user_id = #{user_id,jdbcType=BIGINT}
+    <if test="start_time != null" >
+      <![CDATA[and CREATE_TIME >= STR_TO_DATE(#{start_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    <if test="end_time != null" >
+      <![CDATA[and CREATE_TIME <= STR_TO_DATE(#{end_time,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+    </if>
+    order by create_time desc
+  </select>
+
+</mapper>

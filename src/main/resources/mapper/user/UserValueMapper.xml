@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserValueMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.UserValue">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="level" property="level" jdbcType="BIGINT"/>
+        <result column="imgurl" property="imgurl" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, level, imgurl, description
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from t_weixin_user_value
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		t_weixin_user_value
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.UserValue">
+		insert into
+		t_weixin_user_value (id, level, imgurl,
+		description)
+		values
+		(#{id,jdbcType=INTEGER}, #{level,jdbcType=BIGINT},
+		#{imgurl,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR})
+	</insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.UserValue">
+        insert into t_weixin_user_value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="imgurl != null">
+                imgurl,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=BIGINT},
+            </if>
+            <if test="imgurl != null">
+                #{imgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.UserValue">
+        update t_weixin_user_value
+        <set>
+            <if test="level != null">
+                level = #{level,jdbcType=BIGINT},
+            </if>
+            <if test="imgurl != null">
+                imgurl = #{imgurl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.UserValue">
+		update
+		t_weixin_user_value
+		set level = #{level,jdbcType=BIGINT},
+		imgurl =
+		#{imgurl,jdbcType=VARCHAR},
+		description =
+		#{description,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+
+    <select id="queryAll" resultMap="BaseResultMap">
+		select
+		*
+		from t_weixin_user_value
+	</select>
+    <select id="selectUserValueByLevel" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_weixin_user_value
+        where level>=#{level,jdbcType=BIGINT}
+    </select>
+    <select id="selectAllUserValue" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_weixin_user_value
+    </select>
+
+    <insert id="insertuservalue" parameterType="com.caitu99.service.user.domain.UserValue">
+		insert into
+		t_weixin_user_value (id, level,
+		imgurl, description)
+		values
+		(#{id,jdbcType=BIGINT},
+		#{level,jdbcType=BIGINT},
+		#{imgurl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+	</insert>
+    <update id="update" parameterType="com.caitu99.service.user.domain.UserValue">
+		update t_weixin_user_value
+		set
+		level = #{level,jdbcType=BIGINT},
+		imgurl = #{imgurl,jdbcType=VARCHAR},
+		description= #{description,jdbcType=VARCHAR}
+	</update>
+</mapper>

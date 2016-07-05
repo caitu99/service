@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.AutoFindRecordMapper" >
+  	<resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.AutoFindRecord" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="user_id" property="userId" jdbcType="BIGINT" />
+	    <result column="manual_id" property="manualId" jdbcType="BIGINT" />
+	    <result column="login_account" property="loginAccount" jdbcType="VARCHAR" />
+	    <result column="password" property="password" jdbcType="VARCHAR" />
+	    <result column="type" property="type" jdbcType="INTEGER" />
+	    <result column="login_count" property="loginCount" jdbcType="INTEGER" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+  	</resultMap>
+  	
+  	<sql id="Base_Column_List" >
+    	id, user_id, manual_id, login_account, password, type, login_count, gmt_create, gmt_modify, status
+  	</sql>
+  	
+  	<sql id="queryObjWhereClause">
+  		<where>
+			<if test="autoFindRecord.userId != null">
+				and user_id = #{autoFindRecord.userId,jdbcType=BIGINT}
+			</if>
+			<if test="autoFindRecord.manualId != null">
+				and manual_id = #{autoFindRecord.manualId,jdbcType=BIGINT}
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(autoFindRecord.loginAccount)">
+				and login_account = #{autoFindRecord.loginAccount,jdbcType=VARCHAR}
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(autoFindRecord.password)">
+				and password = #{autoFindRecord.password,jdbcType=VARCHAR}
+			</if>
+			<if test="autoFindRecord.status != null">
+				and status = #{autoFindRecord.status,jdbcType=INTEGER}
+			</if>
+		</where>
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_auto_find_record
+    	where 
+    		id = #{id,jdbcType=BIGINT}
+  	</select>
+  	
+  	<select id="getBySelective" resultMap="BaseResultMap" parameterType="com.caitu99.service.integral.domain.AutoFindRecord" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_auto_find_record
+   		<include refid="queryObjWhereClause" />
+    </select>
+    
+    <select id="selectPageList" resultMap="BaseResultMap" parameterType="com.caitu99.service.integral.domain.AutoFindRecord">
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_auto_find_record
+   		<include refid="queryObjWhereClause" />
+    </select>
+  	
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    	delete from t_auto_find_record where id = #{id,jdbcType=BIGINT}
+  	</delete>
+  	
+  	<insert id="insert" parameterType="com.caitu99.service.integral.domain.AutoFindRecord" >
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT LAST_INSERT_ID();
+   		</selectKey>
+    	insert into t_auto_find_record
+   		<trim prefix="(" suffix=")" suffixOverrides="," >
+   			<if test="id != null" >
+		        id,
+	      	</if>
+	      	<if test="userId != null" >
+	        	user_id,
+	      	</if>
+	      	<if test="manualId != null" >
+	        	manual_id,
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	login_account,
+	      	</if>
+	      	<if test="password != null" >
+	        	password,
+	      	</if>
+	      	<if test="type != null" >
+	        	type,
+	      	</if>
+	      	<if test="loginCount != null" >
+	        	login_count,
+	      	</if>
+	      	<if test="gmtCreate != null" >
+	        	gmt_create,
+	      	</if>
+	      	<if test="gmtModify != null" >
+	        	gmt_modify,
+	      	</if>
+	      	<if test="status != null" >
+	       	 	status,
+	      	</if>
+    	</trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      	<if test="id != null" >
+	        	#{id,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="userId != null" >
+	        	#{userId,jdbcType=BIGINT},
+     	 	</if>
+	      	<if test="manualId != null" >
+	        	#{manualId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	#{loginAccount,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="password != null" >
+	        	#{password,jdbcType=VARCHAR},
+	      	</if>
+      		<if test="type != null" >
+	        	#{type,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="loginCount != null" >
+	        	#{loginCount,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="gmtCreate != null" >
+	        	#{gmtCreate,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="gmtModify != null" >
+	        	#{gmtModify,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="status != null" >
+	        	#{status,jdbcType=INTEGER},
+	      	</if>
+    	</trim>
+	</insert>
+  		
+	<update id="update" parameterType="com.caitu99.service.integral.domain.AutoFindRecord" >
+   		update t_auto_find_record
+	    <set >
+      		<if test="userId != null" >
+	        	user_id = #{userId,jdbcType=BIGINT},
+	      	</if>
+      		<if test="manualId != null" >
+	        	manual_id = #{manualId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	login_account = #{loginAccount,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="password != null" >
+	        	password = #{password,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="type != null" >
+	        	type = #{type,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="loginCount != null" >
+	        	login_count = #{loginCount,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="gmtCreate != null" >
+	        	gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="gmtModify != null" >
+	        	gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="status != null" >
+	        	status = #{status,jdbcType=INTEGER},
+	      	</if>
+    	</set>
+	    where id = #{id,jdbcType=BIGINT}
+  	</update>
+</mapper>

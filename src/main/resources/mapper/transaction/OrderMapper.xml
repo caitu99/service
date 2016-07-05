@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.transaction.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.transaction.domain.Order" >
+    <id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pay_status" property="payStatus" jdbcType="INTEGER" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="BIGINT" />
+    <result column="pay_price" property="payPrice" jdbcType="BIGINT" />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="timeout_time" property="timeoutTime" jdbcType="TIMESTAMP" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="out_price" property="outPrice" jdbcType="VARCHAR" />
+    <result column="out_no" property="outNo" jdbcType="VARCHAR" />
+    
+    <result column="free_trade_id" property="freeTradeId" jdbcType="BIGINT" />
+    <result column="display" property="display" jdbcType="INTEGER" />
+    <result column="memo" property="memo" jdbcType="VARCHAR" />
+    
+    <result column="caibi" property="caibi" jdbcType="BIGINT" />
+    <result column="tubi" property="tubi" jdbcType="BIGINT" />
+    <result column="rmb" property="rmb" jdbcType="BIGINT" />
+    
+  </resultMap>
+  
+  <resultMap id="DtoResultMap" type="com.caitu99.service.transaction.dto.OrderDto"  extends="BaseResultMap">
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.caitu99.service.transaction.domain.Order" >
+    insert into t_order (order_no, user_id, name, 
+      status, pay_status, pay_type, 
+      price, pay_price, order_time, 
+      pay_time, timeout_time, delete_time, 
+      create_time, update_time, out_price, 
+      out_no, type, free_trade_id, 
+      display, memo, caibi, tubi, rmb)
+    values (#{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{payStatus,jdbcType=INTEGER}, #{payType,jdbcType=INTEGER}, 
+      #{price,jdbcType=BIGINT}, #{payPrice,jdbcType=BIGINT}, #{orderTime,jdbcType=TIMESTAMP}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{timeoutTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{outPrice,jdbcType=VARCHAR}, 
+      #{outNo,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{freeTradeId,jdbcType=BIGINT}, 
+      #{display,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR},
+      #{caibi,jdbcType=BIGINT},#{tubi,jdbcType=BIGINT},#{rmb,jdbcType=BIGINT})
+  </insert>
+  
+  <sql id="Base_Column_List" >
+    order_no, user_id, name, status, pay_status, pay_type, type, price, pay_price, order_time, 
+    pay_time, timeout_time, delete_time, create_time, update_time, out_price, out_no,free_trade_id,display,memo,
+    caibi, tubi, rmb
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_order
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.caitu99.service.transaction.domain.Order" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payStatus != null" >
+        pay_status,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="payPrice != null" >
+        pay_price,
+      </if>
+      <if test="orderTime != null" >
+        order_time,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="timeoutTime != null" >
+        timeout_time,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="outPrice != null" >
+        out_price,
+      </if>
+      <if test="outNo != null" >
+        out_no,
+      </if>
+      <if test="freeTradeId != null" >
+        free_trade_id,
+      </if>      
+      <if test="display != null" >
+        display,
+      </if>         
+      <if test="memo != null" >
+        memo,
+      </if>          
+      <if test="caibi != null" >
+        caibi,
+      </if>          
+      <if test="tubi != null" >
+        tubi,
+      </if>          
+      <if test="rmb != null" >
+        rmb,
+      </if> 
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="payPrice != null" >
+        #{payPrice,jdbcType=BIGINT},
+      </if>
+      <if test="orderTime != null" >
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeoutTime != null" >
+        #{timeoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outPrice != null" >
+        #{outPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="outNo != null" >
+        #{outNo,jdbcType=VARCHAR},
+      </if>
+      <if test="freeTradeId != null" >
+        #{freeTradeId,jdbcType=BIGINT},
+      </if>   
+      <if test="display != null" >
+        #{display,jdbcType=INTEGER},
+      </if>      
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="caibi != null" >
+        #{caibi,jdbcType=BIGINT},
+      </if>
+      <if test="tubi != null" >
+        #{tubi,jdbcType=BIGINT},
+      </if>
+      <if test="rmb != null" >
+        #{rmb,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.transaction.domain.Order" >
+    update t_order
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="payPrice != null" >
+        pay_price = #{payPrice,jdbcType=BIGINT},
+      </if>
+      <if test="orderTime != null" >
+        order_time = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="timeoutTime != null" >
+        timeout_time = #{timeoutTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outPrice != null" >
+        out_price = #{outPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="outNo != null" >
+        out_no = #{outNo,jdbcType=VARCHAR},
+      </if>
+      <if test="freeTradeId != null" >
+        free_trade_id = #{freeTradeId,jdbcType=BIGINT},
+      </if>   
+      <if test="display != null" >
+        display = #{display,jdbcType=INTEGER},
+      </if>      
+      <if test="memo != null" >
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="caibi != null" >
+        caibi = #{caibi,jdbcType=BIGINT},
+      </if>
+      <if test="tubi != null" >
+        tubi = #{tubi,jdbcType=BIGINT},
+      </if>
+      <if test="rmb != null" >
+        rmb = #{rmb,jdbcType=BIGINT},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  
+    <sql id="queryObjWhereClause">
+  		<where>
+	        	 <![CDATA[ status <> 30]]>
+	        	 and  <![CDATA[ status <> 60]]>
+	        	 and user_id = #{order.userId,jdbcType=BIGINT}
+	        	 and display = 1
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(order.orderNo)">
+				and order_no LIKE CONCAT('%',#{order.orderNo, jdbcType=VARCHAR},'%') 
+			</if>
+			<if test="@org.apache.commons.lang.StringUtils@isNotBlank(order.name)">
+				and name LIKE CONCAT('%',#{order.name, jdbcType=VARCHAR},'%') 
+			</if>
+	   		<if test="order.payStatus != null" >
+	        	and pay_status = #{order.payStatus,jdbcType=INTEGER}
+	      	</if>
+	      	<if test="order.payType != null" >
+	        	and pay_type = #{order.payType,jdbcType=BIGINT}
+	      	</if>
+	      	<if test="order.type != null" >
+	        	and type = #{order.type,jdbcType=INTEGER}
+	      	</if>
+		</where>
+  </sql>
+  	
+
+  <select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select 
+  			count(1) 
+  		from 
+  			t_order 
+  		<include refid="queryObjWhereClause" />
+  </select>
+  	
+  
+  <select id="selectPageList" resultMap="DtoResultMap" parameterType="java.util.Map" >
+    	select 
+    		    ORDER_NO, USER_ID, DISPLAY, NAME, STATUS, PAY_STATUS, PAY_TIME, PAY_TYPE, TYPE, PAY_PRICE, TIMEOUT_TIME, CREATE_TIME
+    		    ORDER_TIME,MEMO,OUT_NO, caibi, tubi, rmb
+    	from 
+    		t_order
+		<include refid="queryObjWhereClause" />
+    	order by CREATE_TIME desc
+		limit ${start},${pageSize}
+  </select>
+  
+  <select id="findAllOrderByFreeTrade" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+  		 <include refid="Base_Column_List" />
+  	from
+  		t_order
+  	where 
+  		free_trade_id = #{freeTradeId,jdbcType=BIGINT}
+  	<if test="status != null" >
+  	and 
+  		status = #{status,jdbcType=INTEGER}
+  	</if>
+  	<if test="display != null" >
+	and
+  		display = #{display,jdbcType=INTEGER}    	
+	</if>
+  </select>
+  
+  
+    <select id="findOrderByOutNo" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select 
+  		 <include refid="Base_Column_List" />
+  	from
+  		t_order
+  	where 
+  		free_trade_id = #{freeTradeId,jdbcType=BIGINT}
+  	and 
+  		(out_no is null 
+  		or out_no = "")
+  	<if test="display != null" >
+	and
+  		display = #{display,jdbcType=INTEGER}    	
+	</if>
+  </select>
+  
+  	<select id="selectOrderByOutNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  		select 
+  		 	<include refid="Base_Column_List" />
+  		from
+  			t_order
+  		where 
+  			out_no = #{outNo,jdbcType=VARCHAR}
+  	</select>
+  
+</mapper>
+

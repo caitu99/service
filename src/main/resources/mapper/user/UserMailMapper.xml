@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.UserMailMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.UserMail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="email_password" property="emailPassword" jdbcType="VARCHAR"/>
+        <result column="flag" property="flag" jdbcType="INTEGER"/>
+        <result column="isforward" property="isforward" jdbcType="INTEGER"/>
+        <result column="forward_mail" property="forwardMail" jdbcType="VARCHAR"/>
+        <result column="forward_password" property="forwardPassword" jdbcType="VARCHAR"/>
+        <result column="gmt_last_update" property="gmtLastUpdate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="email_password_alone" property="emailPasswordAlone" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_id, email, email_password, flag, isforward, forward_mail, forward_password, 
+    gmt_last_update, gmt_create, gmt_modify, status,email_password_alone
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_mail
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByEmail" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_mail
+        where email=#{email,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_mail
+        where user_id = #{userId,jdbcType=BIGINT} and status = 1
+    </select>
+    
+    <select id="selectByUserIdForJob" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+         from t_user_mail
+        where user_id = #{userId,jdbcType=BIGINT} 
+          and status = 1 
+          and flag = 1
+          and auto_flag = 1
+        <foreach collection="mails" item="mail" open="and (" separator="and" close=")">
+        	NOT INSTR(email,#{mail}) > 1
+        </foreach>
+    </select>
+    
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_user_mail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.UserMail">
+    <selectKey keyProperty="id" resultType="long" order="AFTER">
+        SELECT LAST_INSERT_ID();  
+    </selectKey>
+    insert into t_user_mail (id, user_id, email, 
+      email_password, flag, isforward, 
+      forward_mail, forward_password, gmt_last_update, 
+      gmt_create, gmt_modify, status,email_password_alone
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{email,jdbcType=VARCHAR}, 
+      #{emailPassword,jdbcType=VARCHAR}, #{flag,jdbcType=INTEGER}, #{isforward,jdbcType=INTEGER}, 
+      #{forwardMail,jdbcType=VARCHAR}, #{forwardPassword,jdbcType=VARCHAR}, now(), 
+      now(), now(), #{status,jdbcType=INTEGER},#{emailPasswordAlone,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.UserMail">
+        insert into t_user_mail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="emailPassword != null">
+                email_password,
+            </if>
+            <if test="flag != null">
+                flag,
+            </if>
+            <if test="isforward != null">
+                isforward,
+            </if>
+            <if test="forwardMail != null">
+                forward_mail,
+            </if>
+            <if test="forwardPassword != null">
+                forward_password,
+            </if>
+            <if test="gmtLastUpdate != null">
+                gmt_last_update,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModify != null">
+                gmt_modify,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="emailPasswordAlone != null">
+                email_password_alone,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="emailPassword != null">
+                #{emailPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="isforward != null">
+                #{isforward,jdbcType=INTEGER},
+            </if>
+            <if test="forwardMail != null">
+                #{forwardMail,jdbcType=VARCHAR},
+            </if>
+            <if test="forwardPassword != null">
+                #{forwardPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtLastUpdate != null">
+                #{gmtLastUpdate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModify != null">
+                #{gmtModify,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="emailPasswordAlone != null">
+                #{emailPasswordAlone,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.UserMail">
+        update t_user_mail
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="emailPassword != null">
+                email_password = #{emailPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="isforward != null">
+                isforward = #{isforward,jdbcType=INTEGER},
+            </if>
+            <if test="forwardMail != null">
+                forward_mail = #{forwardMail,jdbcType=VARCHAR},
+            </if>
+            <if test="forwardPassword != null">
+                forward_password = #{forwardPassword,jdbcType=VARCHAR},
+            </if>
+            gmt_last_update = now(),
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            gmt_modify = now(),
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="emailPasswordAlone != null">
+                email_password_alone = #{emailPasswordAlone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    
+    <update id="updateByUserIdAndMail" parameterType="com.caitu99.service.user.domain.UserMail">
+        update t_user_mail
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="emailPassword != null">
+                email_password = #{emailPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="flag != null">
+                flag = #{flag,jdbcType=INTEGER},
+            </if>
+            <if test="isforward != null">
+                isforward = #{isforward,jdbcType=INTEGER},
+            </if>
+            <if test="forwardMail != null">
+                forward_mail = #{forwardMail,jdbcType=VARCHAR},
+            </if>
+            <if test="forwardPassword != null">
+                forward_password = #{forwardPassword,jdbcType=VARCHAR},
+            </if>
+            gmt_last_update = now(),
+            <if test="gmtCreate != null">
+                gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            gmt_modify = now(),
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="emailPasswordAlone != null">
+                email_password_alone = #{emailPasswordAlone,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{userId,jdbcType=BIGINT} and email = #{email,jdbcType=VARCHAR} 
+    </update>
+    
+    <update id="delByUserIdAndMail" parameterType="com.caitu99.service.user.domain.UserMail">
+        update t_user_mail
+        set status = 0
+        where user_id = #{userId,jdbcType=BIGINT} and email = #{email,jdbcType=VARCHAR} 
+    </update>
+    
+    
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.UserMail">
+    update t_user_mail
+    set user_id = #{userId,jdbcType=BIGINT},
+      email = #{email,jdbcType=VARCHAR},
+      email_password = #{emailPassword,jdbcType=VARCHAR},
+      flag = #{flag,jdbcType=INTEGER},
+      isforward = #{isforward,jdbcType=INTEGER},
+      forward_mail = #{forwardMail,jdbcType=VARCHAR},
+      forward_password = #{forwardPassword,jdbcType=VARCHAR},
+      gmt_last_update = #{gmtLastUpdate,jdbcType=TIMESTAMP},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      email_password_alone = #{emailPasswordAlone,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <update id="updateByLastUpdate" parameterType="com.caitu99.service.user.domain.UserMail">
+    update t_user_mail
+    set gmt_last_update = now(),
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectByUserIdAndMail" resultMap="BaseResultMap"
+            parameterType="com.caitu99.service.user.domain.UserMail">
+        select
+        <include refid="Base_Column_List"/>
+        FROM t_user_mail WHERE user_id=#{userId,jdbcType=BIGINT} AND email =#{email,jdbcType=VARCHAR}
+    </select>
+</mapper>

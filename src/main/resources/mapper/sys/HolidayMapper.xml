@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.sys.dao.HolidayMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.sys.domain.Holiday">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="date" property="date" jdbcType="TIMESTAMP"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+		id, date, type, status
+	</sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_holiday
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_holiday
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+    <insert id="insert" parameterType="com.caitu99.service.sys.domain.Holiday">
+		insert into t_holiday (id, date, type,
+		status)
+		values (#{id,jdbcType=BIGINT}, #{date,jdbcType=TIMESTAMP},
+		#{type,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER})
+	</insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.sys.domain.Holiday">
+        insert into t_holiday
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.sys.domain.Holiday">
+        update t_holiday
+        <set>
+            <if test="date != null">
+                date = #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.sys.domain.Holiday">
+		update t_holiday
+		set date = #{date,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+    <select id="selectBystatus" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_holiday
+        where status = #{status,jdbcType=INTEGER}
+    </select>
+
+</mapper>

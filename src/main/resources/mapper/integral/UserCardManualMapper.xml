@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.UserCardManualMapper" >
+  	<resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.UserCardManual" >
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <result column="user_id" property="userId" jdbcType="BIGINT" />
+	    <result column="card_type_id" property="cardTypeId" jdbcType="BIGINT" />
+	    <result column="integral" property="integral" jdbcType="INTEGER" />
+	    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+	    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+	    <result column="login_account" property="loginAccount" jdbcType="VARCHAR" />
+	    <result column="expiration_integral" property="expirationIntegral" jdbcType="INTEGER" />
+	    <result column="next_expiration_integral" property="nextExpirationIntegral" jdbcType="INTEGER" />
+	    <result column="expiration_time" property="expirationTime" jdbcType="TIMESTAMP" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+	    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+	    <result column="type" property="type" jdbcType="INTEGER" />
+  	</resultMap>
+  	
+  	<resultMap id="BaseResultVoMap" type="com.caitu99.service.user.controller.vo.UserCardManualVo" extends="BaseResultMap">
+     	<result column="type_id" property="typeId" jdbcType="INTEGER"/>
+        <result column="scale" property="scale" jdbcType="REAL"/>
+	    <result column="pic_url" property="picUrl" jdbcType="VARCHAR" />
+  	</resultMap>
+  	
+  	<sql id="Base_Column_List" >
+    	id, user_id, card_type_id, integral, user_name, card_no, login_account,expiration_integral, next_expiration_integral, expiration_time, status,  gmt_create, gmt_modify,type
+  	</sql>
+  	
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from t_user_card_manual
+    	where id = #{id,jdbcType=BIGINT}
+  	</select>
+  	
+  	<select id="getByUserIdCardTypeId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from t_user_card_manual
+    	where user_id = #{userId,jdbcType=BIGINT} and card_type_id = #{cardTypeId,jdbcType=BIGINT}
+  	</select>
+  	
+  	
+  	
+  	<select id="getUserCardManualSelective" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_user_card_manual
+    	
+    	where 
+    		(status = 1 or status = -1)
+    		<if test="userId != null" >
+	        	and user_id = #{userId,jdbcType=BIGINT}
+	      	</if>
+	      	<if test="cardTypeId != null" >
+	        	and card_type_id = #{cardTypeId,jdbcType=BIGINT}
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	and login_account = #{loginAccount,jdbcType=VARBINARY}
+	      	</if>
+	      	<if test="userName != null" >
+	        	and user_name = #{userName,jdbcType=VARBINARY}
+	      	</if>
+	      	<if test="cardNo != null" >
+	        	and card_no = #{cardNo,jdbcType=VARBINARY}
+	      	</if>
+	      	<if test="type != null" >
+	        	and type = #{type,jdbcType=INTEGER}
+	      	</if>
+  	</select>
+  	
+  	
+  	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    	delete from t_user_card_manual where id = #{id,jdbcType=BIGINT}
+  	</delete>
+  
+  	<insert id="insert" parameterType="com.caitu99.service.integral.domain.UserCardManual" >
+  		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT LAST_INSERT_ID();
+   		</selectKey>
+    	insert into t_user_card_manual
+    	<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id != null" >
+        		id,
+	      	</if>
+	      	<if test="userId != null" >
+	        	user_id,
+	      	</if>
+      		<if test="cardTypeId != null" >
+        		card_type_id,
+	      	</if>
+	      	<if test="integral != null" >
+	        	integral,
+	      	</if>
+	      	<if test="expirationIntegral != null" >
+	        	expiration_integral,
+	      	</if>
+	      	<if test="nextExpirationIntegral != null" >
+	        	next_expiration_integral,
+	      	</if>
+	      	<if test="expirationTime != null" >
+	        	expiration_time,
+	      	</if>
+	      	<if test="status != null" >
+	        	status,
+	      	</if>
+	      	<if test="gmtCreate != null" >
+	        	gmt_create,
+	      	</if>
+	      	<if test="gmtModify != null" >
+	        	gmt_modify,
+	      	</if>
+	      	<if test="userName != null" >
+	        	user_name,
+	      	</if>
+	      	<if test="cardNo != null" >
+	        	card_no,
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	login_account,
+	      	</if>
+	      	<if test="type != null" >
+	        	type,
+	      	</if>
+    	</trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides="," >
+	      	<if test="id != null" >
+	        	#{id,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="userId != null" >
+	        	#{userId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="cardTypeId != null" >
+	        	#{cardTypeId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="integral != null" >
+	        	#{integral,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="expirationIntegral != null" >
+	        	#{expirationIntegral,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="nextExpirationIntegral != null" >
+	        	#{nextExpirationIntegral,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="expirationTime != null" >
+	        	#{expirationTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="status != null" >
+	        	#{status,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="gmtCreate != null" >
+	        	#{gmtCreate,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="gmtModify != null" >
+	        	#{gmtModify,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="userName != null" >
+	        	#{userName,jdbcType=VARBINARY},
+	      	</if>
+	      	<if test="cardNo != null" >
+	        	#{cardNo,jdbcType=VARBINARY},
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	#{loginAccount,jdbcType=VARBINARY},
+	      	</if>
+	      	<if test="type != null" >
+	        	#{type,jdbcType=INTEGER},
+	      	</if>
+    	</trim>
+  	</insert>
+  	
+  	<update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.integral.domain.UserCardManual" >
+    	update t_user_card_manual
+	   	<set>
+      		<if test="userId != null" >
+	        	user_id = #{userId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="cardTypeId != null" >
+	        	card_type_id = #{cardTypeId,jdbcType=BIGINT},
+	      	</if>
+	      	<if test="integral != null" >
+	        	integral = #{integral,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="expirationIntegral != null" >
+	        	expiration_integral = #{expirationIntegral,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="nextExpirationIntegral != null" >
+	        	next_expiration_integral = #{nextExpirationIntegral,jdbcType=INTEGER},
+	      	</if>
+	      	<if test="expirationTime != null" >
+	        	expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="status != null" >
+	        	status = #{status,jdbcType=INTEGER},
+     	 	</if>
+	      	<if test="gmtCreate != null" >
+	        	gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="gmtModify != null" >
+	        	gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+	      	</if>
+	      	<if test="userName != null" >
+	        	user_name = #{userName,jdbcType=VARBINARY},
+	      	</if>
+	      	<if test="cardNo != null" >
+	        	card_no = #{cardNo,jdbcType=VARBINARY},
+	      	</if>
+	      	<if test="loginAccount != null" >
+	        	login_account = #{loginAccount,jdbcType=VARBINARY},
+	      	</if>
+	      	<if test="type != null" >
+	        	type = #{type,jdbcType=INTEGER},
+	      	</if>
+    	</set>
+    	where id = #{id,jdbcType=BIGINT}
+  	</update>
+  	
+  	<select id="queryIntegral" resultMap="BaseResultVoMap" parameterType="java.lang.Long">
+    	SELECT tb_a.integral,tb_b.`type_id`,tb_c.`scale` FROM t_user_card_manual tb_a INNER JOIN t_card_type tb_b 
+			ON tb_a.`card_type_id` = tb_b.`id`
+			INNER JOIN t_exchange_rule tb_c
+			ON tb_b.`id` = tb_c.`card_type_id`
+			WHERE tb_a.`user_id` = #{userId,jdbcType=BIGINT} 
+  	</select>
+  	
+  	<!-- 
+  	<select id="queryIntegralRemoveRepetition" resultMap="BaseResultVoMap" parameterType="java.lang.Long">
+		select tb_a.integral,tb_b.`type_id`,tb_c.`scale`
+		from 
+			(
+				select t1.integral,t1.user_id,t1.card_type_id from t_user_card_manual t1 where t1.user_id = #{userId,jdbcType=BIGINT}
+					union
+				select t2.integral_balance,t2.user_id,t2.card_type_id  from t_user_card t2 where not exists
+					(
+						select t2.integral_balance from t_user_card_manual tm where tm.card_type_id = t2.card_type_id
+					) and  t2.user_id = #{userId,jdbcType=BIGINT} 
+			) as tb_a
+		INNER JOIN t_card_type tb_b 
+			ON tb_a.`card_type_id` = tb_b.`id`
+			INNER JOIN t_exchange_rule tb_c
+			ON tb_b.`id` = tb_c.`card_type_id`
+			WHERE tb_a.`user_id` = #{userId,jdbcType=BIGINT} 
+  	</select>
+  	 -->
+  	 <select id="queryIntegralRemoveRepetition" resultMap="BaseResultVoMap" parameterType="java.util.Map">
+  		select 
+			tb_a.integral,tb_b.`type_id`,tb_c.`scale`,tb_a.card_type_id
+		from 
+			(
+				select 
+					t1.id,t1.user_id,t1.user_name as name,t1.card_type_id,t1.card_no,t1.integral,
+					null as email,null as bill_day,null as email_password,t1.gmt_create,t1.gmt_modify,null as max_amount,null as minamount,
+					null as repayment_day,null as totalbalance,1 as importType
+				from 
+					t_user_card_manual t1 
+				where 
+					t1.user_id = #{userId,jdbcType=BIGINT} and t1.status = #{status,jdbcType=INTEGER}
+					
+				union
+				
+				select 
+					t2.id,t2.user_id,t2.name,t2.card_type_id,t2.card_no,t2.integral_balance as integral,
+					t2.email,t2.bill_day,t2.email_password,t2.gmt_create,t2.gmt_modify,t2.max_amount,t2.minamount,
+					t2.repayment_day,t2.totalbalance,0 as importType
+				from 
+					t_user_card t2 
+				where 
+					not exists
+					(
+						select 
+							tm.user_id,tm.user_name,tm.card_type_id,tm.card_no,tm.integral,
+							null as email,null as bill_day,null as email_password,tm.gmt_create,tm.gmt_modify,null as max_amount,null as minamount,
+							null as repayment_day,null as totalbalance
+						from 
+							t_user_card_manual tm 
+						where 
+							tm.card_type_id = t2.card_type_id and tm.user_id = #{userId,jdbcType=BIGINT} and tm.user_name = t2.name and tm.status = #{status,jdbcType=INTEGER}
+					) and t2.user_id = #{userId,jdbcType=BIGINT} and t2.status = #{status,jdbcType=INTEGER}
+			) as tb_a
+		INNER JOIN 
+			t_card_type tb_b 
+		ON 
+			tb_a.`card_type_id` = tb_b.`id`
+		INNER JOIN 
+			t_exchange_rule tb_c
+		ON 
+			tb_b.`id` = tb_c.`card_type_id`
+		WHERE 
+			tb_a.`user_id` = #{userId,jdbcType=BIGINT}
+  	</select>
+  	
+  	<select id="selectByUserIdManualId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		t_user_card_manual.id
+    	from 
+    		t_user_card_manual 
+    	join 
+    		t_card_type 
+    	on	
+    		t_user_card_manual.card_type_id = t_card_type.id
+    	where 
+    		t_user_card_manual.user_id = #{userId,jdbcType=BIGINT} and t_card_type.manual_id = #{manualId,jdbcType=BIGINT}
+  	</select>
+  	
+  	<select id="selectLastTime" resultMap="BaseResultVoMap" parameterType="java.lang.Long" >
+  		select
+  			t.id, t.user_id, t.card_type_id, t.integral, t.user_name, t.card_no, t.login_account,t.expiration_integral, t.next_expiration_integral, 
+  			t.expiration_time, t.status,  t.gmt_create, t.gmt_modify,t.type
+  			, t_bank.pic_url as pic_url
+  		from 
+  			t_user_card_manual t
+  		join 
+  			t_card_type 
+  		on 
+  			t.card_type_id = t_card_type.id
+		join 
+			t_manual 
+		on 
+			t_manual.id = t_card_type.manual_id
+		join 
+			t_bank 
+		on 
+			t_bank.name = t_manual.name
+  		where 
+  			t.user_id = #{userId,jdbcType=BIGINT}
+  		and(
+  			(t.expiration_time is not null and datediff(t.expiration_time,now())>-1)
+  		or 
+  			(t.next_expiration_integral is not null and t.next_expiration_integral not in(0,-1))
+  		)
+  	</select>
+
+	<select id="selectByUserIdTime" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		select
+		<include refid="Base_Column_List" />
+		from
+		t_user_card_manual
+
+		where
+		status = 1
+		and user_id = #{userId,jdbcType=BIGINT}
+
+		<if test="begin != null" >
+			<![CDATA[and gmt_create >= STR_TO_DATE(#{begin,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+		</if>
+		<if test="end != null" >
+			<![CDATA[and gmt_create <= STR_TO_DATE(#{end,jdbcType=VARCHAR},'%Y-%m-%d %k:%i:%s')]]>
+		</if>
+	</select>
+	
+	
+
+	<select id="countCardByGmtCreate" resultType="java.lang.Integer" parameterType="java.util.Map" >
+		select
+			count(id)
+		from
+		t_user_card_manual
+		where
+		status = 1
+		and user_id = #{userId,jdbcType=BIGINT}
+		
+		  <if test="startTime != null" >
+	            <![CDATA[ and gmt_create >= #{startTime} ]]>
+	      </if>
+	      <if test="endTime != null" >
+	            <![CDATA[ and gmt_create <= #{endTime}]]>
+	      </if>
+	</select>
+	
+	
+	<select id="countAccountByBank" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+				count(DISTINCT(ucm.login_account))
+		from 
+			t_user_card_manual as ucm
+		left join 
+			t_card_type as ct
+		on 
+			ucm.card_type_id = ct.id
+		where 
+			ucm.status = 1
+		and 
+			ct.type_id = 1
+		and 
+			ucm.user_id = #{userId,jdbcType=BIGINT}
+		<if test="startTime != null" >
+	            <![CDATA[ and ucm.gmt_create >= #{startTime} ]]>
+	    </if>
+	    <if test="endTime != null" >
+	            <![CDATA[ and ucm.gmt_create <= #{endTime}]]>
+	    </if>
+	
+	</select>
+	
+	<select id="countPlatformByUser" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+				count(DISTINCT(ucm.card_type_id))
+		from 
+			t_user_card_manual as ucm
+		left join 
+			t_card_type as ct
+		on 
+			ucm.card_type_id = ct.id
+		where 
+			ucm.status = 1
+		and 
+			ct.type_id in (2,3)
+		and 
+			ucm.user_id = #{userId,jdbcType=BIGINT}
+		<if test="startTime != null" >
+	            <![CDATA[ and ucm.gmt_create >= #{startTime} ]]>
+	    </if>
+	    <if test="endTime != null" >
+	            <![CDATA[ and ucm.gmt_create <= #{endTime}]]>
+	    </if>
+	</select>
+	
+	
+</mapper>

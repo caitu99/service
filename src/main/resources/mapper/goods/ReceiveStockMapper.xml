@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.goods.dao.ReceiveStockMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.goods.domain.ReceiveStock" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="stock_id" property="stockId" jdbcType="BIGINT" />
+    <result column="remote_type" property="remoteType" jdbcType="INTEGER" />
+    <result column="remote_id" property="remoteId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sale_price" property="salePrice" jdbcType="BIGINT" />
+    <result column="market_price" property="marketPrice" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="ResultMapForCoupon" type="com.caitu99.service.goods.domain.CouponReceiveStock">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="market_price" property="coupon_marketPrice" jdbcType="BIGINT" />
+    <result column="name" property="coupon_name" jdbcType="VARCHAR" />
+    <result column="code" property="coupon_code" jdbcType="VARCHAR" />
+    <result column="password" property="coupon_password" jdbcType="VARCHAR" />
+    <result column="effective_time" property="coupon_effectiveTime" jdbcType="TIMESTAMP" />
+    <result column="receive_time" property="coupon_receive_time" jdbcType="TIMESTAMP" />
+    <result column="wap_url" property="coupon_wap_url" jdbcType="VARCHAR"/>
+    <result column="coupon_type" property="couponType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+
+
+
+  <sql id="Base_Column_List" >
+    id, user_id, stock_id, remote_type, remote_id, name, phone, sale_price, market_price, 
+    status, receive_time, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_receive_stock
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_receive_stock
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.goods.domain.ReceiveStock" >
+    insert into t_receive_stock (id, user_id, stock_id, 
+      remote_type, remote_id, name, 
+      phone, sale_price, market_price, 
+      status, receive_time, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{stockId,jdbcType=BIGINT}, 
+      #{remoteType,jdbcType=INTEGER}, #{remoteId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{salePrice,jdbcType=BIGINT}, #{marketPrice,jdbcType=BIGINT}, 
+      #{status,jdbcType=INTEGER}, #{receiveTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.goods.domain.ReceiveStock" >
+    insert into t_receive_stock
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="stockId != null" >
+        stock_id,
+      </if>
+      <if test="remoteType != null" >
+        remote_type,
+      </if>
+      <if test="remoteId != null" >
+        remote_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="marketPrice != null" >
+        market_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="receiveTime != null" >
+        receive_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stockId != null" >
+        #{stockId,jdbcType=BIGINT},
+      </if>
+      <if test="remoteType != null" >
+        #{remoteType,jdbcType=INTEGER},
+      </if>
+      <if test="remoteId != null" >
+        #{remoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.goods.domain.ReceiveStock" >
+    update t_receive_stock
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="stockId != null" >
+        stock_id = #{stockId,jdbcType=BIGINT},
+      </if>
+      <if test="remoteType != null" >
+        remote_type = #{remoteType,jdbcType=INTEGER},
+      </if>
+      <if test="remoteId != null" >
+        remote_id = #{remoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=BIGINT},
+      </if>
+      <if test="marketPrice != null" >
+        market_price = #{marketPrice,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="receiveTime != null" >
+        receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.goods.domain.ReceiveStock" >
+    update t_receive_stock
+    set user_id = #{userId,jdbcType=BIGINT},
+      stock_id = #{stockId,jdbcType=BIGINT},
+      remote_type = #{remoteType,jdbcType=INTEGER},
+      remote_id = #{remoteId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      sale_price = #{salePrice,jdbcType=BIGINT},
+      market_price = #{marketPrice,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectReceiveByUserIdAndOrderNo" resultMap="ResultMapForCoupon" parameterType="java.util.Map">
+
+select temp2.code,temp2.password,temp2.effective_time,temp2.market_price,temp2.name,temp2.receive_time, t_item.wap_url from t_item join
+    (select a.code,a.password,a.effective_time,temp1.market_price,temp1.name,temp1.receive_time,a.item_id
+    from t_stock a join
+    (select stock_id,market_price,name,receive_time
+    from t_receive_stock where t_receive_stock.user_id=#{user_id,jdbcType=BIGINT} and remote_id = #{order_no,jdbcType=VARCHAR} and (remote_type=1) and status= 2
+    ) as temp1
+    on a.stock_id=temp1.stock_id) as temp2
+    on temp2.item_id=t_item.item_id
+    order by receive_time desc
+      limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectCouponReceiveCountByUserIdAndOrderNo"  resultType="java.lang.Integer" parameterType="java.util.Map">
+    select count(1)
+    from t_stock a join
+    (select stock_id,market_price,name,receive_time
+    from t_receive_stock where t_receive_stock.user_id=#{user_id,jdbcType=BIGINT} and remote_id = #{order_no,jdbcType=VARCHAR} and remote_type=1 and status= 2
+    ) as temp1
+    on a.stock_id=temp1.stock_id
+  </select>
+
+  	<select id="selectReceiveByUserId" resultMap="ResultMapForCoupon" parameterType="java.util.Map">
+  		<![CDATA[
+	    	select 
+	    		temp2.code,temp2.password,temp2.effective_time,temp2.market_price,temp2.name,temp2.receive_time,t_item.wap_url,
+	    		0 as coupon_type,null as status ,0 as type
+	    	from 
+	    		t_item 
+	    	join
+	      		(
+	      			select 
+	      				a.code,a.password,a.effective_time,temp1.market_price,temp1.name,temp1.receive_time,a.item_id
+	      			from 
+	      				t_stock a 
+	      			join
+	        			(
+	        				select 
+	        					stock_id,market_price,name,receive_time
+	          				from 
+	          					t_receive_stock  
+	          				where 
+	          					t_receive_stock.user_id=#{user_id,jdbcType=BIGINT} 
+	          				and 
+	          					(
+	          						remote_type=1||remote_type=2||remote_type=3
+	          					) 
+	          				and 
+	          					status= 2
+	        			) as temp1
+	      			on 
+	      				a.stock_id=temp1.stock_id
+	      		) as temp2
+	   		on 
+	   			temp2.item_id=t_item.item_id
+	   			
+	   		union
+	   		
+	   		select 
+	   			null as code,null as password,date_add(rsr.gmt_create, interval #{expiresTime,jdbcType=BIGINT} SECOND) as effective_time,rsr.money as market_price,
+	   			null as name,rsr.gmt_create as receive_time,null as wap_url,1 as coupon_type,
+	   			rsr.status as status,rsr.type
+	   		from 
+	   			t_realize_share_record rsr
+	   		where 
+	   			rsr.user_id = #{user_id,jdbcType=BIGINT}
+	   		and 
+	   			rsr.status = 1
+	   		and
+	   			date_add(rsr.gmt_create,interval #{expiresTime,jdbcType=BIGINT} SECOND) >= now()
+	   			
+	    	order by 
+	    		receive_time desc
+	   			
+	    	limit #{start,jdbcType=BIGINT},#{pageSize,jdbcType=BIGINT}
+  		]]>
+  	</select>
+
+  <select id="selectCouponReceiveCountByUserId" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select 
+  			count(*) 
+  		from 
+  			(
+		    	select 
+		    		1
+		    	from 
+		    		t_item 
+		    	join
+		      		(
+		      			select 
+		      				a.code,a.password,a.effective_time,temp1.market_price,temp1.name,temp1.receive_time,a.item_id
+		      			from 
+		      				t_stock a 
+		      			join
+		        			(
+		        				select 
+		        					stock_id,market_price,`name`,receive_time
+		          				from 
+		          					t_receive_stock  
+		          				where 
+		          					t_receive_stock.user_id=#{user_id,jdbcType=BIGINT} 
+		          				and 
+		          					(remote_type=1||remote_type=2||remote_type=3) 
+		          				and 
+		          					status= 2
+		        			) as temp1
+		     	 		on 
+		     	 			a.stock_id=temp1.stock_id
+		      		) as temp2
+		    	on 
+		    		temp2.item_id=t_item.item_id
+		    		
+		    	union all
+		    		
+		    	select 
+					1
+		   		from 
+		   			t_realize_share_record rsr
+		   		where 
+		   			rsr.user_id = #{user_id,jdbcType=BIGINT}
+		   		and 
+		   			rsr.status = 1
+		   		and
+		   			date_add(rsr.gmt_create,interval #{expiresTime,jdbcType=BIGINT} SECOND) >= now()
+   			) as a
+  </select>
+
+
+  <select id="selectReceiveStockByOrderNoAndUserId" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select <include refid="Base_Column_List"/>
+    from t_receive_stock
+    where user_id=#{user_id,jdbcType=BIGINT} and remote_id=#{remote_id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getReceiveStockByRecord" resultMap="BaseResultMap" parameterType="com.caitu99.service.goods.domain.ReceiveStock">
+  	select 
+  	    id, user_id, stock_id, remote_type, remote_id
+    status
+  	from t_receive_stock
+  	where user_id = #{userId,jdbcType=BIGINT}
+  	and remote_type = 3
+  	and status = 1
+  	and remote_id = #{remoteId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

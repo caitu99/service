@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.caitu99.service.free.dao.FreeTradeMapper">
+  <resultMap id="BaseResultMap" type="com.caitu99.service.free.domain.FreeTrade">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="remote_id" jdbcType="BIGINT" property="remoteId" />
+    <result column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="sku_id" jdbcType="BIGINT" property="skuId" />
+    <result column="pay_price" jdbcType="BIGINT" property="payPrice" />
+    <result column="price" jdbcType="BIGINT" property="price" />
+    <result column="total_quantity" jdbcType="BIGINT" property="totalQuantity" />
+    <result column="available_quantity" jdbcType="BIGINT" property="availableQuantity" />
+    <result column="freeze_quantity" jdbcType="BIGINT" property="freezeQuantity" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, remote_id, item_id, sku_id, pay_price, price, total_quantity, available_quantity, 
+    freeze_quantity, type, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_free_trade
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectCount" resultType="Integer" parameterType="com.caitu99.service.free.domain.FreeTrade">
+  	<![CDATA[
+  	SELECT COUNT(1) FROM (
+  	SELECT
+		tft.id, tft.pay_price, tft.price, 
+		tft.available_quantity -
+		(SELECT
+			case when 
+				Sum(tfir.num)
+			is not null then Sum(tfir.num) else 0 end
+		FROM
+		t_free_inventory_record  tfir
+		WHERE
+			tfir.free_trade_id =tft.id 
+		and 
+			tfir.end_time > now()
+	) as available_quantity
+	from 
+	t_free_trade tft where remote_id = #{remoteId,jdbcType=INTEGER} having available_quantity > 0
+	) t
+	]]>
+  </select>
+  
+  <select id="selectPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+	<![CDATA[
+  	SELECT
+		tft.id, tft.pay_price, tft.price, 
+		tft.available_quantity -
+		(SELECT
+			case when 
+				Sum(tfir.num)
+			is not null then Sum(tfir.num) else 0 end
+		FROM
+		t_free_inventory_record  tfir
+		WHERE
+			tfir.free_trade_id =tft.id 
+		and 
+			tfir.end_time > now()
+	) as available_quantity
+	from 
+	t_free_trade tft where remote_id = #{freeTrade.remoteId,jdbcType=INTEGER} having available_quantity > 0
+	order by tft.type , tft.create_time
+	limit ${start},${pageSize}
+	]]>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_free_trade
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.free.domain.FreeTrade">
+  		<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+    insert into t_free_trade (id, remote_id, item_id, 
+      sku_id, pay_price, 
+      price, total_quantity, available_quantity, 
+      freeze_quantity, type, create_time, 
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{remoteId,jdbcType=BIGINT}, #{itemId,jdbcType=BIGINT}, 
+      #{skuId,jdbcType=BIGINT}, #{payPrice,jdbcType=BIGINT}, 
+      #{price,jdbcType=BIGINT}, #{totalQuantity,jdbcType=BIGINT}, #{availableQuantity,jdbcType=BIGINT}, 
+      #{freezeQuantity,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.free.domain.FreeTrade">
+    	<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+            SELECT LAST_INSERT_ID() ID
+        </selectKey>
+    insert into t_free_trade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="remoteId != null">
+        remote_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="skuId != null">
+        sku_id,
+      </if>
+      <if test="payPrice != null">
+        pay_price,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="totalQuantity != null">
+        total_quantity,
+      </if>
+      <if test="availableQuantity != null">
+        available_quantity,
+      </if>
+      <if test="freezeQuantity != null">
+        freeze_quantity,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="remoteId != null">
+        #{remoteId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null">
+        #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="payPrice != null">
+        #{payPrice,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=BIGINT},
+      </if>
+      <if test="totalQuantity != null">
+        #{totalQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="availableQuantity != null">
+        #{availableQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="freezeQuantity != null">
+        #{freezeQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.free.domain.FreeTrade">
+    update t_free_trade
+    <set>
+      <if test="remoteId != null">
+        remote_id = #{remoteId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="skuId != null">
+        sku_id = #{skuId,jdbcType=BIGINT},
+      </if>
+      <if test="payPrice != null">
+        pay_price = #{payPrice,jdbcType=BIGINT},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=BIGINT},
+      </if>
+      <if test="totalQuantity != null">
+        total_quantity = #{totalQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="availableQuantity != null">
+        available_quantity = #{availableQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="freezeQuantity != null">
+        freeze_quantity = #{freezeQuantity,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.free.domain.FreeTrade">
+    update t_free_trade
+    set remote_id = #{remoteId,jdbcType=BIGINT},
+      item_id = #{itemId,jdbcType=BIGINT},
+      sku_id = #{skuId,jdbcType=BIGINT},
+      pay_price = #{payPrice,jdbcType=BIGINT},
+      price = #{price,jdbcType=BIGINT},
+      total_quantity = #{totalQuantity,jdbcType=BIGINT},
+      available_quantity = #{availableQuantity,jdbcType=BIGINT},
+      freeze_quantity = #{freezeQuantity,jdbcType=BIGINT},
+      type = #{type,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

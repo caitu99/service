@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.IntegralExchangeMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.IntegralExchange" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="userid" property="userid" jdbcType="BIGINT" />
+    <result column="card_type_id" property="cardTypeId" jdbcType="BIGINT" />
+    <result column="total" property="total" jdbcType="BIGINT" />
+    <result column="time" property="time" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="t_xuser_card_type_id" property="tXuserCardTypeId" jdbcType="BIGINT" />
+    <result column="rate" property="rate" jdbcType="INTEGER" />
+    <result column="bank_rate" property="bankRate" jdbcType="INTEGER" />
+    <result column="scale" property="scale" jdbcType="REAL" />
+    <result column="cattleid" property="cattleid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, userid, card_type_id, total, time, status, t_xuser_card_type_id,rate,bank_rate,scale,cattleid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_integral_exchange
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_integral_exchange
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.integral.domain.IntegralExchange" >
+  	<selectKey keyProperty="id" resultType="long" order="AFTER" keyColumn="ID">
+		SELECT LAST_INSERT_ID() ID
+	</selectKey>
+    insert into t_integral_exchange (id, userid, card_type_id, 
+      total, time, status, 
+      t_xuser_card_type_id,rate,bank_rate,scale,cattleid)
+    values (#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{cardTypeId,jdbcType=BIGINT}, 
+      #{total,jdbcType=BIGINT}, now(), #{status,jdbcType=INTEGER}, 
+      #{tXuserCardTypeId,jdbcType=BIGINT},#{rate,jdbcType=INTEGER},
+      #{bankRate,jdbcType=INTEGER},#{scale,jdbcType=REAL}, #{cattleid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.integral.domain.IntegralExchange" >
+    insert into t_integral_exchange
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="cardTypeId != null" >
+        card_type_id,
+      </if>
+      <if test="total != null" >
+        total,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="tXuserCardTypeId != null" >
+        t_xuser_card_type_id,
+      </if>
+      <if test="rate != null" >
+        rate,
+      </if>
+      <if test="bankRate != null" >
+        bank_rate,
+      </if>
+      <if test="scale != null" >
+        scale,
+      </if>
+      <if test="cattleid != null" >
+        scale,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null" >
+        #{cardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="total != null" >
+        #{total,jdbcType=BIGINT},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tXuserCardTypeId != null" >
+        #{tXuserCardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="rate != null" >
+        #{rate,jdbcType=INTEGER},
+      </if>
+      <if test="bankRate != null" >
+        #{bankRate,jdbcType=INTEGER},
+      </if>
+      <if test="scale != null" >
+        #{scale,jdbcType=REAL},
+      </if>
+      <if test="userid != null" >
+        #{cattleid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.integral.domain.IntegralExchange" >
+    update t_integral_exchange
+    <set >
+      <if test="userid != null" >
+        userid = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="cardTypeId != null" >
+        card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="total != null" >
+        total = #{total,jdbcType=BIGINT},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="tXuserCardTypeId != null" >
+        t_xuser_card_type_id = #{tXuserCardTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="rate != null" >
+        rate = #{rate,jdbcType=INTEGER},
+      </if>
+      <if test="bankRate != null" >
+        bank_rate = #{bankRate,jdbcType=INTEGER},
+      </if>
+      <if test="scale != null" >
+        scale = #{scale,jdbcType=REAL},
+      </if>
+      <if test="scale != null" >
+        cattleid = #{cattleid,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.integral.domain.IntegralExchange" >
+    update t_integral_exchange
+    set userid = #{userid,jdbcType=BIGINT},
+      card_type_id = #{cardTypeId,jdbcType=BIGINT},
+      total = #{total,jdbcType=BIGINT},
+      time = #{time,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      t_xuser_card_type_id = #{tXuserCardTypeId,jdbcType=BIGINT},
+      rate = #{rate,jdbcType=INTEGER},
+      bank_rate = #{bankRate,jdbcType=INTEGER},
+      scale = #{scale,jdbcType=INTEGER},
+      cattleid = #{cattleid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from t_integral_exchange
+  </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    select * from t_integral_exchange where userid = #{userId,jdbcType=BIGINT}
+  </select>
+  
+</mapper>

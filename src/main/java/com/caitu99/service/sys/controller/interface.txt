@@ -1,0 +1,122 @@
+1. 接口描述:获取App相关信息
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/config/list/1.0
+输入参数:
+   	无
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0                  获取成功						
+输出样例:
+	{"code":0,"data":[{"id":1,"key":"openid","status":1,"value":"Caitu99"},{"id":2,"key":"website","status":1,"value":"www.caitu99.com"},{"id":3,"key":"cooperation","status":1,"value":"0571-12345678"},{"id":4,"key":"VERSION","status":1,"value":"1.1.0"},{"id":5,"key":"VERSION_URL","status":1,"value":"http://www.caitu99.com/download/app-caitu-release.apk"},{"id":6,"key":"BACKEMAIL","status":1,"value":"当前已支持QQ、163、139、126邮箱"},{"id":7,"key":"mailtype","status":1,"value":"@qq.com_@163.com_@126.com_@139.com"},{"id":8,"key":"bank_support_card","status":1,"value":"招行、工行、建行、中行、交行、农行、民生、中信、平安、广发、光大、浦发、华夏、兴业"},{"id":9,"key":"bank_support_type","status":1,"value":"交通银行（其中YPower双币卡、沃尔玛、卜蜂莲花、一兆韦德、百思买、东方航空、亚洲万里通以及乐购卡暂时无法兑换）"},{"id":10,"key":"Integrallifting","status":1,"value":"true"}]}
+
+
+
+2. 接口描述:增加一年的周末时间
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/holiday/add/1.0
+输入参数:
+   	date	日期时间字符串 例如：2015-10-23-09:05:02
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0       增加成功
+输出样例:
+	{"code":0,"data":true}
+	
+	
+
+3. 接口描述:		获取APP内通知
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/notice/list/1.0
+输入参数:
+   	无	
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0       
+输出样例:
+	{"code":0,"data":{"content":"今天李蛟龙请大家吃晚饭！今天李蛟龙请大家吃晚饭！今天李蛟龙请大家吃晚饭！","endTime":"2015-10-25 15:29:17.0","id":1,"startTime":"2015-10-23 15:29:10.0","status":1},"message":"信息查询成功"}
+
+4. 接口描述:发送短信
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/sys/sendsms/1.0
+输入参数:
+   		mobile: 用户手机号
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0   
+        2006	用户手机不能为空
+        2007	短信发送失败    
+输出样例:
+		{"code":0,"message":"短信发送成功"}
+		{"code":2006,"message":"用户手机不能为空"}
+		{"code":2007,"message":"短信发送失败"}
+
+5. 接口描述:	意见反馈
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/suggest/suggest/1.0
+输入参数:
+   		suggest 用户建议
+   		userId	用户id
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0   	意见反馈成功
+        2302	意见反馈失败
+输出样例:
+		{"code":0,"data":[],"message":"意见反馈成功"}
+		{"code":2302,"message":"意见反馈失败"}
+
+
+6. 接口描述:	版本更新
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/version/goup/1.0
+输入参数:
+   		version 当前版本号
+   		type	设备类型
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0   	意见反馈成功
+        2303	版本号不能为空
+输出样例:
+	{"code":0,"data":{"result":1,"version":{"id":11,"necessary":0,"no":6,"status":1,"version":"1.3.0"}}}
+	{"code":0,"data":{"result":4}}
+	{"code":2303,"data":{"result":0},"message":"版本号不能为空"}
+
+7. 接口描述:	添加版本
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/version/add/1.0
+输入参数:
+   		record 	版本记录
+   		userId	用户id	
+可选参数:
+	无
+输出参数:
+    code        message                     data
+        0   	信息添加成功
+输出样例:
+		{"code":0,"data":true,"message":"信息添加成功"}
+

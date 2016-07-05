@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.user.dao.ImportMailErrorMapper">
+    <resultMap id="BaseResultMap" type="com.caitu99.service.user.domain.ImportMailError">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="mail" property="mail" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="pwdalone" property="pwdalone" jdbcType="VARCHAR"/>
+        <result column="error_date" property="errorDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.caitu99.service.user.domain.ImportMailError" extends="BaseResultMap">
+        <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, mail, password, pwdalone, error_date
+  </sql>
+    <sql id="Blob_Column_List">
+    error_msg
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_import_mail_error
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_import_mail_error
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.caitu99.service.user.domain.ImportMailError">
+    insert into t_import_mail_error (id, mail, password, 
+      pwdalone, error_date, error_msg
+      )
+    values (#{id,jdbcType=BIGINT}, #{mail,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{pwdalone,jdbcType=VARCHAR}, #{errorDate,jdbcType=TIMESTAMP}, #{errorMsg,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.caitu99.service.user.domain.ImportMailError">
+        insert into t_import_mail_error
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mail != null">
+                mail,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="pwdalone != null">
+                pwdalone,
+            </if>
+            <if test="errorDate != null">
+                error_date,
+            </if>
+            <if test="errorMsg != null">
+                error_msg,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="mail != null">
+                #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="pwdalone != null">
+                #{pwdalone,jdbcType=VARCHAR},
+            </if>
+            <if test="errorDate != null">
+                #{errorDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="errorMsg != null">
+                #{errorMsg,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.user.domain.ImportMailError">
+        update t_import_mail_error
+        <set>
+            <if test="mail != null">
+                mail = #{mail,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="pwdalone != null">
+                pwdalone = #{pwdalone,jdbcType=VARCHAR},
+            </if>
+            <if test="errorDate != null">
+                error_date = #{errorDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="errorMsg != null">
+                error_msg = #{errorMsg,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.caitu99.service.user.domain.ImportMailError">
+    update t_import_mail_error
+    set mail = #{mail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      pwdalone = #{pwdalone,jdbcType=VARCHAR},
+      error_date = #{errorDate,jdbcType=TIMESTAMP},
+      error_msg = #{errorMsg,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.caitu99.service.user.domain.ImportMailError">
+    update t_import_mail_error
+    set mail = #{mail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      pwdalone = #{pwdalone,jdbcType=VARCHAR},
+      error_date = #{errorDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

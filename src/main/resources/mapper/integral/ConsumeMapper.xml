@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.integral.dao.ConsumeMapper">
+	<resultMap id="BaseResultMap" type="com.caitu99.service.integral.domain.Consume">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userid" property="userid" jdbcType="BIGINT" />
+		<result column="integral" property="integral" jdbcType="INTEGER" />
+		<result column="usetype" property="usetype" jdbcType="BIGINT" />
+		<result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+		<result column="regulation" property="regulation" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="useid" property="useid" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, userid, integral, usetype, gmt_create, regulation,
+		status, useid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_consume
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from
+		t_consume
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="com.caitu99.service.integral.domain.Consume">
+		insert into t_consume (id,
+		userid, integral,
+		usetype, gmt_create, regulation,
+		status, useid)
+		values
+		(#{id,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT},
+		#{integral,jdbcType=INTEGER},
+		#{usetype,jdbcType=BIGINT}, now(),
+		#{regulation,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{useid,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.caitu99.service.integral.domain.Consume">
+		insert into t_consume
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="userid != null">
+				userid,
+			</if>
+			<if test="integral != null">
+				integral,
+			</if>
+			<if test="usetype != null">
+				usetype,
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create,
+			</if>
+			<if test="regulation != null">
+				regulation,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="useid != null">
+				useid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=BIGINT},
+			</if>
+			<if test="integral != null">
+				#{integral,jdbcType=INTEGER},
+			</if>
+			<if test="usetype != null">
+				#{usetype,jdbcType=BIGINT},
+			</if>
+			<if test="gmtCreate != null">
+				#{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="regulation != null">
+				#{regulation,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="useid != null">
+				#{useid,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.integral.domain.Consume">
+		update t_consume
+		<set>
+			<if test="userid != null">
+				userid = #{userid,jdbcType=BIGINT},
+			</if>
+			<if test="integral != null">
+				integral = #{integral,jdbcType=INTEGER},
+			</if>
+			<if test="usetype != null">
+				usetype = #{usetype,jdbcType=BIGINT},
+			</if>
+			<if test="gmtCreate != null">
+				gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="regulation != null">
+				regulation = #{regulation,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="useid != null">
+				useid = #{useid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.caitu99.service.integral.domain.Consume">
+		update t_consume
+		set userid = #{userid,jdbcType=BIGINT},
+		integral =
+		#{integral,jdbcType=INTEGER},
+		usetype = #{usetype,jdbcType=BIGINT},
+		gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+		regulation =
+		#{regulation,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		useid = #{useid,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="consumeAll" resultMap="BaseResultMap" parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_consume
+		where userid=#{userid,jdbcType=BIGINT} ORDER BY
+		gmt_create desc
+	</select>
+</mapper>

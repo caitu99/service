@@ -1,0 +1,175 @@
+接口描述:话费充值
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/recharge/phone/1.0
+输入参数:
+    userid      用户id
+    mobile      手机号码
+    cardnum     充值卡金额
+    paypass     支付密码
+可选参数:
+
+输出参数:
+    code        message                     data
+        0       充值成功
+        2201    支付密码错误
+        2202    用户财币不足
+        2203    充值失败
+输出样例:
+        {"code":0,"message":"充值成功"}
+        {"code":2201,"message":"支付密码错误"}
+        {"code":2202,"message":"用户财币不足"}
+
+
+接口描述:获取手机话费充值列表
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/recharge/phone/list/1.0
+输入参数:
+    无
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       获取话费充值金额列表成功
+输出样例:
+        {"code":0,"data":"10_20_30_50_100_200_300_500","message":"获取话费充值列表成功！"}
+
+
+接口描述:获取所有O2O产品列表
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/product/list/1.0
+输入参数:
+    无
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       获取O2O产品列表成功
+        2204    获取O2O产品列表失败
+输出样例:
+        {"code":0,"data":"[{\"days\":2,\"description\":\"3小时家政服务\",\"id\":1,\"imageurl\":\"http://api.caitu99.com/apppage/zjsh/1.jpg\",\"number\":2,\"price\":1,\"product\":\"助家生活家政服务\",\"status\":1,\"summary\":\"一分钱上门服务(限杭州)\",\"url\":\"http://api.caitu99.com/apppage/zhujia.html\"},{\"days\":2,\"description\":\"新鲜水果即刻配送\",\"id\":2,\"imageurl\":\"http://api.caitu99.com/apppage/dad/1.jpg\",\"number\":2,\"price\":1,\"product\":\"点呀点\",\"status\":1,\"summary\":\"一分钱水果上门\",\"url\":\"http://api.caitu99.com/apppage/dianyadian.html\"},{\"days\":4,\"description\":\"安全  便捷   优惠\",\"id\":3,\"imageurl\":\"http://api.caitu99.com/apppage/edx/1.jpg\",\"number\":1,\"price\":1,\"product\":\"e袋洗\",\"status\":1,\"summary\":\"O2O洗衣服务\",\"url\":\"http://api.caitu99.com/apppage/edaixi.html\"}]","message":"获取O2O产品列表成功"}
+        {"code":2204,"message":"获取O2O产品列表失败"}
+
+
+接口描述:检测用户是否可以兑换该产品
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/product/exchange/check/1.0
+输入参数:
+    userid      用户id
+    productid   产品id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       用户可以兑换该商品
+        2202    用户财币不足
+        2205    该商品不存在
+        2206    今日兑换次数已用完
+        2207    本周兑换次数已用完
+        2208    本月兑换次数已用完
+输出样例:
+        {"code":0,"message":"用户可以兑换该商品"}
+        {"code":2202,"message":"用户财币不足"}
+        {"code":2205,"message":"该商品不存在"}
+        {"code":2206,"message":"今日兑换次数已用完"}
+        {"code":2207,"message":"本周兑换次数已用完"}
+        {"code":2208,"message":"本月兑换次数已用完"}
+
+接口描述:产品兑换
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/product/exchange/1.0
+输入参数:
+    userid      用户id
+    productid   产品id
+    paypass     支付密码
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       用户可以兑换该商品
+        2201    支付密码错误
+        2202    用户财币不足
+        2205    该商品不存在
+        2210    激活码已兑完
+输出样例:
+        {"code":0,"message":"用户可以兑换该商品"}
+        {"code":2201,"message":"支付密码错误"}
+        {"code":2202,"message":"用户财币不足"}
+        {"code":2205,"message":"该商品不存在"}
+        {"code":2210,"message":"激活码已兑完"}
+
+
+接口描述:产品兑换
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/product/exchange/history/1.0
+输入参数:
+    userid      用户id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       获取O2O兑换记录成功
+        2209    获取O2O兑换记录失败
+输出样例:
+        {"code":0,"message":"获取O2O兑换记录成功"}
+        {"code":2209,"message":"获取O2O兑换记录失败"}
+
+
+接口描述:检测用户是否可以兑换E袋洗
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/product/exchange/edaixi/check/1.0
+输入参数:
+    userid      用户id
+    productid   产品id
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       用户可以兑换E袋洗
+        2202    用户财币不足
+        2205    该商品不存在
+        2211    您已经兑换过了，若还需兑换，请使用与之前不同的手机号
+输出样例:
+        {"code":0,"message":"用户可以兑换E袋洗"}
+        {"code":2202,"message":"用户财币不足"}
+        {"code":2205,"message":"该商品不存在"}
+        {"code":2211,"message":"您已经兑换过了，若还需兑换，请使用与之前不同的手机号"}
+
+
+接口描述:E袋洗兑换
+作者:
+请求方式:
+    method      GET, POST
+    URL         /api/life/product/exchange/edaixi/check/1.0
+输入参数:
+    userid      用户id
+    productid   产品id
+    paypass     支付密码
+可选参数:
+    无
+输出参数:
+    code        message                     data
+        0       E袋洗兑换成功
+        2201    支付密码错误
+        2202    用户财币不足
+        2205    该商品不存在
+        2212    E袋洗兑换失败
+输出样例:
+        {"code":0,"message":"E袋洗兑换成功"}
+        {"code":2201,"message":"支付密码错误"}
+        {"code":2202,"message":"用户财币不足"}
+        {"code":2205,"message":"该商品不存在"}
+        {"code":2212,"message":"E袋洗兑换失败"}

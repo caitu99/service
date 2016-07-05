@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.manage.dao.ManageCardDropInRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.manage.domain.ManageCardDropInRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="bank_card_id" property="bankCardId" jdbcType="BIGINT" />
+    <result column="bank_card_name" property="bankCardName" jdbcType="VARCHAR" />
+    <result column="bank_card_icon" property="bankCardIcon" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="identity_card" property="identityCard" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
+    <result column="gmt_modify" property="gmtModify" jdbcType="TIMESTAMP" />
+    <result column="company_address" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    <result column="housing" property="housing" jdbcType="VARCHAR" />
+    <result column="credit_card_info" property="creditCardInfo" jdbcType="VARCHAR" />
+    <result column="car" property="car" jdbcType="VARCHAR" />
+    <result column="job_info" property="jobInfo" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_nature" property="companyNature" jdbcType="VARCHAR" />
+    <result column="social_security" property="socialSecurity" jdbcType="VARCHAR" />
+    <result column="job_certify" property="jobCertify" jdbcType="VARCHAR" />
+    <result column="special_manager" property="specialManager" jdbcType="VARCHAR" />
+    <result column="special_tel" property="specialTel" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, bank_card_id, bank_card_name, bank_card_icon, phone, identity_card, 
+    name, status, gmt_create, gmt_modify, company_address, area, education, housing, 
+    credit_card_info, car, job_info, company_name, company_nature, social_security, job_certify, 
+    special_manager, special_tel, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_manage_card_drop_in_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_manage_card_drop_in_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.manage.domain.ManageCardDropInRecord" >
+    insert into t_manage_card_drop_in_record (id, user_id, bank_card_id, 
+      bank_card_name, bank_card_icon, phone, 
+      identity_card, name, status, 
+      gmt_create, gmt_modify, company_address, 
+      area, education, housing, 
+      credit_card_info, car, job_info, 
+      company_name, company_nature, social_security, 
+      job_certify, special_manager, special_tel, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{bankCardId,jdbcType=BIGINT}, 
+      #{bankCardName,jdbcType=VARCHAR}, #{bankCardIcon,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{identityCard,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModify,jdbcType=TIMESTAMP}, #{companyAddress,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{housing,jdbcType=VARCHAR}, 
+      #{creditCardInfo,jdbcType=VARCHAR}, #{car,jdbcType=VARCHAR}, #{jobInfo,jdbcType=VARCHAR}, 
+      #{companyName,jdbcType=VARCHAR}, #{companyNature,jdbcType=VARCHAR}, #{socialSecurity,jdbcType=VARCHAR}, 
+      #{jobCertify,jdbcType=VARCHAR}, #{specialManager,jdbcType=VARCHAR}, #{specialTel,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.manage.domain.ManageCardDropInRecord" >
+   <selectKey keyProperty="id" resultType="long" order="AFTER">  
+        SELECT LAST_INSERT_ID();  
+    </selectKey> 
+    insert into t_manage_card_drop_in_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="bankCardId != null" >
+        bank_card_id,
+      </if>
+      <if test="bankCardName != null" >
+        bank_card_name,
+      </if>
+      <if test="bankCardIcon != null" >
+        bank_card_icon,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="identityCard != null" >
+        identity_card,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create,
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify,
+      </if>
+      <if test="companyAddress != null" >
+        company_address,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="education != null" >
+        education,
+      </if>
+      <if test="housing != null" >
+        housing,
+      </if>
+      <if test="creditCardInfo != null" >
+        credit_card_info,
+      </if>
+      <if test="car != null" >
+        car,
+      </if>
+      <if test="jobInfo != null" >
+        job_info,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyNature != null" >
+        company_nature,
+      </if>
+      <if test="socialSecurity != null" >
+        social_security,
+      </if>
+      <if test="jobCertify != null" >
+        job_certify,
+      </if>
+      <if test="specialManager != null" >
+        special_manager,
+      </if>
+      <if test="specialTel != null" >
+        special_tel,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardId != null" >
+        #{bankCardId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardName != null" >
+        #{bankCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardIcon != null" >
+        #{bankCardIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyAddress != null" >
+        #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="housing != null" >
+        #{housing,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCardInfo != null" >
+        #{creditCardInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="car != null" >
+        #{car,jdbcType=VARCHAR},
+      </if>
+      <if test="jobInfo != null" >
+        #{jobInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNature != null" >
+        #{companyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="socialSecurity != null" >
+        #{socialSecurity,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCertify != null" >
+        #{jobCertify,jdbcType=VARCHAR},
+      </if>
+      <if test="specialManager != null" >
+        #{specialManager,jdbcType=VARCHAR},
+      </if>
+      <if test="specialTel != null" >
+        #{specialTel,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.manage.domain.ManageCardDropInRecord" >
+    update t_manage_card_drop_in_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardId != null" >
+        bank_card_id = #{bankCardId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardName != null" >
+        bank_card_name = #{bankCardName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankCardIcon != null" >
+        bank_card_icon = #{bankCardIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="identityCard != null" >
+        identity_card = #{identityCard,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null" >
+        gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gmtModify != null" >
+        gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyAddress != null" >
+        company_address = #{companyAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null" >
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="housing != null" >
+        housing = #{housing,jdbcType=VARCHAR},
+      </if>
+      <if test="creditCardInfo != null" >
+        credit_card_info = #{creditCardInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="car != null" >
+        car = #{car,jdbcType=VARCHAR},
+      </if>
+      <if test="jobInfo != null" >
+        job_info = #{jobInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyNature != null" >
+        company_nature = #{companyNature,jdbcType=VARCHAR},
+      </if>
+      <if test="socialSecurity != null" >
+        social_security = #{socialSecurity,jdbcType=VARCHAR},
+      </if>
+      <if test="jobCertify != null" >
+        job_certify = #{jobCertify,jdbcType=VARCHAR},
+      </if>
+      <if test="specialManager != null" >
+        special_manager = #{specialManager,jdbcType=VARCHAR},
+      </if>
+      <if test="specialTel != null" >
+        special_tel = #{specialTel,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.manage.domain.ManageCardDropInRecord" >
+    update t_manage_card_drop_in_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      bank_card_id = #{bankCardId,jdbcType=BIGINT},
+      bank_card_name = #{bankCardName,jdbcType=VARCHAR},
+      bank_card_icon = #{bankCardIcon,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      identity_card = #{identityCard,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
+      gmt_modify = #{gmtModify,jdbcType=TIMESTAMP},
+      company_address = #{companyAddress,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      housing = #{housing,jdbcType=VARCHAR},
+      credit_card_info = #{creditCardInfo,jdbcType=VARCHAR},
+      car = #{car,jdbcType=VARCHAR},
+      job_info = #{jobInfo,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_nature = #{companyNature,jdbcType=VARCHAR},
+      social_security = #{socialSecurity,jdbcType=VARCHAR},
+      job_certify = #{jobCertify,jdbcType=VARCHAR},
+      special_manager = #{specialManager,jdbcType=VARCHAR},
+      special_tel = #{specialTel,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+ 	 <!-- 查询总数 -->
+  	<select id="selectPageCount" resultType="java.lang.Integer" parameterType="java.util.Map">
+  		select 
+  			count(1) 
+  		from 
+  			t_manage_card_drop_in_record 
+  		where user_id = #{manageCardDropInRecord.userId,jdbcType=BIGINT}
+  	</select>
+  	
+  	<!-- 分页查询属性列表 -->
+  	<select id="selectPageList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    	select 
+    		<include refid="Base_Column_List" />
+    	from 
+    		t_manage_card_drop_in_record
+  		where user_id = #{manageCardDropInRecord.userId,jdbcType=BIGINT}
+    	order by gmt_create desc
+		limit ${start},${pageSize}
+  	</select>
+</mapper>

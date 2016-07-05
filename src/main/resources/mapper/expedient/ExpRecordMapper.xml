@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.caitu99.service.expedient.dao.ExpRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.caitu99.service.expedient.domain.ExpRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="exp" property="exp" jdbcType="BIGINT" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="note" property="note" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap type="com.caitu99.service.expedient.dto.ExpRecordDto" id="resultMapDto">
+      <result column="sum_exp" property="sumExp" jdbcType="BIGINT" />
+  	  <result column="count_id" property="countId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_id, exp, source, note, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_exp_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_exp_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.caitu99.service.expedient.domain.ExpRecord" >
+    insert into t_exp_record (id, user_id, exp, 
+      source, note, create_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{exp,jdbcType=BIGINT}, 
+      #{source,jdbcType=INTEGER}, #{note,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.caitu99.service.expedient.domain.ExpRecord" >
+    insert into t_exp_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="exp != null" >
+        exp,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="exp != null" >
+        #{exp,jdbcType=BIGINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.caitu99.service.expedient.domain.ExpRecord" >
+    update t_exp_record
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="exp != null" >
+        exp = #{exp,jdbcType=BIGINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.caitu99.service.expedient.domain.ExpRecord" >
+    update t_exp_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      exp = #{exp,jdbcType=BIGINT},
+      source = #{source,jdbcType=INTEGER},
+      note = #{note,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  
+  <select id="countCardByCreateTime" resultType="java.lang.Integer" parameterType="java.util.Map" >
+	select
+		count(id)
+	from
+	t_exp_record
+	where
+		 user_id = #{userId,jdbcType=BIGINT}
+	  <if test="source != null" >
+	   	 and source =  #{source,jdbcType=INTEGER}
+	  </if>
+	  <if test="startTime != null" >
+            <![CDATA[ and create_time >= #{startTime} ]]>
+      </if>
+      <if test="endTime != null" >
+            <![CDATA[ and create_time <= #{endTime}]]>
+      </if>
+  </select>
+  
+  
+  <select id="findAllExpByToDay" resultType="java.lang.Long" parameterType="java.util.Map">
+ 	select
+		sum(exp)
+	from
+	t_exp_record
+	where
+		 user_id = #{userId,jdbcType=BIGINT}
+	  <if test="source != null" >
+	   	 and source =  #{source,jdbcType=INTEGER}
+	  </if>
+	  <if test="startTime != null" >
+            <![CDATA[ and create_time >= #{startTime} ]]>
+      </if>
+      <if test="endTime != null" >
+            <![CDATA[ and create_time <= #{endTime}]]>
+      </if> 
+  </select>
+  
+  
+  <select id="countByuserIdAndSource" resultMap="resultMapDto" parameterType="java.util.Map">
+  	select
+		sum(exp) as sum_exp,count(id) as count_id
+	from
+		t_exp_record
+	where 
+		source = #{source,jdbcType=INTEGER}
+	and
+		user_id = #{userId,jdbcType=BIGINT}
+    <if test="startTime != null" >
+          <![CDATA[ and create_time >= #{startTime} ]]>
+    </if>
+    <if test="endTime != null" >
+          <![CDATA[ and create_time <= #{endTime}]]>
+    </if> 
+  </select>
+  
+  
+  
+</mapper>
